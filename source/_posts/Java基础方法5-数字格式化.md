@@ -1,0 +1,51 @@
+---
+title: Java基础方法5(数字格式化)
+date: 2019-05-04 16:36:43
+categories:
+- Java
+tags:
+- Java
+---
+## 5.数字格式化
+``` java
+import java.text.DecimalFormat;
+public class DecimalFormatSimpleDemo{
+	//使用实例化对象时设置格式化模式
+	public static void SimpleFormat(String pattern,double value) {
+	DecimalFormat myFormat = new DecimalFormat(pattern);
+        //实例化DecimalFormat对象
+	String output = myFormat.format(value);             
+        //将数字进行格式化
+		System.out.println(value+" "+pattern+" "+output);
+	}
+	//使用applyPattern()方法对数字进行格式化
+	public static void UseApplyPatternMethodFormat(String pattern,double value) {
+		DecimalFormat myFormat = new DecimalFormat();
+		myFormat.applyPattern(pattern);
+		System.out.println(value+" "+pattern+" "+myFormat.format(value));
+	}
+	public static void main(String[] args) {
+		SimpleFormat("###,###,###", 123456.789);          
+        //调用静态SimpleFormat()方法
+		SimpleFormat("00000000.###kg", 123456.789);        
+        //在数字后面加上单位
+		SimpleFormat("000000.000", 123.78);                 
+       //按照格式模板格式化数字，不存在的位以0显示
+		//调用静态UseApplyPatternMethodFormat()方法
+        UseApplyPatternMethodFormat("#.###%", 0.789);       
+        //将数字转换为百分数形式
+        UseApplyPatternMethodFormat("###.##", 123456.789);  
+        //将小数点后格式化为两位
+        UseApplyPatternMethodFormat("0.00\u2030", 0.789);   
+        //将数字转化为千分数形式
+	}
+}
+
+2.     DecimalFormat myFormat = new DecimalFormat();
+		myFormat.setGroupingSize(2);
+		String output = myFormat.format(123456.789);
+		System.out.println("将数字以每两个数字分组 "+output);
+		myFormat.setGroupingUsed(false);
+		String output2 = myFormat.format(123456.789);
+		System.out.println("不允许数字分组 "+output2);
+```

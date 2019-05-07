@@ -1,6 +1,7 @@
 ---
 title: 关于
 date: 2019-05-03 23:34:37
+type: "about"
 ---
 # about 页面的 markdown文件
 ## Hello World

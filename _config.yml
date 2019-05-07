@@ -13,7 +13,7 @@ timezone:
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://www.yoursite.com
+url: https://wss981086665.github.com
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 
@@ -78,7 +78,8 @@ feed:
   type: atom
   path: atom.xml
   limit: 20
-theme: hueman
+#theme: snippet  
+theme: snippet
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html

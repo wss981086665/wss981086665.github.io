@@ -2,6 +2,11 @@
 menu:
   首页: /
   归档: /archives
+  Java: /categories/Java/
+  Python: /categories/Python/
+  Spring Boot: /categories/Spring-Boot/
+  Linux: /categories/Linux/
+  关于: /about/index.html
 
 rss: /atom.xml
 nav: right
@@ -14,7 +19,7 @@ excerpt_link: 阅读全文
 fancybox: true
 
 # Sidebar
-sidebar: right
+sidebar: left
 widgets:
 - userinfo
 - category
@@ -38,13 +43,13 @@ show_count: false
 # background_image: /images/bg.jpeg
 background_title: 图片来自网络
 
-# favicon
-favicon: /images/default-avatar.webp
+# # favicon
+# favicon: /images/default-avatar.webp
 
 #Userinfo
-author: 一路烟霞
-slogan: 特别耐撕的小前端，资深的打酱油攻城狮。
-# avatar: /images/code-title.png
+author: 南国猫觅海
+slogan: 最怕一生碌碌无为-还说平凡难能可贵
+avatar: /images/default-avatar.jpg
 avatar_title: 图片来自网络
 
 # Article code panel: cloud doorframe mac
@@ -52,18 +57,23 @@ highlightPanel: cloud
 
 #Gitment
 gitment:
-  owner: 
-  repo: 
-  client_id: 
-  client_secret: 
+  owner: wss981086665
+  repo: comments.github.io
+  client_id: 2d120660bda337b8f88c
+  client_secret: a486ac4eaddde6ecacf31ca26c5eff98c4fbcb55
 
 # Miscellaneous
-google_analytics:
-gauges_analytics:
-google_site_verification: 
-baidu_site_verification: 
-favicon: /images/default-avatar.webp
+google_analytics: no
+gauges_analytics: no
+google_site_verification: no
+baidu_site_verification: no
+favicon: /images/websiteicon.png
 
 # 友情链接
 blogroll:
-  一路眼瞎: https://yiluyanxia.github.io/
+  Github: https://github.com/wss981086665
+  CSDN: https://blog.csdn.net/affluent6
+  简书: https://www.jianshu.com/u/d3c4eb3abc66
+  微博: https://weibo.com/u/5530988695?is_all=1
+  展示网站: http://www.xztywss.top/website/
+  南猫商城: http://www.xztywss.top/supermark/index.html

@@ -1,7 +1,11 @@
 ---
-title: SpringMVC学习笔记
-date: 2019-04-26 09:36:26
-tags:
+title: SpringMVC学习笔记1(HelloWorld)
+date: 2019-05-04 09:47:54
+categories: 
+- Spring MVC
+tags: 
+- Spring MVC
+- 后端
 ---
 # SpringMVC学习笔记
 ## 第一部分 HelloWorld
@@ -44,7 +48,7 @@ tags:
 </web-app>
 ```
 #### index.jsp
-``` html
+``` js
 <%--
   Created by IntelliJ IDEA.
   User: lenovo
@@ -64,7 +68,7 @@ tags:
 </html>
 ```
 #### success.jsp
-``` html
+``` js
 <%--
   Created by IntelliJ IDEA.
   User: lenovo
@@ -117,7 +121,7 @@ public class SpringMVCTest {
     }
 
 }
-```
+``` 
 #### springmvc.xml
 ``` xml
 <?xml version="1.0" encoding="UTF-8"?>
