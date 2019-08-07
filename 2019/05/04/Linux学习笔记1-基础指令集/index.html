@@ -1,0 +1,360 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="南国猫觅海的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="https://wss981086665.github.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="Linux,操作系统">
+
+
+    <meta name="description" content="/
+1.一个不错的查询命令的网站：man.linuxde.net2.上下键可以直接显示历史使用过的命令
+/
+1.ls指令:1234567    列出列表下所有文件及文件夹      用法：#ls...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>Linux学习笔记1(基础指令集) | 南国猫觅海的个人博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="南国猫觅海的个人博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/websiteicon.png">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="南国猫觅海">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 最怕一生碌碌无为-还说平凡难能可贵 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://wss981086665.github.com">南国猫觅海的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Java/"><i class="fa "></i>Java</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Python/"><i class="fa "></i>Python</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Spring-Boot/"><i class="fa "></i>Spring Boot</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Linux/"><i class="fa "></i>Linux</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/about/index.html"><i class="fa "></i>关于</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Linux学习笔记1(基础指令集)">
+            
+	            Linux学习笔记1(基础指令集)
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/Linux/">Linux</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/Linux/">Linux</a> <a class="tag-link" href="/tags/操作系统/">操作系统</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/05/04</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <p>/<em>
+</em>1.一个不错的查询命令的网站：man.linuxde.net<br><em>2.上下键可以直接显示历史使用过的命令
+</em>/</p>
+<h2 id="1-ls指令"><a href="#1-ls指令" class="headerlink" title="1.ls指令:"></a>1.ls指令:</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    列出列表下所有文件及文件夹  </span><br><span class="line">    用法：#ls 路径</span><br><span class="line">    相对路径：需要一个参照物:  ../上一一级目录      ./当前目录</span><br><span class="line">    绝对路径：不需要参照物，直接从根&apos;/&apos;目录寻找对应路径</span><br><span class="line">#ls -l:表示list，表示以详细列表的形式进行展示 </span><br><span class="line"> -a:表示所有的文件/文件夹(包含了隐藏文件)</span><br><span class="line"> 文件前示‘-’表示对应文档类型为文件，前面是‘d’表示文件夹</span><br></pre></td></tr></table></figure>
+<h2 id="2-pwd指令"><a href="#2-pwd指令" class="headerlink" title="2.pwd指令:"></a>2.pwd指令:</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#pwd   （print working directory，打印当前工作目录）</span><br></pre></td></tr></table></figure>
+<h2 id="3-cd命令"><a href="#3-cd命令" class="headerlink" title="3.cd命令:"></a>3.cd命令:</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   #cd命令  (change directory，改变目录)</span><br><span class="line">作用：用于切换当前的工作目录</span><br><span class="line">语法： #cd 路径</span><br><span class="line">补充： 在Linux中有一个特殊的符号“~”，表示当期用户的家目录。</span><br><span class="line">       切换方式：#cd ~</span><br></pre></td></tr></table></figure>
+<h2 id="4-mkdir指令"><a href="#4-mkdir指令" class="headerlink" title="4.mkdir指令:"></a>4.mkdir指令:</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   指令：mkdir    （make directory，创建目录）</span><br><span class="line">语法1：#mkdir 路径  （可以是包含文件夹名称的完整路径，也可以是文件夹名称）</span><br><span class="line">语法2：#mkdir -p 路径</span><br><span class="line">语法2：#mkdir 路径1 路径2 路径3...  【一次性创建多个目录】</span><br></pre></td></tr></table></figure>
+<h2 id="5-touch指令"><a href="#5-touch指令" class="headerlink" title="5.touch指令"></a>5.touch指令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   指令：touch   创建文件</span><br><span class="line">语法：#touch 文件路径  【路径可以是直接的文件名也可以是路径】</span><br><span class="line">案例：使用touch在当前目录下创建一个 ，命名为Linux.txt   </span><br><span class="line">      touch Linux.txt</span><br><span class="line">	  touch Linux1.txt Linux2.txt    //创建多个文件</span><br></pre></td></tr></table></figure>
+<h2 id="6-cp指令"><a href="#6-cp指令" class="headerlink" title="6.cp指令"></a>6.cp指令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   指令:cp（copy，复制）</span><br><span class="line">作用:复制文件/文件夹到指定的位置</span><br><span class="line">语法:#cp 被复制的文档路径 文档被复制到的路径</span><br><span class="line">注意，当使用cp命令进行文件夹复制操作时需要添加选项“-r”【表示递归复制】，否则目录将被忽略</span><br></pre></td></tr></table></figure>
+<h2 id="7-mv指令"><a href="#7-mv指令" class="headerlink" title="7.mv指令"></a>7.mv指令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   指令：mv   （move，移动 剪切）</span><br><span class="line">作用：移动文档到新的位置</span><br><span class="line">语法：#mv 需要移动的文档路径 需要保存到的位置路径</span><br><span class="line">补充：在Linux中重命名也是mv，语法和移动语法一样</span><br></pre></td></tr></table></figure>
+<h2 id="8-rm命令"><a href="#8-rm命令" class="headerlink" title="8.rm命令"></a>8.rm命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">   指令：rm  （remove，移除，删除）</span><br><span class="line">作用：移除/删除文档</span><br><span class="line">语法：#rm 选项 需要移除的文档路径</span><br><span class="line">选项：</span><br><span class="line">    -f：force 强制删除</span><br><span class="line">	-r：递归，用来删除目录  </span><br><span class="line">	-rf:递归自动确认删除目录及目录下的文件</span><br><span class="line">案例：删除一个文件</span><br><span class="line">       #rm /文件 --&gt;&#123;提示&#125; 是否删除新文件？y</span><br><span class="line">	 注意：如果在删除的时候不想平凡的输入y确认，则可以在指令中添加选项“-f”,表示force(强制)</span><br><span class="line">   案例：删除一个文件夹</span><br><span class="line">    #rm -rf /henniux/    不需要确认</span><br><span class="line">   案例：删除多个文档	</span><br><span class="line">    #rm -rf a Linux.txt</span><br><span class="line">案例：要删除一个目录下有公共特性的文档，例如都以Linux开头</span><br><span class="line">    #rm -f Linux*</span><br></pre></td></tr></table></figure>
+<h2 id="9-vim命令"><a href="#9-vim命令" class="headerlink" title="9.vim命令"></a>9.vim命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   指令：vim   （vim是一款文本编辑器）</span><br><span class="line">语法：vim 文件的路径</span><br><span class="line">作用：打开一个文件（可以不存在，也可以存在）</span><br><span class="line">案例：使用vim打开一个文件 </span><br><span class="line">退出文件：按下’shift‘+‘:’--&gt;输入‘q’--&gt;回车</span><br></pre></td></tr></table></figure>
+<h2 id="10-输出重定向"><a href="#10-输出重定向" class="headerlink" title="10.输出重定向"></a>10.输出重定向</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">   一般命令的输出都会显示在终端中，有些时候需要将一些命令的执行结果想要保存到文件中，进行后续的分析/统计，则这时候需要使用到输出重定向技术。</span><br><span class="line">&gt;：覆盖输出，会覆盖掉原先的文件内容</span><br><span class="line">&gt;&gt;：追加输出，不会覆盖掉原先的文件内容，会在原始内容末尾处继续添加</span><br><span class="line">语法：#正常执行的指令 &gt;/&gt;&gt; 文件的路径</span><br><span class="line">注意：文件可以不存在，不存在则新建</span><br><span class="line">案例：使用覆盖重定向，保存ls-la的执行结果，保存到当前目录下的ls.txt</span><br><span class="line">    #ls -la &gt; ls.txt</span><br></pre></td></tr></table></figure>
+<h2 id="11-cat指令"><a href="#11-cat指令" class="headerlink" title="11.cat指令"></a>11.cat指令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">   作用1：cat有*直接*打开一个文件的功能。vim是打开文件并编辑</span><br><span class="line">    语法1：#cat 文件的路径</span><br><span class="line">作用2：cat还可以对文件进行合并</span><br><span class="line">    语法1:#cat 待合并的文件路径1 待合并的文件路径2 ... 待合并的文件路径n &gt; 合并之后的文件路径</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-37d2873d36268b33.gif?imageMogr2/auto-orient/strip" alt="aae.gif"></p>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/05/04/Linux学习笔记2-进阶指令/" class="pre-post btn btn-default" title="Linux学习笔记2(进阶指令)">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">Linux学习笔记2(进阶指令)</span>
+        </a>
+    
+    
+        <a href="/2019/05/04/Java基础方法12-枚举/" class="next-post btn btn-default" title="Java基础方法12(枚举)">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">Java基础方法12(枚举)</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-ls指令"><span class="toc-text">1.ls指令:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-pwd指令"><span class="toc-text">2.pwd指令:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-cd命令"><span class="toc-text">3.cd命令:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-mkdir指令"><span class="toc-text">4.mkdir指令:</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-touch指令"><span class="toc-text">5.touch指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#6-cp指令"><span class="toc-text">6.cp指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#7-mv指令"><span class="toc-text">7.mv指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#8-rm命令"><span class="toc-text">8.rm命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#9-vim命令"><span class="toc-text">9.vim命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#10-输出重定向"><span class="toc-text">10.输出重定向</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-cat指令"><span class="toc-text">11.cat指令</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="/assets/tagcanvas.min.js?rev=2.9"></script>
+    <script>
+        var tagOption = {
+            textColour: '#444', // 字体颜色
+            outlineMethod: 'block', // 选中模式
+            outlineColour: '#FFDAB9', // 选中模式的颜色
+            interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+            textHeight: 13,
+            outlineRadius: 3,
+            freezeActive: true || '', // 选中的标签是否继续滚动
+            frontSelect: true || '', // 不选标签云后部的标签
+            initial: [0.1, -0.1],
+            depth: 0.5,
+            decel: 0.95,
+            maxSpeed: 0.03,
+            reverse: true || '', // 是否反向触发
+            fadeIn: 500, // 进入动画时间
+            wheelZoom: false || '' // 是否启用鼠标滚轮
+        }
+        TagCanvas.Start('tag-cloud-3d','',tagOption);
+    </script>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

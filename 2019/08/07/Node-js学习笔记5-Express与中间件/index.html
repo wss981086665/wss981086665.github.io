@@ -1,0 +1,373 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="南国猫觅海的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="https://wss981086665.github.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="Node.js,后端">
+
+
+    <meta name="description" content="
+注意: 撰写本文目的主要是为了给自己做一个备忘录，如果你学过Node.js并且希望从本文中找到一些忘记的知识点，那么你可以阅读本文章。由于文章内讲解并不是很多，因此此文章并不适合小白入门使用。...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>Node.js学习笔记5-Express与中间件 | 南国猫觅海的个人博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="南国猫觅海的个人博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/websiteicon.png">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="南国猫觅海">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 最怕一生碌碌无为-还说平凡难能可贵 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://wss981086665.github.com">南国猫觅海的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Java/"><i class="fa "></i>Java</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Python/"><i class="fa "></i>Python</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Spring-Boot/"><i class="fa "></i>Spring Boot</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Linux/"><i class="fa "></i>Linux</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/about/index.html"><i class="fa "></i>关于</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Node.js学习笔记5-Express与中间件">
+            
+	            Node.js学习笔记5-Express与中间件
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/Node-js/">Node.js</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/Node-js/">Node.js</a> <a class="tag-link" href="/tags/后端/">后端</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/08/07</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <ul>
+<li><strong>注意:</strong> 撰写本文目的主要是<strong>为了给自己做一个备忘录</strong>，如果你学过Node.js并且希望从本文中找到一些忘记的知识点，那么你可以阅读本文章。由于文章内讲解并不是很多，因此此文章并不适合小白入门使用。</li>
+</ul>
+<h2 id="1-Express框架"><a href="#1-Express框架" class="headerlink" title="1.Express框架"></a>1.Express框架</h2><h3 id="1-1-Express入门"><a href="#1-1-Express入门" class="headerlink" title="1.1.Express入门"></a>1.1.Express入门</h3><ul>
+<li>当我们使用了Express模块之后，高效就不在是梦想。</li>
+<li>下面的示例仅仅是使用了<strong>app.get()</strong>进行解析，很简单的就实现了前文用路由实现的的繁琐的逻辑。代码并不难看懂，并且这里只是为了展示，如果想深入了解express，读者可以去<a href="http://www.expressjs.com.cn/4x/api.html" target="_blank" rel="noopener">Express官网</a>查看相关文档。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//express路由基础操作</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> express  = <span class="built_in">require</span>(<span class="string">"express"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">"/"</span>,<span class="function"><span class="keyword">function</span> (<span class="params">req,res</span>) </span>&#123;</span><br><span class="line">    res.send(<span class="string">"你好"</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">"/haha"</span>,<span class="function"><span class="keyword">function</span> (<span class="params">req,res</span>) </span>&#123;</span><br><span class="line">    res.send(<span class="string">"这是haha页面,哈哈哈哈哈"</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.get(<span class="regexp">/^\/student\/([\d]&#123;10&#125;)$/</span>,<span class="function"><span class="keyword">function</span> (<span class="params">req,res</span>) </span>&#123;</span><br><span class="line">    res.send(<span class="string">"学生信息:学号:"</span> + req.params[<span class="number">0</span>]);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">"/teacher/:gonghao"</span>,<span class="function"><span class="keyword">function</span> (<span class="params">req,res</span>) </span>&#123;</span><br><span class="line">    res.send(<span class="string">"老师的工号是:"</span> + req.params.gonghao);  <span class="comment">//获取参数两种方法1</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="number">1.2</span></span><br><span class="line">app.get(<span class="string">"/student/:id"</span>,<span class="function"><span class="keyword">function</span> (<span class="params">req,res</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> id = req.params[<span class="string">"id"</span>];      <span class="comment">//获取参数两种方法2</span></span><br><span class="line">    <span class="keyword">var</span> reg = <span class="regexp">/^[\d]&#123;6&#125;$/</span>;        <span class="comment">//正则表达式的使用</span></span><br><span class="line">    <span class="keyword">if</span>(reg.test(id))&#123;</span><br><span class="line">        res.send(id);</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        res.send(<span class="string">"请检查格式"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-express访问静态文件"><a href="#1-2-express访问静态文件" class="headerlink" title="1.2.express访问静态文件"></a>1.2.express访问静态文件</h3><ul>
+<li>由前文我们可以知道，当使用原生Node.js操作静态文件时，我们需要对每一个文件都进行访问解析，如果不这么做，就无法访问得到静态文件。</li>
+<li>在express中，这种操作变得极为简单，正如下面示例所示。</li>
+</ul>
+<p><strong>访问静态文件</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//express静态文件访问基础操作</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> express  = <span class="built_in">require</span>(<span class="string">"express"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"></span><br><span class="line">app.use(express.static(<span class="string">"./public"</span>));  <span class="comment">//即./public/index.html</span></span><br><span class="line"></span><br><span class="line">app.get(<span class="string">"/haha"</span>,<span class="function"><span class="keyword">function</span> (<span class="params">req,res</span>) </span>&#123;</span><br><span class="line">    res.send(<span class="string">"你好啊-哈哈页面"</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="1-3-搭配使用ejs"><a href="#1-3-搭配使用ejs" class="headerlink" title="1.3.搭配使用ejs"></a>1.3.搭配使用ejs</h3><h4 id="1-3-1-示例一：绑定数组数据"><a href="#1-3-1-示例一：绑定数组数据" class="headerlink" title="1.3.1.示例一：绑定数组数据"></a>1.3.1.示例一：绑定数组数据</h4><p><strong>haha.ejs文件:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;utf-8&quot; /&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;</span><br><span class="line">    &lt;title&gt;Page Title&lt;/title&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;</span><br><span class="line">    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;screen&quot; href=&quot;main.css&quot; /&gt;</span><br><span class="line">    &lt;script src=&quot;main.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h1&gt;你好啊&lt;/h1&gt;</span><br><span class="line">    &lt;% for(var i=0; i&lt;news.length; i++) &#123;%&gt;</span><br><span class="line">        &lt;li&gt;&lt;%= news[i] %&gt;&lt;/li&gt;</span><br><span class="line">    &lt;% &#125; %&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>demo3(render).js文件:</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//express模板引擎基础操作</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> express  = <span class="built_in">require</span>(<span class="string">"express"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"></span><br><span class="line"><span class="comment">//app.set("views","a");  //将默认文件夹(views)更改为文件夹a</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//设置模板引擎ejs</span></span><br><span class="line">app.set(<span class="string">"view engine"</span>,<span class="string">"ejs"</span>);</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">"/"</span>,<span class="function"><span class="keyword">function</span> (<span class="params">req,res</span>) </span>&#123;</span><br><span class="line">    res.render(<span class="string">"haha"</span>,&#123;</span><br><span class="line">        <span class="string">"news"</span>: [<span class="string">"11111"</span>,<span class="string">"222222"</span>,<span class="string">"333333"</span>]</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure></p>
+<h4 id="1-3-2-示例二：动态绑定数据"><a href="#1-3-2-示例二：动态绑定数据" class="headerlink" title="1.3.2.示例二：动态绑定数据"></a>1.3.2.示例二：动态绑定数据</h4><p><strong>form4.ejs文件:</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--搭配demo.js练习--&gt;</span><br><span class="line"></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;utf-8&quot; /&gt;</span><br><span class="line">    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;</span><br><span class="line">    &lt;title&gt;Page Title&lt;/title&gt;</span><br><span class="line">    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot; /&gt;</span><br><span class="line">    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; media=&quot;screen&quot; href=&quot;main.css&quot; /&gt;</span><br><span class="line">    &lt;script src=&quot;main.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;你好啊&lt;/h1&gt;</span><br><span class="line">    &lt;form action=&quot;#&quot; method=&quot;post&quot;&gt;</span><br><span class="line">        &lt;input type=&quot;text&quot; name=&quot;name&quot;&gt;</span><br><span class="line"></span><br><span class="line">        &lt;input type=&quot;submit&quot;&gt;</span><br><span class="line">    &lt;/form&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p><strong>demo4.js文件:</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//express模板引擎基础操作</span></span><br><span class="line"><span class="comment">//搭配form.ejs练习</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> express  = <span class="built_in">require</span>(<span class="string">"express"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"></span><br><span class="line"><span class="comment">//设置模板引擎ejs</span></span><br><span class="line">app.set(<span class="string">"view engine"</span>,<span class="string">"ejs"</span>);</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">"/"</span>,<span class="function"><span class="keyword">function</span> (<span class="params">req,res</span>) </span>&#123;</span><br><span class="line">    res.render(<span class="string">"form"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.post(<span class="string">"/"</span>,<span class="function"><span class="keyword">function</span> (<span class="params">req,res</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//将数据添加至数据库</span></span><br><span class="line">    res.send(<span class="string">"成功"</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure></p>
+<h2 id="2-中间件"><a href="#2-中间件" class="headerlink" title="2.中间件"></a>2.中间件</h2><h3 id="2-1-认识中间件"><a href="#2-1-认识中间件" class="headerlink" title="2.1.认识中间件"></a>2.1.认识中间件</h3><ul>
+<li>get、post这些东西，就是中间件，中间件讲究顺序，匹配到第一个之后，就不会往后匹配了。使用next函数才会继续匹配</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express  = <span class="built_in">require</span>(<span class="string">"express"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">"/"</span>,<span class="function"><span class="keyword">function</span> (<span class="params">req,res,next</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"1"</span>);</span><br><span class="line">    next();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">"/"</span>,<span class="function"><span class="keyword">function</span> (<span class="params">req,res</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"2"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="2-2-中间件的使用"><a href="#2-2-中间件的使用" class="headerlink" title="2.2.中间件的使用"></a>2.2.中间件的使用</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express  = <span class="built_in">require</span>(<span class="string">"express"</span>);</span><br><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">"fs"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"></span><br><span class="line"><span class="comment">//app.use也是一个中间件</span></span><br><span class="line"><span class="comment">//app.use中的指令可以匹配多个</span></span><br><span class="line"><span class="comment">//如admin,  admin/asdf,  admin/asdf/ghjk都可以匹配上(任何以admin开头的请求)</span></span><br><span class="line"><span class="comment">//依然，如果app.use中没有使用next函数的话，程序只会执行匹配第一个匹配到的路径，匹配过后不会继续行</span></span><br><span class="line"><span class="comment">//当不写路径的时候，实际就相当于 "/" ,就是所有网址;</span></span><br><span class="line"><span class="comment">// 具体的往上写，抽象的往下写</span></span><br><span class="line">app.use(<span class="string">"/"</span>,<span class="function"><span class="keyword">function</span> (<span class="params">req,res,next</span>) </span>&#123;    <span class="comment">// 1</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">new</span> <span class="built_in">Date</span>());</span><br><span class="line">    next();</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 1 与 2 用法相同</span></span><br><span class="line">app.use(haha);                           <span class="comment">// 2</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">haha</span>(<span class="params">req,res,next</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> filepath = req.originalUrl;</span><br><span class="line">    <span class="comment">//根据当前网址 读取public文件夹中的文件</span></span><br><span class="line">    <span class="comment">//如果有这个文件，那么渲染这个文件</span></span><br><span class="line">    <span class="comment">//如果没有这个文件，那么next();</span></span><br><span class="line">    <span class="comment">// console.log(new Date());</span></span><br><span class="line">    fs.readFile(<span class="string">"./public/"</span> + filepath,<span class="function"><span class="keyword">function</span> (<span class="params">err,data</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(err)&#123;</span><br><span class="line">            <span class="comment">//文件不存在</span></span><br><span class="line">            next();</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        res.send(data.toString());</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">app.use(<span class="string">"/admin"</span>,<span class="function"><span class="keyword">function</span> (<span class="params">req,res</span>) </span>&#123;</span><br><span class="line">    res.write(req.originalUrl + <span class="string">"\n"</span>);</span><br><span class="line">    res.write(req.path + <span class="string">"\n"</span>);</span><br><span class="line">    res.write(req.baseUrl + <span class="string">"\n"</span>);</span><br><span class="line">    res.end(<span class="string">"你好"</span>);</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-渲染静态资源"><a href="#2-3-渲染静态资源" class="headerlink" title="2.3.渲染静态资源"></a>2.3.渲染静态资源</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express  = <span class="built_in">require</span>(<span class="string">"express"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = express();</span><br><span class="line"></span><br><span class="line"><span class="comment">//中间件 use 一般不使用  静态服务的时候可以使用</span></span><br><span class="line"><span class="comment">//静态服务</span></span><br><span class="line">app.use(<span class="string">"/jingtai"</span>,express.static(<span class="string">"./public"</span>));</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">"/images"</span>,<span class="function"><span class="keyword">function</span> (<span class="params">req,res</span>) </span>&#123;</span><br><span class="line">    res.send(<span class="string">"哈哈"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.use(<span class="function"><span class="keyword">function</span> (<span class="params">req,res</span>) </span>&#123;</span><br><span class="line">    res.status(<span class="number">404</span>).send(<span class="string">"没有这个页面!"</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">3000</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>文集推荐:</strong></p>
+<blockquote>
+<p><a href="https://www.jianshu.com/nb/35411761" target="_blank" rel="noopener">Java基础方法集1</a><br><a href="https://www.jianshu.com/nb/35412583" target="_blank" rel="noopener">Python基础知识完整版</a><br><a href="https://www.jianshu.com/nb/35490047" target="_blank" rel="noopener">Spring Boot学习笔记</a><br><a href="https://www.jianshu.com/nb/35411158" target="_blank" rel="noopener">Linux指令进阶</a><br><a href="https://www.jianshu.com/nb/35701647" target="_blank" rel="noopener">Java高并发编程</a><br><a href="https://www.jianshu.com/nb/36348245" target="_blank" rel="noopener">SpringMVC基础知识进阶</a><br><a href="https://www.jianshu.com/nb/36768953" target="_blank" rel="noopener">Mysql基础知识完整版</a><br><a href="https://www.jianshu.com/nb/36626677" target="_blank" rel="noopener">健康管理系统学习花絮(学习记录)</a><br><a href="https://www.jianshu.com/nb/36852271" target="_blank" rel="noopener">Node.js基础知识(随手笔记)</a><br><a href="https://www.jianshu.com/nb/36850994" target="_blank" rel="noopener">MongoDB基础知识</a><br><a href="https://www.jianshu.com/nb/36474207" target="_blank" rel="noopener">Dubbo学习笔记</a><br><a href="https://www.jianshu.com/nb/35411638" target="_blank" rel="noopener">Vue学习笔记(随手笔记)</a></p>
+</blockquote>
+<blockquote>
+<p>声明：发表此文是出于传递更多信息之目的。若有来源标注错误或侵犯了您的合法权益，请作者持权属证明与本我们(QQ:981086665；邮箱:<a href="mailto:981086665@qq.com" target="_blank" rel="noopener">981086665@qq.com</a>)联系联系，我们将及时更正、删除，谢谢。</p>
+</blockquote>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/08/07/Node-js学习笔记6-项目实战-littleAlbum/" class="pre-post btn btn-default" title="Node.js学习笔记6-项目实战-littleAlbum">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">Node.js学习笔记6-项目实战-littleAlbum</span>
+        </a>
+    
+    
+        <a href="/2019/08/07/Node-js学习笔记4-模块、POST请求（文件上传）/" class="next-post btn btn-default" title="Node.js学习笔记4-模块、POST请求（文件上传）">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">Node.js学习笔记4-模块、POST请求（文件上传）</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-Express框架"><span class="toc-text">1.Express框架</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-Express入门"><span class="toc-text">1.1.Express入门</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-express访问静态文件"><span class="toc-text">1.2.express访问静态文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-搭配使用ejs"><span class="toc-text">1.3.搭配使用ejs</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-1-示例一：绑定数组数据"><span class="toc-text">1.3.1.示例一：绑定数组数据</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-2-示例二：动态绑定数据"><span class="toc-text">1.3.2.示例二：动态绑定数据</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-中间件"><span class="toc-text">2.中间件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-认识中间件"><span class="toc-text">2.1.认识中间件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-中间件的使用"><span class="toc-text">2.2.中间件的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-渲染静态资源"><span class="toc-text">2.3.渲染静态资源</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="/assets/tagcanvas.min.js?rev=2.9"></script>
+    <script>
+        var tagOption = {
+            textColour: '#444', // 字体颜色
+            outlineMethod: 'block', // 选中模式
+            outlineColour: '#FFDAB9', // 选中模式的颜色
+            interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+            textHeight: 13,
+            outlineRadius: 3,
+            freezeActive: true || '', // 选中的标签是否继续滚动
+            frontSelect: true || '', // 不选标签云后部的标签
+            initial: [0.1, -0.1],
+            depth: 0.5,
+            decel: 0.95,
+            maxSpeed: 0.03,
+            reverse: true || '', // 是否反向触发
+            fadeIn: 500, // 进入动画时间
+            wheelZoom: false || '' // 是否启用鼠标滚轮
+        }
+        TagCanvas.Start('tag-cloud-3d','',tagOption);
+    </script>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

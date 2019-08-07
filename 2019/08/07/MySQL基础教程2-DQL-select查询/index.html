@@ -1,0 +1,512 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="南国猫觅海的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="https://wss981086665.github.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="MySQL">
+
+
+    <meta name="description" content="
+注意: 撰写本文目的主要是为了给自己做一个备忘录，如果你学过Mysql并且希望从本文中找到一些忘记的知识点，那么你可以阅读本文章。由于文章内讲解并不是很多，因此此文章并不适合小白入门使用。
+
+...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>MySQL基础教程2-DQL(select查询) | 南国猫觅海的个人博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="南国猫觅海的个人博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/websiteicon.png">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="南国猫觅海">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 最怕一生碌碌无为-还说平凡难能可贵 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://wss981086665.github.com">南国猫觅海的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Java/"><i class="fa "></i>Java</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Python/"><i class="fa "></i>Python</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Spring-Boot/"><i class="fa "></i>Spring Boot</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Linux/"><i class="fa "></i>Linux</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/about/index.html"><i class="fa "></i>关于</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="MySQL基础教程2-DQL(select查询)">
+            
+	            MySQL基础教程2-DQL(select查询)
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/MySQL/">MySQL</a> <a class="category-link" href="/categories/MySQL/数据库/">数据库</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/MySQL/">MySQL</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/08/07</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <ul>
+<li><strong>注意:</strong> 撰写本文目的主要是<strong>为了给自己做一个备忘录</strong>，如果你学过Mysql并且希望从本文中找到一些忘记的知识点，那么你可以阅读本文章。由于文章内讲解并不是很多，因此此文章并不适合小白入门使用。</li>
+</ul>
+<h1 id="select查询"><a href="#select查询" class="headerlink" title="select查询"></a>select查询</h1><h2 id="序、简单查询事项"><a href="#序、简单查询事项" class="headerlink" title="序、简单查询事项"></a>序、简单查询事项</h2><p><strong>1.避免重复数据查询</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">distinct</span> <span class="keyword">name</span> <span class="keyword">from</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure></p>
+<p><strong>2.实现数学运算数据查询</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> age*<span class="number">10</span> <span class="keyword">from</span> <span class="keyword">user</span>;</span><br><span class="line"></span><br><span class="line">给运算过的数据设置显示名称:</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">num</span>*<span class="number">10</span> <span class="keyword">as</span> salary <span class="keyword">from</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure></p>
+<p><strong>3.条件查询</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">单条件查询：</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'xqz'</span>;</span><br><span class="line"></span><br><span class="line">多条件查询：</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'xqz'</span> &amp;&amp; age=<span class="number">19</span>;</span><br></pre></td></tr></table></figure></p>
+<p><strong> 4.符合范围的记录查询</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span> age</span><br><span class="line">    <span class="keyword">from</span> <span class="keyword">user</span> </span><br><span class="line">        <span class="keyword">where</span> age <span class="keyword">between</span> <span class="number">18</span> <span class="keyword">and</span> <span class="number">20</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>5.带IS NULL关键字的空值查询</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">空值数据查询：</span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">NAME</span> AGE</span><br><span class="line">    <span class="keyword">FROM</span> <span class="keyword">USER</span></span><br><span class="line">        <span class="keyword">WHERE</span> AGE <span class="keyword">IS</span> <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">非空值数据查询：</span><br><span class="line">... IS NOT NULL;</span><br></pre></td></tr></table></figure></p>
+<h2 id="一、group分组与统计函数"><a href="#一、group分组与统计函数" class="headerlink" title="一、group分组与统计函数"></a>一、group分组与统计函数</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">理解: 根据某一指定属性对前面<span class="keyword">select</span>之后的运算进行分组执行</span><br><span class="line">例如: <span class="keyword">select</span> age,<span class="keyword">avg</span>(<span class="keyword">id</span>) <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">group</span> <span class="keyword">by</span> age;</span><br><span class="line">      解释:分别求出各年龄(age)段的id平均值</span><br></pre></td></tr></table></figure>
+<p><strong>本小节知识清单</strong>:</p>
+<blockquote>
+<ul>
+<li><strong>max()</strong></li>
+<li><strong>count()</strong></li>
+<li><strong>avg()</strong></li>
+<li><strong>min()</strong></li>
+<li><strong>sum()</strong></li>
+<li><strong>round()</strong></li>
+</ul>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">max</span>(age) <span class="keyword">from</span> <span class="keyword">user</span>;          <span class="comment">/* 获得所有用户最大的年龄 */</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">count</span>(age) <span class="keyword">from</span> <span class="keyword">user</span>;        <span class="comment">/* 获得所有用户的数量 */</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">avg</span>(age) <span class="keyword">from</span> <span class="keyword">user</span>;          <span class="comment">/* 求出所有用户的年龄平均值 */</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">min</span>(age) <span class="keyword">from</span> <span class="keyword">user</span>;          <span class="comment">/* 获得所有用户最小的年龄 */</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">sum</span>(age) <span class="keyword">from</span> <span class="keyword">user</span>;          <span class="comment">/* 求出所有用户的年龄之和 */</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">sum</span>(<span class="keyword">id</span>*age) <span class="keyword">from</span> <span class="keyword">user</span>;       <span class="comment">/*求出所有用户的 id*age 值的和*/</span></span><br></pre></td></tr></table></figure>
+<p><strong>round()函数</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">1. round(x,d)  ，x指要处理的数，d是指保留几位小数</span><br><span class="line">这里有个值得注意的地方是，d可以是负数，这时是指定小数点左边的d位整数位为0,同时小数位均为0；</span><br><span class="line">2、round(x)  ,其实就是round(x,0),也就是默认d为0；</span><br><span class="line">下面是几个实例</span><br><span class="line">1. 查询: <span class="keyword">select</span> <span class="keyword">round</span>(<span class="number">1123.26723</span>,<span class="number">2</span>);</span><br><span class="line">     结果：1123.27</span><br><span class="line">2、查询: <span class="keyword">select</span> <span class="keyword">round</span>(<span class="number">1123.26723</span>,<span class="number">1</span>);</span><br><span class="line">     结果: 1123.3</span><br><span class="line">3、查询: <span class="keyword">select</span> <span class="keyword">round</span>(<span class="number">1123.26723</span>,<span class="number">0</span>);</span><br><span class="line">     结果：1123</span><br><span class="line">4、查询: <span class="keyword">select</span> <span class="keyword">round</span>(<span class="number">1123.26723</span>,<span class="number">-1</span>);</span><br><span class="line">     结果: 1120</span><br><span class="line">5、查询: <span class="keyword">select</span> <span class="keyword">round</span>(<span class="number">1123.26723</span>,<span class="number">-2</span>);</span><br><span class="line">     结果：1100</span><br><span class="line">6、查询: <span class="keyword">select</span> <span class="keyword">round</span>(<span class="number">1123.26723</span>);</span><br><span class="line">     结果：1123</span><br></pre></td></tr></table></figure></p>
+<h3 id="根据年龄分组计算id的平均值"><a href="#根据年龄分组计算id的平均值" class="headerlink" title="根据年龄分组计算id的平均值"></a>根据年龄分组计算id的平均值</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> age,<span class="keyword">avg</span>(<span class="keyword">id</span>) <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">group</span> <span class="keyword">by</span> age;</span><br></pre></td></tr></table></figure>
+<p><strong>效果:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-cd42872ebe6d1235.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="效果"></p>
+<h3 id="查询每个年龄下的用户的数量"><a href="#查询每个年龄下的用户的数量" class="headerlink" title="查询每个年龄下的用户的数量"></a>查询每个年龄下的用户的数量</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> age,<span class="keyword">count</span>(*) <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">group</span> <span class="keyword">by</span> age;</span><br></pre></td></tr></table></figure>
+<p><strong>效果:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-bb155b770e79c1be.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="效果"></p>
+<h3 id="查询每个年龄下-id-最高的用户"><a href="#查询每个年龄下-id-最高的用户" class="headerlink" title="查询每个年龄下 id 最高的用户"></a>查询每个年龄下 id 最高的用户</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> age,<span class="keyword">max</span>(<span class="keyword">id</span>) <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">group</span> <span class="keyword">by</span> age;</span><br></pre></td></tr></table></figure>
+<h2 id="二、having筛选"><a href="#二、having筛选" class="headerlink" title="二、having筛选"></a>二、having筛选</h2><h3 id="1-查询age-id-gt-15的用户"><a href="#1-查询age-id-gt-15的用户" class="headerlink" title="(1).查询age-id&gt;15的用户"></a>(1).查询age-id&gt;15的用户</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>,age-<span class="keyword">id</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> (age-<span class="keyword">id</span>)&gt;<span class="number">15</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>,(age-<span class="keyword">id</span>) <span class="keyword">as</span> demo <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> demo&gt;<span class="number">15</span>;        <span class="comment">/* 错误 */</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>,(age-<span class="keyword">id</span>) <span class="keyword">as</span> demo <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="number">1</span> <span class="keyword">having</span> demo&gt;<span class="number">15</span>;   <span class="comment">/* 正确 优化 */</span></span><br><span class="line">注意：博主在使用index作为替代变量时执行语句会出错，可能index为MySQL保留字，望读者注意</span><br></pre></td></tr></table></figure>
+<h3 id="2-where-having-group综合练习题"><a href="#2-where-having-group综合练习题" class="headerlink" title="(2).where-having-group综合练习题"></a>(2).where-having-group综合练习题</h3><p><strong>有如下表及数据</strong><br>name|subject|score<br>–|–|–<br>张三|数学|90<br>张三|语文|50<br>张三|地理|40<br>李四|语文|55<br>张三|数学|45<br>张三|数学|30<br><strong>要求: 查出两门及两门以上不及格者的平均成绩:</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>,<span class="keyword">sum</span>(score&lt;<span class="number">60</span>) <span class="keyword">as</span> gk,<span class="keyword">avg</span>(score) <span class="keyword">as</span> pj</span><br><span class="line">     -&gt; <span class="keyword">from</span>  <span class="keyword">result</span> <span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">name</span></span><br><span class="line">     -&gt; <span class="keyword">having</span> gk&gt;=<span class="number">2</span>;</span><br></pre></td></tr></table></figure></p>
+<h2 id="三、order-by排序"><a href="#三、order-by排序" class="headerlink" title="三、order by排序"></a>三、order by排序</h2><blockquote>
+<ul>
+<li><strong>降序: desc</strong></li>
+<li><strong>增序: asc [默认asc]</strong></li>
+<li><strong>多列排序: 逗号隔开，依次添加条件即可</strong></li>
+</ul>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 将用户按照age增序排序 */</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">order</span> <span class="keyword">by</span> age;</span><br><span class="line"><span class="comment">/* 将用户按照age进行降序排序 */</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">order</span> <span class="keyword">by</span> age <span class="keyword">desc</span>;</span><br><span class="line"><span class="comment">/* 先按照age进行增序排序，再为分组好的age序列根据id进行降序排序；*/</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">order</span> <span class="keyword">by</span> age <span class="keyword">asc</span>,<span class="keyword">id</span> <span class="keyword">desc</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="四、limit语法"><a href="#四、limit语法" class="headerlink" title="四、limit语法"></a>四、limit语法</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">找出年龄前三名的同学</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">order</span> <span class="keyword">by</span> age <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">3</span>;</span><br><span class="line">0: 偏移量。默认是0，可以省略</span><br><span class="line">3: 取值个数</span><br></pre></td></tr></table></figure>
+<blockquote>
+<ul>
+<li><strong><code>LIMIT</code></strong>可以用来实现分页功能</li>
+<li>但是数据太大的时候limit表现的并不是很完美,这里链接以下掘金里的一个文章，有兴趣的读者可以去看一下: <a href="https://juejin.im/post/5cd2d57951882540d928c2be" target="_blank" rel="noopener">MySQL之LIMIT性能问题</a></li>
+</ul>
+</blockquote>
+<p><strong>练习:</strong><br><strong>利用where,group by,having，order by,limit 其中几种的组合指令查询每个age段里id最大的用户</strong><br><strong>注意:</strong> 如果选择组合使用这几种，那么他们的顺序必然是固定的，不可颠倒<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 利用子查询进行查找，具体子查询详情在---where型子查询---中再讲 */</span></span><br><span class="line"><span class="keyword">select</span> age,<span class="keyword">id</span>,<span class="keyword">name</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">id</span> <span class="keyword">in</span> (<span class="keyword">select</span> <span class="keyword">max</span>(<span class="keyword">id</span>) <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">group</span> <span class="keyword">by</span> age);</span><br></pre></td></tr></table></figure></p>
+<h2 id="五、where型子查询"><a href="#五、where型子查询" class="headerlink" title="五、where型子查询"></a>五、where型子查询</h2><p><strong>查出年龄最大的用户:</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 排序法(浪费资源) */</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">order</span> <span class="keyword">by</span> age <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span>;</span><br><span class="line"><span class="comment">/* 下面一条是博主尝试的一个****错误的思路****，无法执行 */</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">id</span>,<span class="keyword">name</span> <span class="keyword">max</span>(age) <span class="keyword">as</span> <span class="keyword">max</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="number">1</span> <span class="keyword">having</span> age=<span class="keyword">max</span>;</span><br><span class="line"><span class="comment">/* 利用子查询(正确、高效) */</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> age=(<span class="keyword">select</span> <span class="keyword">max</span>(age) <span class="keyword">from</span> <span class="keyword">user</span>);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意: 子查询语句只能有一个返回结果，有多个返回结果不然会报错。</p>
+</blockquote>
+<h2 id="六、from型子查询"><a href="#六、from型子查询" class="headerlink" title="六、from型子查询"></a>六、from型子查询</h2><blockquote>
+<p>理解: select 语句返回的结果也是一张表，大胆的把select的结果当作另一个select语句所要查询的表即可</p>
+</blockquote>
+<p><strong>查询年龄为19中id最大的用户:</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">id</span>,<span class="keyword">name</span>,age <span class="keyword">from</span> (<span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> age=<span class="number">19</span>) <span class="keyword">as</span> tmp <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">id</span> <span class="keyword">desc</span> <span class="keyword">limit</span> <span class="number">0</span>,<span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
+<p><strong>查询出编号为19的商品所在的栏目的名称:</strong><br><strong>注意:</strong> 此表中只包含栏目的编号，并不包含栏目的名称，栏目的编号与名称对应关系在另外一张表中.可以用<strong><code>子查询</code></strong>或下面的<strong><code>连接查询</code></strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 子查询 */</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">name</span> <span class="keyword">from</span> xxx1 <span class="keyword">where</span> <span class="keyword">index</span>=(<span class="keyword">select</span> <span class="keyword">index</span> <span class="keyword">from</span> xxx2 <span class="keyword">where</span> <span class="keyword">id</span> =<span class="number">19</span>);</span><br><span class="line">xxx1: 栏目的编号与名称对应关系表</span><br><span class="line">xxx2: 商品表</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 连接查询 */</span></span><br><span class="line">略</span><br></pre></td></tr></table></figure></p>
+<h2 id="七、exists型子查询"><a href="#七、exists型子查询" class="headerlink" title="七、exists型子查询"></a>七、exists型子查询</h2><blockquote>
+<p>理解: 如果子查询有结果，主查询就继续根据结果去查询；如果子查询没有结果，主查询就不继续根据此结果查询</p>
+</blockquote>
+<p>**用exists型子查询，查出所有里面有商品的栏目<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">category</span> </span><br><span class="line">     <span class="keyword">where</span> <span class="keyword">exists</span> (<span class="keyword">select</span> * <span class="keyword">from</span> goods <span class="keyword">where</span> goods.cat_id=category.cat_id)</span><br><span class="line"><span class="comment">/* c此语句会将category表中的所有 cat_id 与进行查询 */</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="八、新手1-N查询-反例"><a href="#八、新手1-N查询-反例" class="headerlink" title="八、新手1+ N查询(反例)"></a>八、新手1+ N查询(反例)</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$sql = <span class="string">'select cat_id,shop_price from goods where shop_price&gt;2000'</span>;</span><br><span class="line">$rs = mysql_query($sql);</span><br><span class="line"></span><br><span class="line">$data = <span class="keyword">array</span>();</span><br><span class="line"><span class="keyword">while</span>() &#123;</span><br><span class="line">     $row...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$data = <span class="keyword">array</span>(<span class="number">7</span>条商品);</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span>($data in $goods) &#123;</span><br><span class="line">     $sql = <span class="string">'select cat_name from category where cat_id = $goods['</span>cat_id<span class="string">']'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>即: 一条语句—&gt;N条查询</strong></li>
+<li><strong>这种写法是非常低级的写法</strong></li>
+<li><strong>可以用<code>内联查询</code>解决这种问题</strong></li>
+</ul>
+<h2 id="九、内联查询"><a href="#九、内联查询" class="headerlink" title="九、内联查询"></a>九、内联查询</h2><p><strong>语法:</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> xxxx <span class="keyword">from</span></span><br><span class="line">     -&gt; table1 <span class="keyword">inner</span> <span class="keyword">join</span> table2 <span class="keyword">on</span> table1.xx=table2.xx;</span><br></pre></td></tr></table></figure></p>
+<p>有这样两张表:(假如说boy与girl表中hid匹配上的用户就是搭档关系)<br><img src="https://upload-images.jianshu.io/upload_images/13687958-a8b0ec05231d4b90.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="boy and girl"><br>要求: 将这两张表hid相同的人(name)组合起来(输出所有搭档组合)<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> boy.hid,boy.bname,girl.hid,boy.gname</span><br><span class="line">     -&gt; <span class="keyword">from</span></span><br><span class="line">     -&gt; boy <span class="keyword">inner</span> <span class="keyword">join</span> girl </span><br><span class="line">     -&gt; <span class="keyword">on</span> boy.hid=girl.hid;</span><br></pre></td></tr></table></figure></p>
+<p><strong>输出结果:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-b2fffa14439af314.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="输出结果"></p>
+<h2 id="十、左连接及右连接查询"><a href="#十、左连接及右连接查询" class="headerlink" title="十、左连接及右连接查询"></a>十、左连接及右连接查询</h2><blockquote>
+<ul>
+<li>理解:还是上面的例子。输出所有boy，有搭档girl匹配显示上，没有搭档就显示为NULL</li>
+<li>左连接即以左边数据为准查询右边数据，查不到补NULL</li>
+</ul>
+</blockquote>
+<p><strong>(1).左连接:</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> boy.hid,boy.bname,girl.hid,boy.gname</span><br><span class="line">     -&gt; <span class="keyword">from</span></span><br><span class="line">     -&gt; boy <span class="keyword">left</span> <span class="keyword">join</span> girl</span><br><span class="line">     -&gt; <span class="keyword">on</span> boy.hid=girl.hid;</span><br></pre></td></tr></table></figure></p>
+<p><strong>左连接查询结果:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-f20b44990ae92d34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="左连接查询结果"><br><strong>(2).右连接</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> boy.hid,boy.bname,girl.hid,boy.gname</span><br><span class="line">     -&gt; <span class="keyword">from</span></span><br><span class="line">     -&gt; boy <span class="keyword">right</span> <span class="keyword">join</span> girl</span><br><span class="line">     -&gt; <span class="keyword">on</span> boy.hid=girl.hid;</span><br></pre></td></tr></table></figure></p>
+<p><strong>右连接查询结果:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-4b687a9c2d82f2ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="右连接查询结果"><br><strong>(3).练习:查询所有商品的商品名，栏目名，价格</strong><br>注: 栏目名在另外一张表中，因此要进行连接查询<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> goods_id,cat_name,goods.cat_id,shop_price</span><br><span class="line">     -&gt; <span class="keyword">from</span></span><br><span class="line">     -&gt; goods <span class="keyword">left</span> <span class="keyword">join</span> <span class="keyword">category</span> <span class="keyword">on</span> goods.cat_id=category.cat_id;</span><br></pre></td></tr></table></figure></p>
+<p><strong>(4).练习:查询所有第四栏目下所有商品的商品名，栏目名，价格</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> goods_id,cat_name,goods.cat_id,shop_price</span><br><span class="line">     -&gt; <span class="keyword">from</span></span><br><span class="line">     -&gt; goods <span class="keyword">left</span> <span class="keyword">join</span> <span class="keyword">category</span> <span class="keyword">on</span> goods.cat_id=category.cat_id</span><br><span class="line">     -&gt; <span class="keyword">where</span> goods.cat_id=<span class="number">4</span>;</span><br></pre></td></tr></table></figure></p>
+<p><strong>(5).一道面试题</strong><br>有如下两张表:<br><img src="https://upload-images.jianshu.io/upload_images/13687958-528fdb453f51fa7f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="两张表结构"></p>
+<blockquote>
+<ul>
+<li>Match的hosteamID与guestTeamID都与Team中的teamID关联</li>
+<li>题目: 查出2006-6-1到2006-7-1之间举行的所有比赛，并且用以下形式列出:<br>拜仁 2：0  不来梅   2006-6-21</li>
+</ul>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">mid</span>,t1.tname <span class="keyword">as</span> hname,mres,t2.tname <span class="keyword">as</span> gteam,matime</span><br><span class="line">     -&gt; <span class="keyword">from</span></span><br><span class="line">     -&gt; m <span class="keyword">inner</span> <span class="keyword">join</span> t <span class="keyword">as</span> t1 <span class="keyword">on</span> m.hid=t1.tid <span class="keyword">inner</span> <span class="keyword">join</span> t <span class="keyword">as</span> t2 <span class="keyword">on</span> m.gid=t2.tid</span><br><span class="line">     -&gt; <span class="keyword">where</span> matime <span class="keyword">between</span> <span class="string">'2006-06-01'</span> <span class="keyword">and</span> <span class="string">'2006-07-01'</span>;</span><br></pre></td></tr></table></figure>
+<p><strong>查询结果:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-309f92e7acb85893.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="查询结果"></p>
+<h2 id="十一、union查询"><a href="#十一、union查询" class="headerlink" title="十一、union查询"></a>十一、union查询</h2><blockquote>
+<p>使用场景: 2条语句，各自的where条件非常复杂，可以简化成简单条件，再union</p>
+</blockquote>
+<p><strong>例:找出年龄(age)为18和20的用户</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> age=<span class="number">18</span></span><br><span class="line">     -&gt; <span class="keyword">union</span></span><br><span class="line">     -&gt; <span class="keyword">select</span> <span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> age=<span class="number">20</span>;</span><br><span class="line">``` </span><br><span class="line">&gt; - union语句必须满足一个条件:各语句取出的列数相同</span><br><span class="line">&gt; - 列名称不一定要相等，列名称会使用第一条sql的列名为准</span><br><span class="line">&gt; - `注意: 使用union时，完全相等的行将会被合并。`</span><br><span class="line">&gt; `并且: 合并是比较耗时的操作。使用'union all'避免合并`</span><br><span class="line">&gt; union的子句中，不用谢order by。sql语句合并后得到的结果可以oeder by。</span><br><span class="line"></span><br><span class="line">**例题:**</span><br><span class="line">有如下两张表，将两张表中的数num加起来。</span><br><span class="line">![image.png](https://upload-images.jianshu.io/upload_images/13687958-ceade2eb619a7fcc.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)</span><br><span class="line">``` sql</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">id</span>,<span class="keyword">sum</span>(<span class="keyword">num</span>)</span><br><span class="line">     -&gt; <span class="keyword">from</span></span><br><span class="line">     -&gt; (<span class="keyword">select</span> * <span class="keyword">from</span> a</span><br><span class="line">     -&gt; <span class="keyword">union</span> <span class="keyword">all</span></span><br><span class="line">     -&gt; <span class="keyword">select</span> * <span class="keyword">from</span> b) <span class="keyword">as</span> tmp</span><br><span class="line">     -&gt; <span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">id</span>;</span><br></pre></td></tr></table></figure></p>
+<h2 id="十二、查询练习"><a href="#十二、查询练习" class="headerlink" title="十二、查询练习"></a>十二、查询练习</h2><h3 id="user表中的数据-练习用"><a href="#user表中的数据-练习用" class="headerlink" title="user表中的数据(练习用):"></a>user表中的数据(练习用):</h3><p><img src="https://upload-images.jianshu.io/upload_images/13687958-225aa240e9b01f57.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png"></p>
+<h3 id="1-基础查询-where-的练习"><a href="#1-基础查询-where-的练习" class="headerlink" title="1.基础查询 where 的练习"></a>1.基础查询 where 的练习</h3><p><strong>查询满足以下条件的商品:</strong></p>
+<h4 id="1-1-主键为-3-的用户"><a href="#1-1-主键为-3-的用户" class="headerlink" title="1.1.主键为 3 的用户"></a>1.1.主键为 3 的用户</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="1-2-年龄不是-19-的用户"><a href="#1-2-年龄不是-19-的用户" class="headerlink" title="1.2.年龄不是 19 的用户"></a>1.2.年龄不是 19 的用户</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. <span class="keyword">select</span> <span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> age!=<span class="number">19</span>;</span><br><span class="line">2. <span class="keyword">select</span> <span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> age&lt;&gt;<span class="number">19</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="1-3-年龄大于19的用户"><a href="#1-3-年龄大于19的用户" class="headerlink" title="1.3.年龄大于19的用户"></a>1.3.年龄大于19的用户</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> age&gt;<span class="number">19</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="1-4-年龄低于或等于19的用户"><a href="#1-4-年龄低于或等于19的用户" class="headerlink" title="1.4.年龄低于或等于19的用户"></a>1.4.年龄低于或等于19的用户</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> age&lt;=<span class="number">19</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="1-5-年龄为19或20的用户-不许用or"><a href="#1-5-年龄为19或20的用户-不许用or" class="headerlink" title="1.5.年龄为19或20的用户(不许用or)"></a>1.5.年龄为19或20的用户(不许用or)</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*  1. select * from user where age=19 or age=20; */</span></span><br><span class="line">2. <span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> age=<span class="number">19</span> || age=<span class="number">20</span>;</span><br><span class="line">3. <span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> age <span class="keyword">in</span> (<span class="number">19</span>,<span class="number">20</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="1-6-找出18-lt-年龄-lt-19的用户-不许用and"><a href="#1-6-找出18-lt-年龄-lt-19的用户-不许用and" class="headerlink" title="1.6.找出18&lt;=年龄&lt;=19的用户(不许用and)"></a>1.6.找出18&lt;=年龄&lt;=19的用户(不许用and)</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 1. select name,age from user where age&gt;=18 and age&lt;=19; */</span></span><br><span class="line">2. <span class="keyword">select</span> <span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> age <span class="keyword">between</span> <span class="number">18</span> <span class="keyword">and</span> <span class="number">19</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="1-7-找出年龄不是18且不是19的用户-and或not-in分别实现"><a href="#1-7-找出年龄不是18且不是19的用户-and或not-in分别实现" class="headerlink" title="1.7.找出年龄不是18且不是19的用户(and或not in分别实现)"></a>1.7.找出年龄不是18且不是19的用户(and或not in分别实现)</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. <span class="keyword">select</span> <span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> age!=<span class="number">18</span> <span class="keyword">and</span> age!=<span class="number">19</span>;</span><br><span class="line">2. <span class="keyword">select</span> <span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> age <span class="keyword">not</span> <span class="keyword">in</span> (<span class="number">18</span>,<span class="number">19</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="1-8-找出年龄大于17且小于19，或者年龄大于20小于22的用户"><a href="#1-8-找出年龄大于17且小于19，或者年龄大于20小于22的用户" class="headerlink" title="1.8.找出年龄大于17且小于19，或者年龄大于20小于22的用户"></a>1.8.找出年龄大于17且小于19，或者年龄大于20小于22的用户</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> (age&gt;<span class="number">17</span> <span class="keyword">and</span> age&lt;<span class="number">19</span>) <span class="keyword">or</span> (age&gt;<span class="number">20</span> <span class="keyword">and</span> age&lt;<span class="number">22</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="1-9-找出年龄为19岁并且id-lt-2或-gt-4-并且name为’zk’的用户"><a href="#1-9-找出年龄为19岁并且id-lt-2或-gt-4-并且name为’zk’的用户" class="headerlink" title="1.9.找出年龄为19岁并且id&lt;2或&gt;4,并且name为’zk’的用户"></a>1.9.找出年龄为19岁并且id&lt;2或&gt;4,并且name为’zk’的用户</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> </span><br><span class="line">     <span class="keyword">where</span> age=<span class="number">19</span> <span class="keyword">and</span> (<span class="keyword">id</span>&lt;<span class="number">2</span> <span class="keyword">or</span> <span class="keyword">id</span>&gt;<span class="number">4</span>) <span class="keyword">and</span> <span class="keyword">name</span>=<span class="string">'zk'</span>;</span><br><span class="line"><span class="comment">/* 括号是必要的，因为不加括号就会使and先执行 */</span></span><br></pre></td></tr></table></figure>
+<h4 id="1-10-找出name为’zk’的用户"><a href="#1-10-找出name为’zk’的用户" class="headerlink" title="1.10.找出name为’zk’的用户"></a>1.10.找出name为’zk’的用户</h4><p>(注意:不存在’zk’在这个用户，但是他有两个儿子。此处假设有father这个表项)<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">in</span> (<span class="string">'zk1'</span>,<span class="string">'zk2'</span>);</span><br></pre></td></tr></table></figure></p>
+<h4 id="1-11-找出name以’w’开头的用户"><a href="#1-11-找出name以’w’开头的用户" class="headerlink" title="1.11.找出name以’w’开头的用户"></a>1.11.找出name以’w’开头的用户</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. <span class="keyword">select</span> <span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'w%'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 匹配以name'w'开头并且后面有两个任以字符的用户 */</span></span><br><span class="line">2. <span class="keyword">select</span> <span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'w__'</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="1-12-找出年龄在18到20之间，并且id-gt-3-name以’z’开头的用户"><a href="#1-12-找出年龄在18到20之间，并且id-gt-3-name以’z’开头的用户" class="headerlink" title="1.12.找出年龄在18到20之间，并且id&gt;3,name以’z’开头的用户"></a>1.12.找出年龄在18到20之间，并且id&gt;3,name以’z’开头的用户</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1. <span class="keyword">select</span> <span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> age&gt;<span class="number">18</span> <span class="keyword">and</span> age&lt;<span class="number">20</span> <span class="keyword">and</span> <span class="keyword">id</span>&gt;<span class="number">3</span> <span class="keyword">and</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'z%'</span>;</span><br><span class="line">2. <span class="keyword">select</span> <span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> age <span class="keyword">between</span> <span class="number">18</span> <span class="keyword">and</span> <span class="number">20</span> <span class="keyword">and</span> <span class="keyword">id</span>&gt;<span class="number">3</span> <span class="keyword">and</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'z%'</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="2-一道面试题"><a href="#2-一道面试题" class="headerlink" title="2.一道面试题"></a>2.一道面试题</h3><blockquote>
+<p>有如下表(girl)和数组<br>把num处于[20，29]之间的数值改为20<br>把num处于[30，39]之间的数值改为30，</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>num</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3</td>
+<td></td>
+</tr>
+<tr>
+<td>12</td>
+<td></td>
+</tr>
+<tr>
+<td>15</td>
+<td></td>
+</tr>
+<tr>
+<td>25</td>
+<td></td>
+</tr>
+<tr>
+<td>23</td>
+<td></td>
+</tr>
+<tr>
+<td>29</td>
+<td></td>
+</tr>
+<tr>
+<td>34</td>
+<td></td>
+</tr>
+<tr>
+<td>37</td>
+<td></td>
+</tr>
+<tr>
+<td>32</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> girl <span class="keyword">set</span> <span class="keyword">num</span>=<span class="keyword">floor</span>(<span class="keyword">num</span>/<span class="number">10</span>)*<span class="number">10</span> <span class="keyword">where</span> <span class="keyword">num</span> <span class="keyword">between</span> <span class="number">20</span>,<span class="number">30</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="3-练习题"><a href="#3-练习题" class="headerlink" title="3.练习题"></a>3.练习题</h3><blockquote>
+<p>把user表中用户名为’慕容xxxx’的用户，改为’诸葛xxxx’<br>提示: 大胆的把列看成变量，参与运算，甚至调用函数来处理。<br>substring(), concat()<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> <span class="keyword">name</span>=<span class="keyword">concat</span>(<span class="string">'诸葛'</span>,<span class="keyword">substring</span>(<span class="keyword">name</span>,<span class="number">3</span>)) <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">like</span> <span class="string">'慕容____'</span>;</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<p><strong>友情链接:</strong></p>
+<blockquote>
+<p><a href="https://www.jianshu.com/p/dbb98595da53" target="_blank" rel="noopener">MySQL基础教程全网最全1(基本指令操作)</a><br><a href="https://www.jianshu.com/p/9122020759d5" target="_blank" rel="noopener">MySQL基础教程3-DDL(创建表)</a><br><a href="https://www.jianshu.com/p/979c9843101a" target="_blank" rel="noopener">MySQL基础教程4-细节知识点</a></p>
+</blockquote>
+<p><strong>文集推荐:</strong></p>
+<blockquote>
+<p><a href="https://www.jianshu.com/nb/35411761" target="_blank" rel="noopener">Java基础方法集1</a><br><a href="https://www.jianshu.com/nb/35412583" target="_blank" rel="noopener">Python基础知识完整版</a><br><a href="https://www.jianshu.com/nb/35490047" target="_blank" rel="noopener">Spring Boot学习笔记</a><br><a href="https://www.jianshu.com/nb/35411158" target="_blank" rel="noopener">Linux指令进阶</a><br><a href="https://www.jianshu.com/nb/35701647" target="_blank" rel="noopener">Java高并发编程</a><br><a href="https://www.jianshu.com/nb/36348245" target="_blank" rel="noopener">SpringMVC基础知识进阶</a><br><a href="https://www.jianshu.com/nb/36768953" target="_blank" rel="noopener">Mysql基础知识完整版</a><br><a href="https://www.jianshu.com/nb/36626677" target="_blank" rel="noopener">健康管理系统学习花絮(学习记录)</a><br><a href="https://www.jianshu.com/nb/36852271" target="_blank" rel="noopener">Node.js基础知识(随手笔记)</a><br><a href="https://www.jianshu.com/nb/36850994" target="_blank" rel="noopener">MongoDB基础知识</a><br><a href="https://www.jianshu.com/nb/36474207" target="_blank" rel="noopener">Dubbo学习笔记</a><br><a href="https://www.jianshu.com/nb/35411638" target="_blank" rel="noopener">Vue学习笔记(随手笔记)</a></p>
+</blockquote>
+<blockquote>
+<p>声明：发表此文是出于传递更多信息之目的。若有来源标注错误或侵犯了您的合法权益，请作者持权属证明与本我们(QQ:981086665；邮箱:<a href="mailto:981086665@qq.com" target="_blank" rel="noopener">981086665@qq.com</a>)联系联系，我们将及时更正、删除，谢谢。</p>
+</blockquote>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/08/07/MySQL基础教程3-DDL-创建表/" class="pre-post btn btn-default" title="MySQL基础教程3-DDL(创建表)">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">MySQL基础教程3-DDL(创建表)</span>
+        </a>
+    
+    
+        <a href="/2019/08/07/MySQL基础教程1-DML-基本指令/" class="next-post btn btn-default" title="MySQL基础教程1-DML(基本指令)">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">MySQL基础教程1-DML(基本指令)</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#select查询"><span class="toc-text">select查询</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#序、简单查询事项"><span class="toc-text">序、简单查询事项</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#一、group分组与统计函数"><span class="toc-text">一、group分组与统计函数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#根据年龄分组计算id的平均值"><span class="toc-text">根据年龄分组计算id的平均值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询每个年龄下的用户的数量"><span class="toc-text">查询每个年龄下的用户的数量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询每个年龄下-id-最高的用户"><span class="toc-text">查询每个年龄下 id 最高的用户</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、having筛选"><span class="toc-text">二、having筛选</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-查询age-id-gt-15的用户"><span class="toc-text">(1).查询age-id&gt;15的用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-where-having-group综合练习题"><span class="toc-text">(2).where-having-group综合练习题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、order-by排序"><span class="toc-text">三、order by排序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、limit语法"><span class="toc-text">四、limit语法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、where型子查询"><span class="toc-text">五、where型子查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六、from型子查询"><span class="toc-text">六、from型子查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#七、exists型子查询"><span class="toc-text">七、exists型子查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#八、新手1-N查询-反例"><span class="toc-text">八、新手1+ N查询(反例)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#九、内联查询"><span class="toc-text">九、内联查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#十、左连接及右连接查询"><span class="toc-text">十、左连接及右连接查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#十一、union查询"><span class="toc-text">十一、union查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#十二、查询练习"><span class="toc-text">十二、查询练习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#user表中的数据-练习用"><span class="toc-text">user表中的数据(练习用):</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-基础查询-where-的练习"><span class="toc-text">1.基础查询 where 的练习</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-1-主键为-3-的用户"><span class="toc-text">1.1.主键为 3 的用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-2-年龄不是-19-的用户"><span class="toc-text">1.2.年龄不是 19 的用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-3-年龄大于19的用户"><span class="toc-text">1.3.年龄大于19的用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-4-年龄低于或等于19的用户"><span class="toc-text">1.4.年龄低于或等于19的用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-5-年龄为19或20的用户-不许用or"><span class="toc-text">1.5.年龄为19或20的用户(不许用or)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-6-找出18-lt-年龄-lt-19的用户-不许用and"><span class="toc-text">1.6.找出18&lt;=年龄&lt;=19的用户(不许用and)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-7-找出年龄不是18且不是19的用户-and或not-in分别实现"><span class="toc-text">1.7.找出年龄不是18且不是19的用户(and或not in分别实现)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-8-找出年龄大于17且小于19，或者年龄大于20小于22的用户"><span class="toc-text">1.8.找出年龄大于17且小于19，或者年龄大于20小于22的用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-9-找出年龄为19岁并且id-lt-2或-gt-4-并且name为’zk’的用户"><span class="toc-text">1.9.找出年龄为19岁并且id&lt;2或&gt;4,并且name为’zk’的用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-10-找出name为’zk’的用户"><span class="toc-text">1.10.找出name为’zk’的用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-11-找出name以’w’开头的用户"><span class="toc-text">1.11.找出name以’w’开头的用户</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-12-找出年龄在18到20之间，并且id-gt-3-name以’z’开头的用户"><span class="toc-text">1.12.找出年龄在18到20之间，并且id&gt;3,name以’z’开头的用户</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-一道面试题"><span class="toc-text">2.一道面试题</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-练习题"><span class="toc-text">3.练习题</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="/assets/tagcanvas.min.js?rev=2.9"></script>
+    <script>
+        var tagOption = {
+            textColour: '#444', // 字体颜色
+            outlineMethod: 'block', // 选中模式
+            outlineColour: '#FFDAB9', // 选中模式的颜色
+            interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+            textHeight: 13,
+            outlineRadius: 3,
+            freezeActive: true || '', // 选中的标签是否继续滚动
+            frontSelect: true || '', // 不选标签云后部的标签
+            initial: [0.1, -0.1],
+            depth: 0.5,
+            decel: 0.95,
+            maxSpeed: 0.03,
+            reverse: true || '', // 是否反向触发
+            fadeIn: 500, // 进入动画时间
+            wheelZoom: false || '' // 是否启用鼠标滚轮
+        }
+        TagCanvas.Start('tag-cloud-3d','',tagOption);
+    </script>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

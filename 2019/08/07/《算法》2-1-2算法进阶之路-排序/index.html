@@ -1,0 +1,630 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="南国猫觅海的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="https://wss981086665.github.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="算法,数据结构">
+
+
+    <meta name="description" content="二、排序排序算法类的模板
+大多数情况下，我们所实现的排序算法只会通过两个方法操作数据：less()方法对元素进行比较，exch()方法将元素交换位置。exch()方法的实现很简单，通过Compa...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>《算法》2.1~2算法进阶之路-排序 | 南国猫觅海的个人博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="南国猫觅海的个人博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/websiteicon.png">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="南国猫觅海">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 最怕一生碌碌无为-还说平凡难能可贵 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://wss981086665.github.com">南国猫觅海的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Java/"><i class="fa "></i>Java</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Python/"><i class="fa "></i>Python</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Spring-Boot/"><i class="fa "></i>Spring Boot</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Linux/"><i class="fa "></i>Linux</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/about/index.html"><i class="fa "></i>关于</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="《算法》2.1~2算法进阶之路-排序">
+            
+	            《算法》2.1~2算法进阶之路-排序
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/算法/">算法</a> <a class="category-link" href="/categories/算法/数据结构/">数据结构</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/数据结构/">数据结构</a> <a class="tag-link" href="/tags/算法/">算法</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/08/07</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="二、排序"><a href="#二、排序" class="headerlink" title="二、排序"></a>二、排序</h2><h3 id="排序算法类的模板"><a href="#排序算法类的模板" class="headerlink" title="排序算法类的模板"></a>排序算法类的模板</h3><ul>
+<li>大多数情况下，我们所实现的排序算法只会通过两个方法操作数据：<strong><code>less()方法</code></strong>对元素进行比较，<strong><code>exch()方法</code></strong>将元素交换位置。exch()方法的实现很简单，通过<strong><code>Comparable接口</code></strong>实现less()方法也不困难。<strong><code>sort()方法</code></strong>非常重要，它决定着算法执行所需要的时间，不同的算法对sort()有不同的实现，sort()方法将是我们本节讨论的重点。</li>
+<li><strong><code>注意:</code></strong>相信<strong><code>Comparable接口</code></strong>对大部分学习<strong><code>Java</code></strong>的读者并不陌生。如果你从没有学习过Java，那么在学习这一章之前，你应该对Comparable接口有一定的学习与了解并且能使用Comparable接口构建类。在排序算法类的模板代码后面我会列出一个Comparable接口的使用示例。</li>
+</ul>
+<p><strong>示例代码:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Example</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span></span><br><span class="line"><span class="function">	</span>&#123; <span class="comment">/*具体算法具体实现*/</span> &#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">less</span><span class="params">(Comparable v, Comparable w)</span> </span></span><br><span class="line"><span class="function">	</span>&#123; <span class="keyword">return</span> v.compareTo(w) &lt; <span class="number">0</span>; &#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">exch</span><span class="params">(Comparable[] a, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span></span><br><span class="line"><span class="function">	</span>&#123; Comparable t = a[i]; a[i] = a[j]; a[j] = t;&#125;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">show</span><span class="params">(Comparable[] a)</span> </span></span><br><span class="line"><span class="function">	</span>&#123; <span class="comment">//在单行中打印数组</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;a.length; i++) </span><br><span class="line">			System.out.println(a[i] + <span class="string">" "</span>);</span><br><span class="line">		System.out.println();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isSorted</span><span class="params">(Comparable[] a)</span></span></span><br><span class="line"><span class="function">	</span>&#123; <span class="comment">//测试数组元素是否有序</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;a.length; i++)</span><br><span class="line">			<span class="keyword">if</span>(less(a[i], a[i-<span class="number">1</span>])) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span></span><br><span class="line"><span class="function">	</span>&#123; <span class="comment">//从标准输入读取字符串，将他们排序并输出</span></span><br><span class="line">		String[] a = &#123;<span class="string">"b"</span>,<span class="string">"a"</span>,<span class="string">"hello"</span>,<span class="string">"world"</span>,<span class="string">"you"</span>&#125;;</span><br><span class="line">		sort(a);</span><br><span class="line">		<span class="function"><span class="keyword">assert</span> <span class="title">isSorted</span><span class="params">(a)</span></span>;</span><br><span class="line">		show(a);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>Comparable接口使用示例：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">** Comparable: **</span><br><span class="line"><span class="comment">// 实现Comparable接口要覆盖compareTo方法, 在compareTo方法里面实现比较：</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> <span class="keyword">implements</span> <span class="title">Comparable</span> </span>&#123;</span><br><span class="line">     <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compareTo</span><span class="params">(Person that)</span> </span>&#123;</span><br><span class="line">          <span class="keyword">if</span>(<span class="keyword">this</span>.age &gt; that.age) <span class="keyword">return</span> +<span class="number">1</span>;</span><br><span class="line">          <span class="keyword">if</span>(<span class="keyword">this</span>.age &lt; that.age) <span class="keyword">return</span> -<span class="number">1</span>;</span><br><span class="line">          <span class="keyword">return</span> <span class="number">0</span>;                     <span class="comment">// 返回age的比较结果.</span></span><br><span class="line">     &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 这时我们可以直接用 Collections.sort( personList ) 对其排序了.</span></span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>我们由示例可以知道实现<strong><code>Comparable接口</code></strong>必须要覆盖<strong><code>compareTo方法</code></strong>，对对象进行排序的工作也基本是调用compareTo方法来完成的。我们接下来用<strong><code>v&gt;w</code></strong>来表示<strong><code>v.compareTo(w)&gt;0</code></strong>这样的代码。一般来说，如果Vv无法比较或者两者其中一个是null，v.compareTo(w)将会抛出一个异常。此外，compareTo()必须实现一个全序关系，即: <strong><code>自反性、反对称性、传递性</code></strong>。</li>
+</ul>
+<h3 id="1-选择排序"><a href="#1-选择排序" class="headerlink" title="1.选择排序"></a>1.选择排序</h3><ul>
+<li><strong><code>选择排序</code></strong>的原理非常简单: 首先找到数组中那个最小的元素，其次，将它和数组第一个元素交换位置（如果第一个元素就是最小的元素那么它就和自己交换）。再次，在剩下的元素中找出最小的元素，与数组第二个元素交换位置，以此类推，知道将整个数组排序。</li>
+</ul>
+<p><strong>示例代码:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Selection</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//将a[]按升序排序</span></span><br><span class="line">		<span class="keyword">int</span> N = a.length;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;N; i++) &#123;</span><br><span class="line">			<span class="comment">//将a[i]和a[i+1]中最小的元素进行交换</span></span><br><span class="line">			<span class="keyword">int</span> min = i;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=i+<span class="number">1</span>; j&lt;N; j++)</span><br><span class="line">				<span class="keyword">if</span>(less(a[j], a[min])) min = j;</span><br><span class="line">			exch(a, i ,min);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//less()、exch()、isSorted() 和 main()方法见“排序算法模板”</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>例图（初始序列：E A S Y Q U E S T I O N）:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-f8b5fd50c6f13c0c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="官网例图"></p>
+<ul>
+<li><strong>选择排序</strong>算法将是我们要了解的几个排序算法中效率最低的一个，因为它所需要消耗的时间复杂度总是平方级别的。</li>
+<li>选择排序有两个特点：<br>1.<strong>运行时间与输入无关</strong>：因为无论你输入的序列是否有序，选择排序算法都会使用相同的遍历路径，所用的排序时间也是相同的。<br>2.<strong>数据移动是最少的</strong>：每次交换都只会改变两个元素的值，不涉及元素移动。因此选择排序用了N次交换——交换次数和数组的大小是<strong>线性关系</strong>。我们将学习的其他算法都不具备这个特征（大部分的增长数量级都是线性对数或平方级别）</li>
+</ul>
+<h3 id="2-插入排序"><a href="#2-插入排序" class="headerlink" title="2.插入排序"></a>2.插入排序</h3><ul>
+<li>将元素插入到已经有序的元素中的适当位置。在计算机实现中，为了给要插入的数据腾出空间，我们需要将其余所有元素在插入之前都向后移动一位，这种算法叫做<strong><code>插入排序</code></strong></li>
+</ul>
+<p><strong>代码示例:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 实现方法一 */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Insertion</span> </span>&#123;	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//将a[]升序排列</span></span><br><span class="line">		<span class="keyword">int</span> N = a.length;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>; i&lt;N; i++) &#123;</span><br><span class="line">			<span class="comment">//将a[i]插入到a[i-1]、a[i-2]、a[i-3]...之中</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=i; j&gt;<span class="number">0</span> &amp;&amp; less(a[j],a[j-<span class="number">1</span>]); j--) &#123;</span><br><span class="line">				exch(a, j, j-<span class="number">1</span>);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">//less()、exch()、isSorted() 和 main()方法见“排序算法模板”</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 实现方法二 */</span></span><br><span class="line"><span class="comment">//实现较大元素右移一位只需要访问一次数组</span></span><br><span class="line"><span class="comment">//相当于把比它大的右移一位,然后空出来的那块就等于它,就是不使用less</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable [] a)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; a.length; i++) &#123;</span><br><span class="line">			Comparable temp=a[i];</span><br><span class="line">			<span class="keyword">int</span> j;</span><br><span class="line">			<span class="keyword">for</span> (j = i; j&gt;<span class="number">0</span> &amp;&amp; Example.less(temp, a[j-<span class="number">1</span>]) ; j--) </span><br><span class="line">				a[j]=a[j-<span class="number">1</span>];</span><br><span class="line">			a[j]=temp;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>对于1到N-1之间的每一个i，将a[i]与a[0]到a[i-1]中比它小的所有元素依次有序地交换。在索引i由左向右变化的过程中，它左侧的元素总是有序的，所以当i到达数组的右端时排序就完成了。其中得到的数组都是部分有序数组。下面是几种典型的部分有序的数组:<br>1.数组中每个元素距离它的最终位置都不远；<br>2.一个有序的大数组接一个小数组；<br>3.数组中只有几个元素的位置不正确；</li>
+<li>插入排序对这样的数组很有效，选择排序则不然。当倒置的数量很少时，插入排序很可能比本章中的其他任何算法都要快。</li>
+</ul>
+<h3 id="算法比较"><a href="#算法比较" class="headerlink" title="算法比较"></a>算法比较</h3><ul>
+<li><p>可以通过<strong><code>SortCompare类</code></strong>来检测（在下面给出）。他会使用由命令行参数指定的排序算法名称所对应的<strong><code>sort()方法</code></strong>进行指定次数的实验（将指定数组的大小排序），并打印出所观察到的各种算法的运行时间比例。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Random;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SortCompare</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">time</span><span class="params">(String alg, Double[] a)</span> </span>&#123;</span><br><span class="line">		Stopwatch timer = <span class="keyword">new</span> Stopwatch();</span><br><span class="line">		<span class="keyword">if</span>(alg.equals(<span class="string">"Insertion"</span>)) Insertion.sort(a);</span><br><span class="line">		<span class="keyword">if</span>(alg.equals(<span class="string">"Selection"</span>)) Selection.sort(a);</span><br><span class="line">		<span class="keyword">if</span>(alg.equals(<span class="string">"Shell"</span>)) Shell.sort(a);</span><br><span class="line">		<span class="keyword">if</span>(alg.equals(<span class="string">"Merge"</span>)) Merge.sort(a);</span><br><span class="line">		<span class="keyword">if</span>(alg.equals(<span class="string">"Quick"</span>)) Quick.sort(a);</span><br><span class="line">		<span class="keyword">if</span>(alg.equals(<span class="string">"Help"</span>)) Help.sort(a);</span><br><span class="line">		<span class="keyword">return</span> timer.elapsedTime();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">timeRandomInput</span><span class="params">(String alg, <span class="keyword">int</span> N, <span class="keyword">int</span> T)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//使用算法alg将T个长度为N的数组排序</span></span><br><span class="line">		<span class="keyword">double</span> total = <span class="number">0.0</span>;</span><br><span class="line">		Double[] a = <span class="keyword">new</span> Double[N];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> t=<span class="number">0</span>; t&lt;T; t++) &#123;</span><br><span class="line">			<span class="comment">//进行一次测试（生成一个数组并排序）</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;N; i++) </span><br><span class="line">				a[i] = <span class="keyword">new</span> Random().nextDouble();</span><br><span class="line">			total += time(alg, a);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> total;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		String alg1 = args[<span class="number">0</span>];</span><br><span class="line">		String alg2 = args[<span class="number">1</span>];</span><br><span class="line">		<span class="keyword">int</span> N = Integer.parseInt(args[<span class="number">2</span>]);</span><br><span class="line">		<span class="keyword">int</span> T = Integer.parseInt(args[<span class="number">3</span>]);</span><br><span class="line">		<span class="keyword">double</span> t1 = timeRandomInput(alg1, N, T);  <span class="comment">//算法1的总时间</span></span><br><span class="line">		<span class="keyword">double</span> t2 = timeRandomInput(alg2, N, T);  <span class="comment">//算法2的总时间</span></span><br><span class="line">		System.out.printf(<span class="string">"For %d random Doubles\n     %s is"</span>, N, alg1);</span><br><span class="line">		System.out.printf(<span class="string">" %.1f times faster than %s\n"</span>, t2/t1, alg2);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>这个用例会运行由前两个命令行参数指定的排序算法，对长度为N（由第三个参数指定）的Double型随机数组进行排序，重复T次（由第四个参数指定），然后输出总运行时间的比例。</p>
+</li>
+</ul>
+<h3 id="3-希尔排序"><a href="#3-希尔排序" class="headerlink" title="3.希尔排序"></a>3.希尔排序</h3><ul>
+<li>希尔排序为了加快速度简单地改进了插入排序，交换不相邻的元素以对数组的局部进行排序，并最终用插入排序将局部有序的数组排序。</li>
+<li>希尔排序的思想是使数组中任意间隔为<strong><code>h</code></strong>的元素都是有序的。这样的数组被称为<strong><code>h有序数组</code></strong>。一个h有序数组相当于h个互相独立的有序数组交叉编制在一起组成的一个数组。</li>
+<li>想了解更多？由于文本与精力有限，敬请读者自行百度查找。</li>
+</ul>
+<p><strong>实现:</strong></p>
+<ul>
+<li>实现希尔排序的一种方法是对于每个h，用插入排序将h个子数组独立地排序。但因为子数组是相互独立的，一个更简单的方法是在h个子数组中将每个元素交换到比它大的元素之前去（将比它大的元素向右移动一格），这一步其实很像是插入排序。</li>
+<li>只需要在插入排序的代码中将移动元素的距离由1改成h即可。这样希尔排序的实现就转化为了一个类似于插入排序但使用不同增量的过程。</li>
+</ul>
+<p><strong>示例代码:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Shell</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//将a[]按升序排序</span></span><br><span class="line">		<span class="keyword">int</span> N = a.length;</span><br><span class="line">		<span class="keyword">int</span> h = <span class="number">1</span>;</span><br><span class="line">		<span class="keyword">while</span>(h &lt; N/<span class="number">3</span>) h = <span class="number">3</span>*h + <span class="number">1</span>;  <span class="comment">//1,4,13,40,121,364,1093,...</span></span><br><span class="line">		<span class="keyword">while</span>(h &gt;= <span class="number">1</span>) &#123;</span><br><span class="line">			<span class="comment">//将数组变为h有序</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=h; i&lt;N; i++) &#123;</span><br><span class="line">				<span class="comment">//将a[i]插入到a[i-h],a[i-2*h],a[i-3*h]...之中</span></span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> j=i; j&gt;=h &amp;&amp; less(a[j], a[j-h]); j-=h) &#123;</span><br><span class="line">					exch(a, j, j-h);</span><br><span class="line">				&#125;</span><br><span class="line">				h = h/<span class="number">3</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//less()、exch()、isSorted() 和 main()方法见“排序算法模板”</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>可以看到，我们在插入排序中加入一个外循环来将h按照递增序列递减，我们就能得到这个简洁的希尔排序。</li>
+</ul>
+<p><strong>例图（初始序列：S H E L L S O R T E X A M P L E）:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-d04031f4ab3ffd11.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="官网例图"></p>
+<h3 id="例题2-1-14"><a href="#例题2-1-14" class="headerlink" title="例题2.1.14"></a>例题2.1.14</h3><blockquote>
+<p><strong>出列排序</strong>。说说你会如何将一副扑克牌排序，限制条件是只能查看最上面的两张牌，交换最上面的两张牌，或是将最上面的一张牌放到这摞牌的最底下。</p>
+</blockquote>
+<p><strong>代码示例（仅供参考）：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* Author: wss</span></span><br><span class="line"><span class="comment">* Time: 2019/5/29 17:42</span></span><br><span class="line"><span class="comment">* IDE: MyEclipse</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">a2_1_14_Test</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">/*</span></span><br><span class="line"><span class="comment">		 * 第一步：执行n-1次a[n-1]与a[n-2]的比较之后，数组中最大的数就会保存在a[n-1]中。将a[n-1]放入最底部</span></span><br><span class="line"><span class="comment">		 * 第二步：执行n-2次a[n-1]与a[n-2]的比较之后，数组中第二大的数就会保存在a[n-1]中，此时最大的数保存在a[n-2]中。将顶部的两个数据依次放入最底部</span></span><br><span class="line"><span class="comment">		 * ... ：以此类推，知道执行n-1次以上类似操作之后</span></span><br><span class="line"><span class="comment">		 */</span></span><br><span class="line">		</span><br><span class="line">		a2_1_14_Test test = <span class="keyword">new</span> a2_1_14_Test();</span><br><span class="line">		<span class="keyword">int</span>[] a = &#123;<span class="number">3</span>,<span class="number">9</span>,<span class="number">1</span>,<span class="number">7</span>,<span class="number">6</span>,<span class="number">4</span>,<span class="number">0</span>,<span class="number">8</span>,<span class="number">2</span>,<span class="number">5</span>&#125;;    <span class="comment">//假设下标8和9是最上面两层，0是最下面一层</span></span><br><span class="line">		a = test.sort(a);</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;a.length; i++) &#123;</span><br><span class="line">			System.out.println(a[i]);</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">    <span class="comment">// 核心代码</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>[] sort(<span class="keyword">int</span>[] a) &#123;</span><br><span class="line">		<span class="keyword">int</span> m = <span class="number">1</span>;              <span class="comment">//已经有序的元素数量</span></span><br><span class="line">		<span class="keyword">int</span> n = a.length;</span><br><span class="line">		<span class="keyword">while</span>(m &lt;= n) &#123;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;n-m; i++) &#123;</span><br><span class="line">				<span class="keyword">if</span>(a[n-<span class="number">1</span>] &gt; a[n-<span class="number">2</span>])</span><br><span class="line">					exch(a, n-<span class="number">1</span>, n-<span class="number">2</span>);</span><br><span class="line">				topToLast(a);   <span class="comment">//顶部数据放入底部</span></span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;m; i++)</span><br><span class="line">				topToLast(a);   </span><br><span class="line">			m++;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> a;</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">topToLast</span><span class="params">(<span class="keyword">int</span>[] a)</span> </span>&#123;</span><br><span class="line">    	<span class="keyword">int</span> m = a.length;</span><br><span class="line">    	<span class="keyword">for</span>(<span class="keyword">int</span> i=m-<span class="number">1</span>; i&gt;<span class="number">0</span>; i--) &#123;</span><br><span class="line">    		exch(a, i, i-<span class="number">1</span>);</span><br><span class="line">    	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">exch</span><span class="params">(<span class="keyword">int</span>[] a, <span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> t = a[i];</span><br><span class="line">		a[i] = a[j];</span><br><span class="line">		a[j] = t;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"> <span class="comment">//less()、exch()、isSorted() 和 show()方法见“排序算法模板”</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="4-归并排序"><a href="#4-归并排序" class="headerlink" title="4.归并排序"></a>4.归并排序</h3><ul>
+<li>归并：将两个有序的数组归并成一个更大的有序数组。人们为这个操作发明的一种简单的递归排序算法：<strong><code>归并排序</code></strong></li>
+<li>要将一个数组排序，可以先（递归地）将它分为两半分别排序，然后将结果归并起来。</li>
+<li>优点：它能够保证将任意长度为N的数组排序所需的时间和<strong><code>NlogN</code></strong>成正比。</li>
+<li>主要缺点：它所需的额外空间和N成正比。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-14ab2f3207357230.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="归并排序示意图"></p>
+<h4 id="4-1-原地归并的抽象方法"><a href="#4-1-原地归并的抽象方法" class="headerlink" title="4.1.原地归并的抽象方法"></a>4.1.原地归并的抽象方法</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(Comparable[] a, <span class="keyword">int</span> lo, <span class="keyword">int</span> mid, <span class="keyword">int</span> hi)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//将a[lo..mid]和 a[mid+1..hi]归并</span></span><br><span class="line">	<span class="keyword">int</span> i = lo,j = mid+<span class="number">1</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k=lo; k&lt;=hi; k++)  <span class="comment">//将a[lo..hi]复制到aux[lo..hi]</span></span><br><span class="line">		aux[k] = a[k];</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> k=lo; k&lt;=hi; k++)  <span class="comment">//归并回到a[lo..hi]</span></span><br><span class="line">		<span class="keyword">if</span>     (i &gt; mid)              a[k] = aux[j++];</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(j &gt; hi)               a[k] = aux[i++];</span><br><span class="line">		<span class="keyword">else</span> <span class="keyword">if</span>(less(aux[j], aux[i])) a[k] = aux[j++];</span><br><span class="line">		<span class="keyword">else</span>                          a[k] = aux[i++];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>该方法先将所有元素复制到<strong><code>aux[]</code></strong>中，然后再归并回a[]中，方法在归并时（第二个for循环）进行了四个判断：左半边用尽（取右半边元素）、右半边用尽（取左半边元素）、右半边当前元素小于左半边的当前元素（取右半边元素）、左半边当前元素小于右半边的当前元素（取左半边元素）。</li>
+</ul>
+<h4 id="4-2-自顶向下的归并排序"><a href="#4-2-自顶向下的归并排序" class="headerlink" title="4.2.自顶向下的归并排序"></a>4.2.自顶向下的归并排序</h4><ul>
+<li>这是一个基于<strong><code>原地归并的抽象</code></strong>实现的另一种<strong><code>递归归并</code></strong>，这也是应用高效算法设计中<strong><code>分治思想</code></strong>的最典型的一个例子。这段递归代码是归纳证明算法能够正确地将数组排序的基础：如果它能将两个子数组排序，它就能通过归并两个子数组来将整个数组排序。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Merge</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Comparable[] aux;  <span class="comment">//归并所需的辅助数组</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">		aux = <span class="keyword">new</span> Comparable[a.length];  <span class="comment">//一次性分配空间</span></span><br><span class="line">		sort(a, <span class="number">0</span>, a.length-<span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a, <span class="keyword">int</span> lo, <span class="keyword">int</span> hi)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//将数组a[lo..hi]排序</span></span><br><span class="line">		<span class="keyword">if</span>(hi &lt;= lo) <span class="keyword">return</span>;</span><br><span class="line">		<span class="keyword">int</span> mid = lo + (hi - lo)/<span class="number">2</span>;</span><br><span class="line">		sort(a, lo, mid);      <span class="comment">//将左半边排序</span></span><br><span class="line">		sort(a, mid+<span class="number">1</span>, hi);    <span class="comment">//将右半边排序</span></span><br><span class="line">		merge(a, lo, mid, hi); <span class="comment">//归并结果（代码见“原地归并的抽象方法”）</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>要对子数组a[lo..hi]进行排序，先将它分为a[lo..mid]和a[mid+1..hi]两部分，分别通过递归调用将它们单独排序，最后将有序的子数组归并为最终的排序结果。</li>
+</ul>
+<h4 id="4-2-自底向上的归并排序"><a href="#4-2-自底向上的归并排序" class="headerlink" title="4.2.自底向上的归并排序"></a>4.2.自底向上的归并排序</h4><ul>
+<li>实现递归排序的另一种算法是先归并那些微型数组，然后再成对归并得到的子数组。直至我们将整个数组归并在一起。这种实现方法比标准递归方法所需要的代码量更少。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MergeBU</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> Comparable[] aux; <span class="comment">//归并所需的辅助数组 name()</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span></span>&#123;</span><br><span class="line">		<span class="comment">//进行lgN次两两归并</span></span><br><span class="line">		<span class="keyword">int</span> N = a.length;</span><br><span class="line">		aux = <span class="keyword">new</span> Comparable[N];       <span class="comment">//sz子数组大小</span></span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> sz=<span class="number">1</span>; sz&lt;N; sz=sz+sz)  <span class="comment">//lo: 子数组索引</span></span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> lo=<span class="number">0</span>; lo&lt;N-sz; lo+=sz+sz)</span><br><span class="line">				merge(a, lo, lo+sz-<span class="number">1</span>, Math.min(lo+sz+sz-<span class="number">1</span>, N-<span class="number">1</span>));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>自底向上的归并排序会多次遍历整个数组，根据子数组的大小进行两两归并。子数组的大小sz的初始值为1，每次加倍。最后一个子数组的大小只有在数组大小为sz的偶数倍的时候才会等于sz（否则它会比sz小）。</li>
+<li>自底向上的归并排序比较适合用<strong>链表</strong>组织的数据。</li>
+<li>用自顶向下或是自底向上的方式实现任何分治类的算法都很自然。</li>
+</ul>
+<h4 id="习题2-2-10"><a href="#习题2-2-10" class="headerlink" title="习题2.2.10"></a>习题2.2.10</h4><ul>
+<li><strong>快速归并：</strong>实现一个<strong><code>merge()</code></strong>方法，按降序将a[]的后半部分复制到aux[]，然后将其归并回a[]中。这样就可以去掉内循环中检测某半边是否用尽的代码。注意：这样的排序产生的结果是不稳定的。</li>
+</ul>
+<p><strong>官方解答：</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(Comparable[] a, <span class="keyword">int</span> lo, <span class="keyword">int</span> mid, <span class="keyword">int</span> hi)</span> </span>&#123; </span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">int</span> i = lo; i &lt;= mid; i++)</span><br><span class="line">      aux[i] = a[i]; </span><br><span class="line">   </span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">int</span> j = mid+<span class="number">1</span>; j &lt;= hi; j++)</span><br><span class="line">      aux[j] = a[hi-j+mid+<span class="number">1</span>];</span><br><span class="line">  </span><br><span class="line">   <span class="keyword">int</span> i = lo, j = hi;        <span class="comment">//初始i、j对应的值分别为左半部分和右半部分最小值</span></span><br><span class="line">   <span class="keyword">for</span> (<span class="keyword">int</span> k = lo; k &lt;= hi; k++) </span><br><span class="line">      <span class="keyword">if</span> (less(aux[j], aux[i])) a[k] = aux[j--];</span><br><span class="line">      <span class="keyword">else</span>                      a[k] = aux[i++];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="习题2-2-11"><a href="#习题2-2-11" class="headerlink" title="习题2.2.11"></a>习题2.2.11</h4><ul>
+<li><strong>改进:</strong><br>对自顶向下的归并排序进行三项改进：<br>1.加快小数组的排序速度；<br>2.检测数组是否已经有序；<br>3.通过在递归中交换参数来避免数组复制；</li>
+<li><strong>解决方案（仅供参考）:</strong><br>1.当归并的两个子数组的总长度N&lt;=4时，不使用使用<strong><code>插入排序</code></strong>代替归并排序。<br>2.再一次归并过程中，如果<strong><code>a[mid] &lt;= a[mid+1]</code></strong>,说明左半部分有序队列中的值均小于有半部分有序队列中的值，即对左半部分和右半部分来说整体有序，不需要再进行排序。<br>3.将原来的类静态<strong><code>aux[]数组</code></strong>改为<strong><code>sort()方法中的局部函数</code></strong>，在递归调用时作为参数传递。</li>
+</ul>
+<p><strong>示例代码（仅供参考）:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Author: wss</span></span><br><span class="line"><span class="comment"> * Time: 2019/5/31 16:30</span></span><br><span class="line"><span class="comment"> * IDE: MyEclipse</span></span><br><span class="line"><span class="comment"> * Content: 1、加快小数组排序速度</span></span><br><span class="line"><span class="comment"> *          2、检测数组是否已经有序</span></span><br><span class="line"><span class="comment"> *          3、通过在递归中交换参数来避免数组复制</span></span><br><span class="line"><span class="comment"> * */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SuperMerge</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		SuperMerge smerge = <span class="keyword">new</span> SuperMerge();</span><br><span class="line">		String[] s = &#123;<span class="string">"F"</span>,<span class="string">"B"</span>,<span class="string">"E"</span>,<span class="string">"A"</span>,<span class="string">"G"</span>,<span class="string">"C"</span>,<span class="string">"H"</span>,<span class="string">"D"</span>,<span class="string">"I"</span>&#125;;</span><br><span class="line">		smerge.sort(s);</span><br><span class="line">		smerge.show(s);</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">    	<span class="comment">//3.用于在递归中传递; 归并所需的辅助数组</span></span><br><span class="line">    	Comparable[] aux = <span class="keyword">new</span> Comparable[a.length];  <span class="comment">//一次性分配空间</span></span><br><span class="line">        sort(a, <span class="number">0</span>, a.length-<span class="number">1</span>, aux);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//******SuperMerge主要变动方法******</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a, <span class="keyword">int</span> lo, <span class="keyword">int</span> hi, Comparable[] aux)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//将数组a[lo..hi]排序</span></span><br><span class="line">        <span class="keyword">if</span>(hi &lt;= lo) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">int</span> mid = lo + (hi - lo)/<span class="number">2</span>;</span><br><span class="line">        sort(a, lo, mid,aux);      <span class="comment">//将左半边排序</span></span><br><span class="line">        sort(a, mid+<span class="number">1</span>, hi, aux);    <span class="comment">//将右半边排序</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//2.检测数组是否已经有序; 如果已经有序，就不执行归并操作</span></span><br><span class="line">        <span class="keyword">if</span>(less(a[mid], a[mid+<span class="number">1</span>])) <span class="keyword">return</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(hi - lo &lt; <span class="number">4</span>) &#123;</span><br><span class="line">        	<span class="comment">//1.加快小数组排序速度</span></span><br><span class="line">        	insertSort(a, lo, hi);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        	merge(a, lo, mid, hi, aux); <span class="comment">//归并结果（代码见“原地归并的抽象方法”）</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 插入排序</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">insertSort</span><span class="params">(Comparable[] a, <span class="keyword">int</span> lo, <span class="keyword">int</span> hi)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//将a[]升序排列</span></span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=lo+<span class="number">1</span>; i&lt;=hi; i++) &#123;</span><br><span class="line">            <span class="comment">//将a[i]插入到a[i-1]、a[i-2]、a[i-3]...之中</span></span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j=i; j&gt;<span class="number">0</span> &amp;&amp; less(a[j],a[j-<span class="number">1</span>]); j--) &#123;</span><br><span class="line">                exch(a, j, j-<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(Comparable[] a, <span class="keyword">int</span> lo, <span class="keyword">int</span> mid, <span class="keyword">int</span> hi, Comparable[] aux)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//见自顶向下排序算法</span></span><br><span class="line">    &#125;</span><br><span class="line"> <span class="comment">//less()、exch()、isSorted() 和 show()方法见“排序算法模板”</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="习题2-2-14"><a href="#习题2-2-14" class="headerlink" title="习题2.2.14"></a>习题2.2.14</h4><ul>
+<li>归并有序的队列。编写一个静态方法，将两个有序的队列作为参数，返回一个归并后的有序队列。</li>
+</ul>
+<p><strong>示例代码（仅供参考）:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a, Comparable[] b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> al = a.length, bl = b.length;</span><br><span class="line">    <span class="keyword">int</span> nl =  al + bl;</span><br><span class="line">    <span class="keyword">int</span> m = <span class="number">0</span>, n = <span class="number">0</span>;</span><br><span class="line">    re = <span class="keyword">new</span> Comparable[nl];</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;nl; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span>(m &gt;= al) re[m+n] = b[n++];</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(n &gt;= bl) re[m+n] = a[m++];</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span>(less(a[m], b[n])) re[m+n] = a[m++];</span><br><span class="line">        <span class="keyword">else</span> re[m+n] = b[n++];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="5-快速排序"><a href="#5-快速排序" class="headerlink" title="5.快速排序"></a>5.快速排序</h3><h4 id="5-1-快速排序"><a href="#5-1-快速排序" class="headerlink" title="5.1.快速排序"></a>5.1.快速排序</h4><ul>
+<li><strong>特点：</strong><br>1.它是原地排序（只需要一个很小的辅助栈）；<br>2.将长度为N的数组排序所需的时间和NlgN成正比；<br>我们已经了解过的排序算法都无法将这两个优点结合起来<br>3.快速排序的内循环比大多数排序算法都要短小，这意味着它无论是在理论上还是在实际中都要更快；</li>
+<li><strong>主要缺点：</strong><br>非常脆弱，在实现时要非常小心才能避免低劣的性能；</li>
+<li><strong>快速排序:</strong><br>快速排序是一种分治的排序算法。它将一个数组分成两个子数组，将两部分独立地排序。<strong><code>快速排序</code></strong>和<strong><code>归并排序</code></strong>是互补的：归并排序将数组分成两个子数组分别排序，并将有序的子数组归并以将整个数组排序；而快速排序将数组排序的方式则是当两个子数组都有序时整个数组也就自然有序了。在第一种情况下，递归调用发生在处理整个数组之前；在第二种情况下，递归调用发生在处理整个数组之后。在归并排序中，一个数组被等分为两半；在快速排序中，<strong><code>切分(partition)</code></strong>的位置取决于数组的内容。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-0e127dd27e355f84.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="快速排序示意图"><br><strong>代码示例:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Quick</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//StdRandom.shuffle(a);  //打乱输入队列; 消除对输入的依赖</span></span><br><span class="line">		sort(a, <span class="number">0</span>, a.length - <span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a, <span class="keyword">int</span> lo, <span class="keyword">int</span> hi)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(hi &lt;= lo) <span class="keyword">return</span>;</span><br><span class="line">		<span class="keyword">int</span> j = partition(a, lo, hi); <span class="comment">//切分(请见快速排序的切分)</span></span><br><span class="line">		sort(a, lo, j-<span class="number">1</span>);             <span class="comment">//将左半部分a[lo .. j-1]排序</span></span><br><span class="line">		sort(a, j+<span class="number">1</span>, hi);             <span class="comment">//将右半部分a[j+1 .. hi]排序</span></span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>快速排序递归地将子数组a[lo..hi]进行排序，先用partition()方法将a[j]放到一个合适的位置，然后再用递归调用将其他位置的元素排序。</li>
+<li>该方法的关键在于<strong><code>切分</code></strong>，这个过程使得数组满足下面三个条件：<br>1.对于某个<strong><code>j</code></strong>，<strong><code>a[j]</code></strong>已经排定；<br>2.<strong><code>a[lo]</code></strong>到<strong><code>a[j-1]</code></strong>中的所有元素都不大于<strong><code>a[j]</code></strong>；<br>3.<strong><code>a[j+1]</code></strong>到<strong><code>a[hi]</code></strong>中的所有元素都不小于<strong><code>a[j]</code></strong>；<br>我们就是通过递归调用切分来排序的。</li>
+<li><strong>切分策略:</strong><br>一般策略是先随意地取a[lo]作为<strong><code>切分元素</code></strong>，即那个将会被排定的元素（每一轮切分总是能排定一个元素），然后从数组的左端开始向右扫描直到找到一个小于等于它的元素，再从数组的右端开始向左扫描直到找到一个小于它的元素。这两个元素显然是没有排定的，因此我们交换它们的位置。如此继续，我们就可以保证左指针i的左侧元素都不大于切分元素，右指针j的右侧元素都不小于切分元素。当两个指针相遇时，我们只需要将切分元素a[lo]的左子数组最右侧的元素（a[j]）交换然后返回j即可</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-d3ed38a80f0df385.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="快速排序过程"><br><strong>快速排序的切分:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">partition</span><span class="params">(Comparable[] a, <span class="keyword">int</span> lo, <span class="keyword">int</span> hi)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//将数组切分为a[lo..i-1], a[i], a[i+1..hi]</span></span><br><span class="line">	<span class="keyword">int</span> i = lo, j = hi + <span class="number">1</span>;       <span class="comment">//左右扫描指针</span></span><br><span class="line">	Comparable v = a[lo];         <span class="comment">//切分元素</span></span><br><span class="line">	<span class="keyword">while</span>(<span class="keyword">true</span>) &#123;</span><br><span class="line">		<span class="comment">//扫描左右,检查扫描是否结束并交换元素</span></span><br><span class="line">		<span class="keyword">while</span>(less(a[++i], v)) <span class="keyword">if</span>(i == hi) <span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">while</span>(less(v, a[--j])) <span class="keyword">if</span>(i == lo) <span class="keyword">break</span>;</span><br><span class="line">		<span class="keyword">if</span>(i &gt;= j) <span class="keyword">break</span>;</span><br><span class="line">		exch(a, i, j);</span><br><span class="line">	&#125;</span><br><span class="line">	exch(a, lo, j);               <span class="comment">//将v = a[j]放入正确的位置    </span></span><br><span class="line">	<span class="keyword">return</span> j;                     <span class="comment">//a[lo..j-1] &lt;= a[j] &lt;= a[j+1..hi]达成</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>这段代按照<strong><code>a[lo]</code></strong>的值v进行切分（a[lo]自始至终都在数组下标为lo的位置）。当指针i和j相遇时主循环退出。在循环中，a[i]小于v时我们增大i，a[j]大于v时我们减小j，然后交换a[i]和a[j]来保证i左侧的元素都不大于v，j右侧的元素都不小于v。当指针相遇时交换a[lo]和a[j]，切分结束（这样切分值就留在a[j]中了）。</li>
+<li><strong>几点需要注意的方面:</strong><br>1.原地切分<br>2.别越界<br>3.保持随机性<br>4.终止循环<br>5.处理切分元素值有重复的情况<br>6.终止递归<br><img src="https://upload-images.jianshu.io/upload_images/13687958-083c37eafdf6a489.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="切分示意图"><br><img src="https://upload-images.jianshu.io/upload_images/13687958-7fb49bacc16e58f6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="切分轨迹"></li>
+<li><strong>缺点一:</strong>在切分不平衡时这个程序可能会及其低效。例如，如果第一次从最小的元素切分，第二次从第二小的元素切分，如此这般，每次调用只会移除一个元素。这样会导致一个大子数组需要切分很多次。</li>
+<li><strong>方案:</strong>快速排序最多需要约N方/2次比较，但随机打乱数组能够预防这种情况。</li>
+</ul>
+<h4 id="5-2-快速排序算法改进"><a href="#5-2-快速排序算法改进" class="headerlink" title="5.2.快速排序算法改进"></a>5.2.快速排序算法改进</h4><h5 id="5-2-1-切换到插入排序"><a href="#5-2-1-切换到插入排序" class="headerlink" title="5.2.1.切换到插入排序"></a>5.2.1.切换到插入排序</h5><ul>
+<li>对于小数组，快速排序比插入排序慢；</li>
+<li>因为递归，快速排序的<strong><code>sort()方法</code></strong>在小数组中也会调用自己<br>因此，在排序小数组时应该切换到插入排序</li>
+</ul>
+<p><strong>改进示例:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 将sort()中的语句：</span></span><br><span class="line"><span class="keyword">if</span>(hi &lt;= lo) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 改为：</span></span><br><span class="line"><span class="keyword">if</span>(hi &lt;= lo + M) &#123;</span><br><span class="line">    Insertion.sort(a, lo, hi); </span><br><span class="line">    <span class="keyword">return</span>; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><strong><code>M</code></strong>: 转换参数<strong><code>M</code></strong>的最佳值是和系统相关的，但是<strong><code>5~15</code></strong>之间的任意值在大多数情况下都能令人满意。</li>
+</ul>
+<h5 id="5-2-2-三取样切分"><a href="#5-2-2-三取样切分" class="headerlink" title="5.2.2.三取样切分"></a>5.2.2.三取样切分</h5><ul>
+<li>改进快速排序性能的第二个办法是使用子数组的一部分元素的中位数来切分数组。这样做的切分更好，但代价是需要计算中位数。将取样大小设为<strong><code>3</code></strong>并用大小居中的元素切分的效果最好。我们还可以将取样元素放在数组末尾作为“哨兵”来去掉partition()中的数组边界测试。<br><img src="https://upload-images.jianshu.io/upload_images/13687958-73613821e76e6fec.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="使用了三取样切分和插入排序转换的快速排序"><h5 id="5-2-3-熵最优的排序"><a href="#5-2-3-熵最优的排序" class="headerlink" title="5.2.3.熵最优的排序"></a>5.2.3.熵最优的排序</h5></li>
+<li>实际应用中经常会出现含有大量重复元素的数组。这些情况下，我们实现的快速排序性能尚可，但还有巨大的改进空间。例如，一个元素全部重复的子数组就不需要继续排序了。</li>
+<li>一个简单的想法是将数组切分为三部分，分别对应小于、等于和大于切分元素的数组元素。这种切分实现起来比我们目前使用的二分法更复杂。</li>
+<li>Dijkstra的解法如“三向切分的快速排序”中极为简洁的切分代码所示。它从左到右遍历数组一次，维护一个指针<strong><code>lt</code></strong>使得<strong><code>a[lo..lt-1]</code></strong>中的元素都小于<strong><code>v</code></strong>，一个指针<strong><code>gt</code></strong>使得<strong><code>a[gt+1..hi]</code></strong>中的元素都大于<strong><code>v</code></strong>，一个指针<strong><code>i</code></strong>使得<strong><code>a[lt..i-1]</code></strong>中的元素都等于<strong><code>v</code></strong>，<strong><code>a[i..gt]</code></strong>中的元素都还未确定，如下图所示。一开始<strong><code>i</code></strong>和<strong><code>lo</code></strong>相等，我们使用<strong><code>Comparable接口</code></strong>（而非<strong><code>less()</code></strong>）对<strong><code>a[i]</code></strong>进行三向比较来直接处理以下情况:<br>1.a[i]小于v，将a[lt]和a[i]交换，将lt和i加一；<br>2.a[i]大于v，将a[gt]和a[i]交换，将gt减一；<br>3.a[i]等于v，将i加一。</li>
+<li>这些操作都会保证数组元素不变且缩小gt-i的值（这样循环才会结束）。另外，除非和切分元素相等，其他元素都会被<strong><code>交换</code></strong>。<br><img src="https://upload-images.jianshu.io/upload_images/13687958-48c8964df7cbe2de.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="三向切分的示意图"></li>
+</ul>
+<p><strong>三向切分的快速排序:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Quick3way</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//StdRandom.shuffle(a);  //打乱输入队列; 消除对输入的依赖</span></span><br><span class="line">		sort(a, <span class="number">0</span>, a.length - <span class="number">1</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a, <span class="keyword">int</span> lo, <span class="keyword">int</span> hi)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">if</span>(hi &lt;= lo) <span class="keyword">return</span>;</span><br><span class="line">		<span class="keyword">int</span> lt = lo, i = lo+<span class="number">1</span>, gt = hi;</span><br><span class="line">		Comparable v = a[lo];</span><br><span class="line">		<span class="keyword">while</span>(i &lt;= gt) &#123;</span><br><span class="line">			<span class="keyword">int</span> cmp = a[i].compareTo(v);</span><br><span class="line">			<span class="keyword">if</span>      (cmp &lt; <span class="number">0</span>) exch(a, lt++, i++);</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span> (cmp &gt; <span class="number">0</span>) exch(a, i, gt--);</span><br><span class="line">			<span class="keyword">else</span>              i++;</span><br><span class="line">		&#125; <span class="comment">//现在a[lo..lt-1] &lt; v = a[lt..gt] &lt; a[gt+1..hi]成立</span></span><br><span class="line">		sort(a, lo, lt-<span class="number">1</span>);</span><br><span class="line">		sort(a, gt+<span class="number">1</span>, hi);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>这段排序代码的切分能够将和切分元素相等的元素归位，这样它们就不会被包含在递归调用处理的子数组之中了。对于存在大量重复元素的数组，这种方法比标准的快速排序的效率高得多。</li>
+<li><strong>三向切分的快速排序的可视轨迹:</strong></li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-d23c44023b58b9db.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="三向切分的轨迹（每次迭代循环之后的数组内容）"><br><img src="https://upload-images.jianshu.io/upload_images/13687958-685e9e7e42da417d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="三向切分的快速排序的可视轨迹"></p>
+<ul>
+<li>对于标准的快速排序，随着数组规模的增大其运行时间会趋于平均运行时间，大幅偏离的情况非常罕见，因此可以肯定三向切分的快速排序的运行时间和输入的信息量的N倍是成正比的。</li>
+<li>对于包含大量重复元素的数组，它将排序时间从线性对数级降到了线性级别。</li>
+<li>这种对重复元素的适应性使得三分切向的快速排序成为<strong><code>排序库函数</code></strong>的最佳算法选择——需要将包含大量重复元素的数组排序的用例很常见。</li>
+<li>但这并不是快速排序发展的终点，因为有人研究出了完全不需要比较的排序算法！但快速排序的另一个版本在那个环境下仍然是最棒的，和这里一样。</li>
+</ul>
+<h3 id="6-优先队列"><a href="#6-优先队列" class="headerlink" title="6.优先队列"></a>6.优先队列</h3><ul>
+<li>许多应用程序都需要处理有序的元素，但不一定要求他们全部有序，或是不一定要一次就将它们排序。很多情况下我们会收集一些元素，处理当前键值最大的元素，然后再收集更多的元素，在处理当前键值最大的元素。</li>
+<li>在这种情况下，一个合适的数据结构应该支持两种操作：<strong><code>删除最大元素</code></strong>和<strong><code>插入元素</code></strong>。这种数据类型叫做<strong><code>优先队列</code></strong>。</li>
+<li>我们会学习基于<strong><code>二叉堆</code></strong>数据结构的一种优先队列的经典实现方法，用数组保存元素并按照一定条件排序，以实现高效地（对数级别的）<strong><code>删除最大元素</code></strong>和<strong><code>插入元素操作</code></strong>。</li>
+<li>通过插入一列元素然后一个个地删掉其中最小的元素，我们可以用优先队列实现排序算法。一种名为<strong><code>堆排序</code></strong>的重要排序算法也来自基于堆的优先队列的实现。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MaxPQ()</td>
+<td>创建一个优先队列</td>
+</tr>
+<tr>
+<td>MaxPQ(int max)</td>
+<td>创建一个初始容量为max的优先队列</td>
+</tr>
+<tr>
+<td>MaxPQ(Key[] a)</td>
+<td>用a[]中的元素创建一个优先队列</td>
+</tr>
+<tr>
+<td>void insert(Key v)</td>
+<td>向优先队列中插入一个元素</td>
+</tr>
+<tr>
+<td>Key max()</td>
+<td>返回最大的元素</td>
+</tr>
+<tr>
+<td>Key delMax()</td>
+<td>删除并返回最大的元素</td>
+</tr>
+<tr>
+<td>boolean isEmpty()</td>
+<td>返回队列是否为空</td>
+</tr>
+<tr>
+<td>int size()</td>
+<td>返回优先队列中元素的个数</td>
+</tr>
+</tbody>
+</table>
+<h4 id="优先队列的调用示例"><a href="#优先队列的调用示例" class="headerlink" title="优先队列的调用示例"></a>优先队列的调用示例</h4><ul>
+<li>现在我们来考虑一个问题：输入N个字符串，每个字符串都对应着一个整数，你的任务就是从中找出最大的（或是最小的）M个整数（及其关联的字符串）。</li>
+<li>要处理这个问题，只要我们能够高效地实现<strong><code>insert()</code></strong>和<strong><code>delMin()</code></strong>，下面的<strong><code>优先队列用例</code></strong>中调用了<strong><code>MinPQ</code></strong>的<strong><code>TopM</code></strong>就能使用优先队列解决这个问题，这就是我们的目标。</li>
+</ul>
+<p><strong>一个优先队列的示例:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TopM</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//打印输入流中最大的M行</span></span><br><span class="line">		<span class="keyword">int</span> M = Integer.parseInt(args[<span class="number">0</span>]);</span><br><span class="line">		MinPQ&lt;Transaction&gt; pq = <span class="keyword">new</span> MinPQ&lt;Transaction&gt;(M+<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">while</span>(StdIn.hasNextLine()) &#123;</span><br><span class="line">			<span class="comment">//为下一行输入创建一个元素并放入优先队列中</span></span><br><span class="line">			pq.insert(<span class="keyword">new</span> Transection(StdIn.readLine()));</span><br><span class="line">			<span class="keyword">if</span>(pq.size() &gt; M) </span><br><span class="line">				pq.delMin();  <span class="comment">//如果优先队列中存在M+1个元素则删除其中最小的元素</span></span><br><span class="line">		&#125; <span class="comment">//最大的M个元素都在优先队列中</span></span><br><span class="line">	&#125;</span><br><span class="line">	Stack&lt;Transection&gt; stack = <span class="keyword">new</span> Stack&lt;Transection&gt;();</span><br><span class="line">	<span class="keyword">while</span>(!pq.isEmpty()) stack.push(pq.delMin());</span><br><span class="line">	<span class="keyword">for</span>(Transection t : stack) StdOut.println(t);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>从命令行输入一个整数<strong><code>M</code></strong>，从输入流中获得一系列字符串，输入流的每一行代表一个交易。这段代码调用了<strong><code>MinPQ()</code></strong>并会打印数字最大的M行。它用到了<strong><code>Transection类</code></strong>构造了一个用数字作为键的优先队列。当优先队列的大小超过M时就删掉其中最小的元素。处理完所有交易，优先队列中存放者以降序排列的最大的M个交易，然后这段代码将它们放入到一个栈中，遍历这个栈以颠倒它们的顺序，从而将它们按降序打印出来。</li>
+</ul>
+<h4 id="6-1-初级实现"><a href="#6-1-初级实现" class="headerlink" title="6.1.初级实现"></a>6.1.初级实现</h4><ul>
+<li><strong>数组实现（无序）：</strong>基于下压栈实现。insert()方法和栈的push()方法完全一样。删除元素类似于选择排序的内循环代码，将最大的元素和边界元素交换然后删除它。…</li>
+<li><strong>数组实现（有序）：</strong>insert()方法和插入排序一样，删除操作与栈的pop()操作一样。</li>
+<li><strong>链表表示法：</strong>后续实现…</li>
+<li>使用无序序列是解决这个问题的<strong>惰性</strong>方法，我们仅在必要的时候才会采取行动（找出最大元素）；使用有序序列则是解决问题的<strong>积极</strong>方法，因为我们会尽可能未雨绸缪（在插入元素时就保持列表有序），使后续操作更高效。</li>
+<li>实现栈或是队列与实现优先队列的最大不同在于对性能的要求。对于栈和队列，我们的实现能够在<strong>常数</strong>时间内完成操作；而对于优先队列，我们刚刚讨论的所有初级实现中，<strong>插入元素</strong>和<strong>删除最大元素</strong>这两个操作之一在最坏的情况下需要<strong>线性</strong>时间内来完成。下面我们将讨论的是基于数据结构<strong><code>堆</code></strong>的实现能够保证这两种操作都能更快地执行。</li>
+</ul>
+<p><strong>表：优先队列的各种实现在最坏情况下运行时间的增长级</strong><br>|数据结构|插入元素|删除最大元素|<br>|-|-|-|<br>|有序数组|N|1|<br>|无序数组|1|N|<br>|堆|logN|logN|<br>|理想情况|1|1|</p>
+<h4 id="6-2-堆的定义"><a href="#6-2-堆的定义" class="headerlink" title="6.2.堆的定义"></a>6.2.堆的定义</h4><ul>
+<li>数据结构<strong><code>二叉堆</code></strong>能够很好地实现<strong>优先队列</strong>的基本操作。在<strong>二叉堆</strong>的数组中，每个元素都要保证大于等于另两个特定位置的元素。相应的，这些位置的元素又至少要大于等于数组中的另两个元素，以此类推。如果我们将所有元素画成一棵<strong>二叉树</strong>，将每个较大元素和两个较小的元素用边连接就可以很容易看出这种结构。</li>
+<li>当一颗二叉树的每个结点都大于等于它的两个子结点时，它被称为<strong><code>堆有序</code></strong>。</li>
+<li><strong>根节点</strong>是堆有序的二叉树中的最大结点。</li>
+</ul>
+<p><strong>二叉堆表示法:</strong></p>
+<ul>
+<li>如果我们用指针来表示堆有序的二叉树，那么每个元素都需要三个指针来找到它的上下节点（父节点和两个子节点各需要一个）。</li>
+<li>如果我们使用完全二叉树，表达就会变得特别方便。要画出这样一颗完全二叉树，可以先定义下根节点，然后一层一层地由上向下、由左向右，在每个结点的下方连接两个更小的结点，直至将N个结点全部连接完毕。</li>
+<li>完全二叉树只用数组而不需要指针就可以表示。具体方法就是将二叉树的结点按照层级顺序放入数组中，根结点的位置1，它的子结点的位置2和3，而子结点的子结点则分别在位置1、5、6和7，以此类推。</li>
+<li>二叉堆是一组能够用堆有序的完全二叉树排序的元素，并在数组中按照层级存储（<strong>不使用数组的第一个位置</strong>）</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-7ee34da2f8bc508b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="一棵堆有序的完全二叉树"></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-4a97306e1f9dd217.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="堆的表示"></p>
+<h4 id="6-3-堆的算法"><a href="#6-3-堆的算法" class="headerlink" title="6.3.堆的算法"></a>6.3.堆的算法</h4><ul>
+<li>我们用长度为N+1的私有数组<strong><code>pq[]</code></strong>来表示一个大小为<strong><code>N</code></strong>的堆，我们不会使用pq[0]，堆元素放在pq[1]至pq[N]中。在排序算法中，我们只通过私有辅助函数<strong><code>less()</code></strong>和<strong>exch()</strong>来访问元素，但因为所有的元素都在数组pq[]中，我们将会在后面使用更加紧凑的实现方式，不再将数组作为参数传递。</li>
+<li>堆的操作会首先进行一些简单的改动，打破堆的状态，然后再遍历堆并按照要求将堆的状态恢复，我们称这个过程叫做<strong><code>堆的有序化</code></strong>。</li>
+</ul>
+<p><strong>比较与交换方法:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">less</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> pq[i].compareTo(pq[j]) &lt; <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">exch</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span> </span>&#123;</span><br><span class="line">    Key t = pq[i];</span><br><span class="line">    pq[i] = pq[j];</span><br><span class="line">    pq[j] = t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>当某个结点的优先级上升（或是在堆底加入一个新的元素）时，我们需要<strong>由下至上</strong>恢复堆的顺序。</li>
+<li>当某个结点的优先级下降（例如：将根节点替换为一个较小的元素）时，我们需要<strong>由上至下</strong>恢复堆的顺序。</li>
+<li>首先我们会学习如何实现这两种辅助操作，然后再用它们实现<strong>插入元素</strong>和<strong>删除最大元素</strong>的操作。</li>
+</ul>
+<h5 id="6-3-1-由下至上的堆有序化（上浮）"><a href="#6-3-1-由下至上的堆有序化（上浮）" class="headerlink" title="6.3.1.由下至上的堆有序化（上浮）"></a>6.3.1.由下至上的堆有序化（上浮）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swim</span><span class="params">(<span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(k &gt; <span class="number">1</span> &amp;&amp; less(k/<span class="number">2</span>, k)) &#123;</span><br><span class="line">        exch(k/<span class="number">2</span>, k);</span><br><span class="line">        k = k/<span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-c22ac45850a265df.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="由下至上的堆有序化（上浮）"></p>
+<h5 id="6-3-2-由上至下的堆有序化（下沉）"><a href="#6-3-2-由上至下的堆有序化（下沉）" class="headerlink" title="6.3.2.由上至下的堆有序化（下沉）"></a>6.3.2.由上至下的堆有序化（下沉）</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sink</span><span class="params">(<span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">2</span>*k &lt;= N) &#123;</span><br><span class="line">        <span class="keyword">int</span> j = <span class="number">2</span> * k;</span><br><span class="line">        <span class="keyword">if</span>(j &lt; N &amp;&amp; less(j, j+<span class="number">1</span>)) j++;</span><br><span class="line">        <span class="keyword">if</span>(!less(k, j)) <span class="keyword">break</span>;</span><br><span class="line">        exch(k, j);</span><br><span class="line">        k = j;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-36eb436a4cb9f67f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="由上至下的堆有序化（下沉）"></p>
+<p><strong>插入元素:</strong></p>
+<ul>
+<li>我们将新元素加到数组末尾，增加堆的大小并让这个新元素上浮到合适的位置</li>
+</ul>
+<p><strong>删除最大元素:</strong></p>
+<ul>
+<li>我们从数组顶端删去最大的元素并将数组的最后一个元素放到顶端，减小堆的大小并让这个元素下沉到合适的位置。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-88dec43890bfb550.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="堆的操作"></p>
+<ul>
+<li>下面的算法解决了我们在本节开始时提出的一个基本问题：它对优先队列API的实现能够保证<strong>插入元素</strong>和<strong>删除最大元素</strong>这两个操作的用时和队列的大小仅成对数关系。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MaxPQ</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> Key[] pq;    <span class="comment">//基于堆的完全二叉树</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> N = <span class="number">0</span>;   <span class="comment">//存储于pq[1..N]中,pq[0]没有使用</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MaxPQ</span><span class="params">(<span class="keyword">int</span> maxN)</span> </span></span><br><span class="line"><span class="function">	</span>&#123; pq = (Key[]) <span class="keyword">new</span> Comparable[maxN+<span class="number">1</span>]; &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">issEmpty</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123; <span class="keyword">return</span> N == <span class="number">0</span>; &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123; <span class="keyword">return</span> N; &#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(Key v)</span> </span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		pq[++N] = v;</span><br><span class="line">		swim(N);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Key <span class="title">delMax</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		Key max = pq[<span class="number">1</span>];</span><br><span class="line">		exch(<span class="number">1</span>, N--);</span><br><span class="line">		pq[N+<span class="number">1</span>] = <span class="keyword">null</span>;</span><br><span class="line">		sink(<span class="number">1</span>);</span><br><span class="line">		<span class="keyword">return</span> max;</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//辅助方法的实现请见本节前面的代码框</span></span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">less</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">exch</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">int</span> j)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">swim</span><span class="params">(<span class="keyword">int</span> k)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">sink</span><span class="params">(<span class="keyword">int</span> k)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>对于一个含有N个元素的基于堆的优先队列，<strong>插入元素</strong>操作只需不超过（lgN+1）次比较，<strong>删除最大元素</strong>的操作需要不超过2lgN次比较。</li>
+</ul>
+<h5 id="6-3-3-多叉堆"><a href="#6-3-3-多叉堆" class="headerlink" title="6.3.3.多叉堆"></a>6.3.3.多叉堆</h5><h5 id="6-3-4-调整数组大小"><a href="#6-3-4-调整数组大小" class="headerlink" title="6.3.4.调整数组大小"></a>6.3.4.调整数组大小</h5><h5 id="6-3-5-元素的不可变性"><a href="#6-3-5-元素的不可变性" class="headerlink" title="6.3.5.元素的不可变性"></a>6.3.5.元素的不可变性</h5><h5 id="6-3-6-索引优先队列"><a href="#6-3-6-索引优先队列" class="headerlink" title="6.3.6.索引优先队列"></a>6.3.6.索引优先队列</h5><ul>
+<li>在很多应用中，允许用例引用已经进入优先队列的元素是有必要的。做到这一点的一种简单方法是给每一个元素添加一个<strong><code>索引</code></strong>。另外，一种常见的情况是用例已经有了总量为N的多个元素，而且可能还同时使用了多个（平行）数组来存储这些元素的信息。此时，其他无关的用例代码可能已经在使用一个整数索引来引用这些元素了。</li>
+</ul>
+<p><strong>关联索引的泛型优先队列的API:</strong><br>|返回类型|函数名称|功能|<br>|-|-|-|<br>||IndexMinPQ(int maxN)|创建一个最大容量为maxN的优先队列，索引的取值范围为0至maxN-1|<br>|void|insert(int k, Item item)|插入一个元素，将它和索引k相关联|<br>|void|change(int k, Item item)|将索引k的元素设为item|<br>|boolean|contains(int k)|是否存在索引为k的元素|<br>|void|delete(int k)|删去索引k及其相关联的元素|<br>|Item|min()|返回最小元素|<br>|int|minIndex()|返回最小元素的索引|<br>|int|delMin()|删除最小元素并返回它的索引|<br>|boolean|isEmpty()|优先队列是否为空|<br>|int|size()|优先队列中元素数量|</p>
+<ul>
+<li>在一个大小为N的索引优先队列中，插入元素（insert）、改变优先级（change）、删除（delete）和删除最小元素（remove the minimum）操作所需的比较次数和logN成正比</li>
+<li>这段讨论中针对的是找出最小元素的队列。</li>
+</ul>
+<h5 id="6-3-7-索引优先队列用例"><a href="#6-3-7-索引优先队列用例" class="headerlink" title="6.3.7.索引优先队列用例"></a>6.3.7.索引优先队列用例</h5><ul>
+<li>下面调用了IndexMinPQ的代码Multiway解决了<strong>多向归并</strong>问题：它将多个有序的输入流归并成一个有序的输入流。如果有足够的空间，你可以把它们简单地读入一个数组并排序，但如果使用了优先队列，<strong>无论输入</strong>有多长你都可以把它们全部读入并排序。</li>
+</ul>
+<p><strong>使用优先队列的多向归并:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Multiway</span> </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">merge</span><span class="params">(In[] streams)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> N = streams.length;</span><br><span class="line">		IndexMinPQ&lt;String&gt; pq = <span class="keyword">new</span> IndexMinPQ&lt;String&gt;(N);</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;N; i++)</span><br><span class="line">			<span class="keyword">if</span>(!streams[i].isEmpty())</span><br><span class="line">				pq.insert(i, streams[i].readString());</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">while</span>(!pq.isEmpty()) &#123;</span><br><span class="line">			System.out.println(pq.min());</span><br><span class="line">			<span class="keyword">int</span> i = pq.delMin();</span><br><span class="line">			</span><br><span class="line">			<span class="keyword">if</span>(!streams[i].isEmpty()) </span><br><span class="line">				pq.insert(i, streams[i].readString());</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		<span class="keyword">int</span> N = args.length;</span><br><span class="line">		In[] streams = <span class="keyword">new</span> In[N];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;N; i++)</span><br><span class="line">			streams[i] = <span class="keyword">new</span> In(args[i]);</span><br><span class="line">		merge(streams);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>每个输入流的索引都关联着一个元素（输入中的下个字符串）。</li>
+<li>初始化之后，代码进入一个循环，删除并打印出队列中最小的字符串，然后将该输入的下一个字符串添加为一个元素。</li>
+</ul>
+<h4 id="6-4-堆排序"><a href="#6-4-堆排序" class="headerlink" title="6.4.堆排序"></a>6.4.堆排序</h4><ul>
+<li>我们可以把任意优先队列变成一种排序方法。将所有元素插入一个查找最小元素的优先队列，然后再重复调用<strong>删除最小元素</strong>的操作来将它们按顺序删去。</li>
+<li>堆排序可以分为两个阶段。在<strong>堆的构造阶段</strong>中，我们将原始数组重新阻止安排进一个堆中，这样会得到一个堆有序的完全二叉树；然后再<strong>下沉排序</strong>阶段，我们从堆中按递减顺序取出所有元素并得到排序结果。我们将使用一个面向最大元素的优先队列并重复删除最大元素。</li>
+</ul>
+<h5 id="6-4-1-堆的构造"><a href="#6-4-1-堆的构造" class="headerlink" title="6.4.1.堆的构造"></a>6.4.1.堆的构造</h5><ul>
+<li>从右至左用<strong><code>sink()</code></strong>函数构造子堆。数组的每个位置都已经是一个堆的根节点了，sink()对于这些子堆也适用。如果一个结点的两个子结点都已经是堆了，那么在该结点上调用sink()函数可以将它们变成一个堆。这个过程会递归地建立起堆的秩序。开始时我们只需扫描数组中的一半元素，因为我们可以跳过大小为1的子堆（也就是叶子结点）。最后我们在位置1上调用sink()方法，扫描结束。</li>
+<li>用下沉操作由N个元素构造堆只需少于2N次比较以及少于N次交换。</li>
+</ul>
+<p><strong>堆排序</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">sort</span><span class="params">(Comparable[] a)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> N = a.length;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> k=N/<span class="number">1</span>; k&gt;=<span class="number">1</span>; k--) </span><br><span class="line">        sink(a, k, N);</span><br><span class="line">    <span class="keyword">while</span>(N &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        exch(a, <span class="number">1</span>, N--);</span><br><span class="line">        sink(a, N, N);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-16d651f7b1101095.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="堆排序的轨迹"><br><img src="https://upload-images.jianshu.io/upload_images/13687958-da1409572d1faaeb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="堆排序：堆的构造（左和下沉排序（右））"></p>
+<h5 id="6-4-2-下沉排序"><a href="#6-4-2-下沉排序" class="headerlink" title="6.4.2.下沉排序"></a>6.4.2.下沉排序</h5><ul>
+<li>堆排序的主要工作都是在第二阶段完成的。这里我们将堆中最大元素删除，然后放入堆缩小后数组空出的位置。</li>
+<li>将N个元素排序，堆排序只需少于（2NlgN+2N）次比较（以及一般次数的交换）。</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-723925ed01eac305.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="对排序的可视轨迹"></p>
+<h5 id="6-4-3-先下沉后上浮"><a href="#6-4-3-先下沉后上浮" class="headerlink" title="6.4.3.先下沉后上浮"></a>6.4.3.先下沉后上浮</h5><p>大多数在下沉排序期间重新插入堆的元素会被直接加入到堆底。Floyd在1964年观察发现，我们正好可以通过免去检查元素是否到达正确位置来节省时间。在下沉中总是直接提升较大的子结点直至到达堆底，然后使元素上浮到正确的位置。这种想法几乎可以将比较次数减少一半——接近了归并排序所需的比较次数（随机数组），但是这种方法需要额外的空间。</p>
+<ul>
+<li><strong>堆排序在排序复杂性的研究中有着重要的地位</strong>，因为它是我们所知的唯一能够同时最优的利用空间和时间的方法——在最坏的情况下也能保证用~2NlgN次比较和恒定的额外空间。</li>
+<li>堆排序无法利用缓存。数组元素很少和相邻的其他元素进行比较，因此缓存未命中的次数要远远高于大多数比较都在相邻元素间进行的算法，如快速排序、归并排序，甚至是希尔排序。</li>
+</ul>
+<blockquote>
+<p>至此，算法基础进阶就基本结束了，由于博主精力有限，后续的<strong>查找</strong>、<strong>图</strong>、<strong>字符串</strong>章节就不在做记录，如果读者对这些算法感兴趣，可以去书店或网上商城购买《算法》这本书，真的很不错。谢谢大家阅读此文，后续我有可能会在学习后面的章节时做笔记来纪录知识，看精力吧，毕竟博主不是专门学习算法的啊。</p>
+</blockquote>
+<blockquote>
+<p>声明：发表此文是出于传递更多信息之目的，并且做一些学习笔录是为了日后学习之用。文章大部分代码示例与文字内容均摘自《算法》一书。若有来源标注错误或侵犯了您的合法权益，请作者持权属证明与本我们(QQ:981086665；邮箱:<a href="mailto:981086665@qq.com" target="_blank" rel="noopener">981086665@qq.com</a>)联系联系，我们将及时更正、删除，谢谢。</p>
+</blockquote>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/08/07/Redis基础知识1-入门/" class="pre-post btn btn-default" title="Redis基础知识1-入门">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">Redis基础知识1-入门</span>
+        </a>
+    
+    
+        <a href="/2019/08/07/《算法》1-3-5算法进阶之路-基础/" class="next-post btn btn-default" title="《算法》1.3~5算法进阶之路-基础">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">《算法》1.3~5算法进阶之路-基础</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#二、排序"><span class="toc-text">二、排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#排序算法类的模板"><span class="toc-text">排序算法类的模板</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-选择排序"><span class="toc-text">1.选择排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-插入排序"><span class="toc-text">2.插入排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#算法比较"><span class="toc-text">算法比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-希尔排序"><span class="toc-text">3.希尔排序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#例题2-1-14"><span class="toc-text">例题2.1.14</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-归并排序"><span class="toc-text">4.归并排序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4-1-原地归并的抽象方法"><span class="toc-text">4.1.原地归并的抽象方法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-自顶向下的归并排序"><span class="toc-text">4.2.自顶向下的归并排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-2-自底向上的归并排序"><span class="toc-text">4.2.自底向上的归并排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#习题2-2-10"><span class="toc-text">习题2.2.10</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#习题2-2-11"><span class="toc-text">习题2.2.11</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#习题2-2-14"><span class="toc-text">习题2.2.14</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-快速排序"><span class="toc-text">5.快速排序</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5-1-快速排序"><span class="toc-text">5.1.快速排序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-2-快速排序算法改进"><span class="toc-text">5.2.快速排序算法改进</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#5-2-1-切换到插入排序"><span class="toc-text">5.2.1.切换到插入排序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-2-2-三取样切分"><span class="toc-text">5.2.2.三取样切分</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-2-3-熵最优的排序"><span class="toc-text">5.2.3.熵最优的排序</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-优先队列"><span class="toc-text">6.优先队列</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#优先队列的调用示例"><span class="toc-text">优先队列的调用示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-1-初级实现"><span class="toc-text">6.1.初级实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-堆的定义"><span class="toc-text">6.2.堆的定义</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-堆的算法"><span class="toc-text">6.3.堆的算法</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#6-3-1-由下至上的堆有序化（上浮）"><span class="toc-text">6.3.1.由下至上的堆有序化（上浮）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-3-2-由上至下的堆有序化（下沉）"><span class="toc-text">6.3.2.由上至下的堆有序化（下沉）</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-3-3-多叉堆"><span class="toc-text">6.3.3.多叉堆</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-3-4-调整数组大小"><span class="toc-text">6.3.4.调整数组大小</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-3-5-元素的不可变性"><span class="toc-text">6.3.5.元素的不可变性</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-3-6-索引优先队列"><span class="toc-text">6.3.6.索引优先队列</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-3-7-索引优先队列用例"><span class="toc-text">6.3.7.索引优先队列用例</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-4-堆排序"><span class="toc-text">6.4.堆排序</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#6-4-1-堆的构造"><span class="toc-text">6.4.1.堆的构造</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-4-2-下沉排序"><span class="toc-text">6.4.2.下沉排序</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-4-3-先下沉后上浮"><span class="toc-text">6.4.3.先下沉后上浮</span></a></li></ol></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="/assets/tagcanvas.min.js?rev=2.9"></script>
+    <script>
+        var tagOption = {
+            textColour: '#444', // 字体颜色
+            outlineMethod: 'block', // 选中模式
+            outlineColour: '#FFDAB9', // 选中模式的颜色
+            interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+            textHeight: 13,
+            outlineRadius: 3,
+            freezeActive: true || '', // 选中的标签是否继续滚动
+            frontSelect: true || '', // 不选标签云后部的标签
+            initial: [0.1, -0.1],
+            depth: 0.5,
+            decel: 0.95,
+            maxSpeed: 0.03,
+            reverse: true || '', // 是否反向触发
+            fadeIn: 500, // 进入动画时间
+            wheelZoom: false || '' // 是否启用鼠标滚轮
+        }
+        TagCanvas.Start('tag-cloud-3d','',tagOption);
+    </script>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

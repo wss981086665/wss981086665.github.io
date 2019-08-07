@@ -1,0 +1,442 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="南国猫觅海的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="https://wss981086665.github.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="Redis">
+
+
+    <meta name="description" content="
+注意: 撰写本文目的主要是为了给自己做一个备忘录，如果你学过Redis并且希望从本文中找到一些忘记的知识点，那么你可以阅读本文章。由于文章内讲解并不是很多，因此此文章并不适合小白入门使用。
+
+...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>Redis基础知识1-入门 | 南国猫觅海的个人博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="南国猫觅海的个人博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/websiteicon.png">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="南国猫觅海">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 最怕一生碌碌无为-还说平凡难能可贵 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://wss981086665.github.com">南国猫觅海的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Java/"><i class="fa "></i>Java</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Python/"><i class="fa "></i>Python</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Spring-Boot/"><i class="fa "></i>Spring Boot</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Linux/"><i class="fa "></i>Linux</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/about/index.html"><i class="fa "></i>关于</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Redis基础知识1-入门">
+            
+	            Redis基础知识1-入门
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/Redis/">Redis</a> <a class="category-link" href="/categories/Redis/数据库/">数据库</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/Redis/">Redis</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/08/07</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <ul>
+<li><strong>注意:</strong> 撰写本文目的主要是<strong>为了给自己做一个备忘录</strong>，如果你学过Redis并且希望从本文中找到一些忘记的知识点，那么你可以阅读本文章。由于文章内讲解并不是很多，因此此文章并不适合小白入门使用。</li>
+</ul>
+<h2 id="Redis基础知识"><a href="#Redis基础知识" class="headerlink" title="Redis基础知识"></a>Redis基础知识</h2><blockquote>
+<p><strong><code>Redis:</code></strong> <strong><code>RE</code></strong>mote <strong><code>DI</code></strong>ctionary <strong><code>S</code></strong>erver(远程字典服务器)</p>
+</blockquote>
+<ul>
+<li><strong>Redis是什么？</strong></li>
+</ul>
+<ol>
+<li>是完全开源免费的，用C语言编写，遵守BSD协议。</li>
+<li>是一个高性能的(key/value)分布式内存数据库，基于内存运行并支持持久化的<strong><code>NoSQL</code></strong>数据库，是当前<strong><code>最热门的NoSQL数据库之一</code></strong>，也被人们称为数据结构服务器。</li>
+</ol>
+<ul>
+<li><p><strong>Redis能干什么？</strong><br><strong>1</strong>.内存存储和持久化：Redis支持异步将内存中的数据写到硬盘上，同时不影响继续服务取最新N个数据的操作。如：可以将最新的10条评论的ID放在Redis的List集合里面。<br><strong>2</strong>.模拟类似于HttpSession这种需要设定过期时间的功能。<br><strong>3</strong>.发布、订阅消息系统。消息队列、排行榜、定时器、计数器。<br><strong>4</strong>.发布、订阅消息系统。</p>
+</li>
+<li><p>Redis去哪下载<br><a href="http://www.redis.cn/" target="_blank" rel="noopener">Redis中文网</a></p>
+</li>
+<li><p><strong>Redis怎么玩？</strong><br>1.数据类型、基本操作和配置<br>2.持久化和复制，RDB/AOF<br>3.事务的控制<br>4.复制<br>5…….</p>
+</li>
+<li><p><strong>最后让我们来看一看我们需要了解多少东西</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-6cac4ad1b84f5a5f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Redis学习图谱"></p>
+</li>
+</ul>
+<ul>
+<li>注：图片引用自掘金文章<a href="https://juejin.im/post/5cce56cee51d453aa307c80e" target="_blank" rel="noopener">Redis闲谈</a>，如有侵权，请联系博主删除。</li>
+</ul>
+<h2 id="Redis使用"><a href="#Redis使用" class="headerlink" title="Redis使用"></a>Redis使用</h2><h3 id="1-Redis安装"><a href="#1-Redis安装" class="headerlink" title="1.Redis安装"></a>1.Redis安装</h3><blockquote>
+<p>在此不介绍安装Redis相关知识，具体步骤请读者自行百度查找。(建议使用Linux环境)。博主在Redis基础教程系列中所使用的系统环境是ubantu18.04</p>
+</blockquote>
+<h3 id="2-相关知识"><a href="#2-相关知识" class="headerlink" title="2.相关知识"></a>2.相关知识</h3><ul>
+<li>Redis默认设有16个库</li>
+<li>Redis索引都是从0开始</li>
+<li>Redis默认端口是6379</li>
+</ul>
+<h3 id="3-基础操作"><a href="#3-基础操作" class="headerlink" title="3.基础操作"></a>3.基础操作</h3><h4 id="通过命令行客户端访问Redis"><a href="#通过命令行客户端访问Redis" class="headerlink" title="通过命令行客户端访问Redis"></a>通过命令行客户端访问Redis</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli</span><br></pre></td></tr></table></figure>
+<h4 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-benchmark</span><br></pre></td></tr></table></figure>
+<h4 id="切换库"><a href="#切换库" class="headerlink" title="切换库"></a>切换库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select x                # x是指要切换到的库的id</span><br></pre></td></tr></table></figure>
+<h4 id="查看库中key的数量"><a href="#查看库中key的数量" class="headerlink" title="查看库中key的数量"></a>查看库中key的数量</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dbsize</span><br></pre></td></tr></table></figure>
+<h4 id="查看库中所有的key-value"><a href="#查看库中所有的key-value" class="headerlink" title="查看库中所有的key-value"></a>查看库中所有的key-value</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keys *</span><br></pre></td></tr></table></figure>
+<h4 id="模糊查询"><a href="#模糊查询" class="headerlink" title="模糊查询"></a>模糊查询</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 查询&apos;k1&apos;,&apos;k2&apos;,&apos;k3&apos;</span><br><span class="line">keys key?</span><br></pre></td></tr></table></figure>
+<h4 id="清空库中数据"><a href="#清空库中数据" class="headerlink" title="清空库中数据"></a>清空库中数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">flushdb</span><br></pre></td></tr></table></figure>
+<h2 id="4-Redis五大数据类型"><a href="#4-Redis五大数据类型" class="headerlink" title="4.Redis五大数据类型"></a>4.Redis五大数据类型</h2><ul>
+<li>Redis键(key)</li>
+<li>Redis字符串(String)</li>
+<li>Redis列表(List)</li>
+<li>Redis集合(Set)</li>
+<li>Redis哈希(Hash)</li>
+<li>Redis有序集合Zset(sorted set)</li>
+</ul>
+<h3 id="String-字符串"><a href="#String-字符串" class="headerlink" title="String(字符串)"></a>String(字符串)</h3><blockquote>
+<ul>
+<li>String是Redis最基本的类型，你可以理解成与Memcached一模一样的类型，一个key对应一个value。</li>
+<li>String类型是二进制安全的。意思是Redis的String可以包含任何数据。比如jpg图片或者序列化的对象。</li>
+<li>String类型是Redis最基本的数据类型，一个Redis中字符串value最多可以是512M。</li>
+</ul>
+</blockquote>
+<h3 id="Hash-哈希"><a href="#Hash-哈希" class="headerlink" title="Hash(哈希)"></a>Hash(哈希)</h3><blockquote>
+<ul>
+<li>Redis hash是一个键值对集合。</li>
+<li>Redis hash是一个String类型的field和value的映射表，hash特别适合用于存储对象。</li>
+<li>类似于Java里面的Map&lt;String,Object&gt;</li>
+</ul>
+</blockquote>
+<h3 id="List-列表"><a href="#List-列表" class="headerlink" title="List(列表)"></a>List(列表)</h3><blockquote>
+<ul>
+<li>Redis列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素到列表的头部(左边)或者尾部(右边)。它的底层实际是个链表</li>
+</ul>
+</blockquote>
+<h3 id="Set-集合"><a href="#Set-集合" class="headerlink" title="Set(集合)"></a>Set(集合)</h3><blockquote>
+<ul>
+<li>Redis的Set是String类型的无序集合。它是通过HashTable实现的。</li>
+</ul>
+</blockquote>
+<h3 id="Zset-sorted-set-有序集合"><a href="#Zset-sorted-set-有序集合" class="headerlink" title="Zset(sorted set : 有序集合)"></a>Zset(sorted set : 有序集合)</h3><blockquote>
+<ul>
+<li>Redis Zset和Set一样也是String类型元素的集合，且不允许有重复的成员。</li>
+<li><strong>不同的是每个元素都会关联一个double类型的分数</strong></li>
+<li>Redis正是通过分数来为集合中的成员进行从小到达的排序。<strong>Zset的成员是唯一的，但分数(score)却可以重复。</strong></li>
+</ul>
+</blockquote>
+<h2 id="5-配置文件"><a href="#5-配置文件" class="headerlink" title="5.配置文件"></a>5.配置文件</h2><p><strong>常用配置参数:</strong></p>
+<ul>
+<li>1.Redis默认不是以守护进程的方式运行，可以通过配置项修改，使用yes启用守线程：<br><strong><code>daemonize no</code></strong></li>
+<li>2.当Redis以守护线程方式运行时，Redis默认会把pid写入<strong>/var/run/redis.pid</strong>文件，可以通过pidfile指定：<br><strong><code>pidfile /var/run/redis.pid</code></strong></li>
+<li>3.指定Redis监听端口，默认端口为<strong>6379</strong>，作者在自己的一篇博文中解释了为什么选用6379作为默认端口，因为6379是手机按键上MERZ对用的号码，而MERZ取自意大利歌女Alessia Merz的名字：<br><strong><code>port 6379</code></strong></li>
+<li>4.绑定的主机地址<br><strong><code>bind 127.0.0.1</code></strong></li>
+<li>5.当客户端闲置多长时间后关闭连接，如果指定为0，表示关闭该功能：<br><strong><code>timeout 300</code></strong></li>
+<li>6.指定日志记录级别，Redis总共支持四个级别：debug、verbose、notice、warning，默认为varbose：<br><strong><code>loglevel varbose</code></strong></li>
+<li>7.日志记录方式，默认为标准输出，如果配置Redis为守护进程方式运行，而这里又配置日志记录方式为标准输出，则日志将会发送给<strong>/dev/null</strong>：<br><strong><code>logfile stdout</code></strong></li>
+</ul>
+<p><strong>文集推荐:</strong></p>
+<blockquote>
+<p><a href="https://www.jianshu.com/nb/35411761" target="_blank" rel="noopener">Java基础方法集1</a><br><a href="https://www.jianshu.com/nb/35412583" target="_blank" rel="noopener">Python基础知识完整版</a><br><a href="https://www.jianshu.com/nb/35490047" target="_blank" rel="noopener">Spring Boot学习笔记</a><br><a href="https://www.jianshu.com/nb/35411158" target="_blank" rel="noopener">Linux指令进阶</a><br><a href="https://www.jianshu.com/nb/35701647" target="_blank" rel="noopener">Java高并发编程</a><br><a href="https://www.jianshu.com/nb/36348245" target="_blank" rel="noopener">SpringMVC基础知识进阶</a><br><a href="https://www.jianshu.com/nb/36768953" target="_blank" rel="noopener">Mysql基础知识完整版</a><br><a href="https://www.jianshu.com/nb/36626677" target="_blank" rel="noopener">健康管理系统学习花絮(学习记录)</a><br><a href="https://www.jianshu.com/nb/36852271" target="_blank" rel="noopener">Node.js基础知识(随手笔记)</a><br><a href="https://www.jianshu.com/nb/36850994" target="_blank" rel="noopener">MongoDB基础知识</a><br><a href="https://www.jianshu.com/nb/36474207" target="_blank" rel="noopener">Dubbo学习笔记</a><br><a href="https://www.jianshu.com/nb/35411638" target="_blank" rel="noopener">Vue学习笔记(随手笔记)</a></p>
+</blockquote>
+<blockquote>
+<p>声明：发表此文是出于传递更多信息之目的。若有来源标注错误或侵犯了您的合法权益，请作者持权属证明与本我们(QQ:981086665；邮箱:<a href="mailto:981086665@qq.com" target="_blank" rel="noopener">981086665@qq.com</a>)联系联系，我们将及时更正、删除，谢谢。</p>
+</blockquote>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/08/07/Redis基础知识2-五大数据类型常用方法/" class="pre-post btn btn-default" title="Redis基础知识2-五大数据类型常用方法">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">Redis基础知识2-五大数据类型常用方法</span>
+        </a>
+    
+    
+        <a href="/2019/08/07/《算法》2-1-2算法进阶之路-排序/" class="next-post btn btn-default" title="《算法》2.1~2算法进阶之路-排序">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">《算法》2.1~2算法进阶之路-排序</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis基础知识"><span class="toc-text">Redis基础知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redis使用"><span class="toc-text">Redis使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Redis安装"><span class="toc-text">1.Redis安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-相关知识"><span class="toc-text">2.相关知识</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-基础操作"><span class="toc-text">3.基础操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#通过命令行客户端访问Redis"><span class="toc-text">通过命令行客户端访问Redis</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#性能测试"><span class="toc-text">性能测试</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#切换库"><span class="toc-text">切换库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看库中key的数量"><span class="toc-text">查看库中key的数量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#查看库中所有的key-value"><span class="toc-text">查看库中所有的key-value</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#模糊查询"><span class="toc-text">模糊查询</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#清空库中数据"><span class="toc-text">清空库中数据</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#4-Redis五大数据类型"><span class="toc-text">4.Redis五大数据类型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#String-字符串"><span class="toc-text">String(字符串)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hash-哈希"><span class="toc-text">Hash(哈希)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List-列表"><span class="toc-text">List(列表)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Set-集合"><span class="toc-text">Set(集合)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Zset-sorted-set-有序集合"><span class="toc-text">Zset(sorted set : 有序集合)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#5-配置文件"><span class="toc-text">5.配置文件</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="/assets/tagcanvas.min.js?rev=2.9"></script>
+    <script>
+        var tagOption = {
+            textColour: '#444', // 字体颜色
+            outlineMethod: 'block', // 选中模式
+            outlineColour: '#FFDAB9', // 选中模式的颜色
+            interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+            textHeight: 13,
+            outlineRadius: 3,
+            freezeActive: true || '', // 选中的标签是否继续滚动
+            frontSelect: true || '', // 不选标签云后部的标签
+            initial: [0.1, -0.1],
+            depth: 0.5,
+            decel: 0.95,
+            maxSpeed: 0.03,
+            reverse: true || '', // 是否反向触发
+            fadeIn: 500, // 进入动画时间
+            wheelZoom: false || '' // 是否启用鼠标滚轮
+        }
+        TagCanvas.Start('tag-cloud-3d','',tagOption);
+    </script>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

@@ -1,0 +1,420 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="南国猫觅海的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="https://wss981086665.github.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="算法,数据结构">
+
+
+    <meta name="description" content="一、基础1.算术表达式求值
+表达式由括号、运算符和操作数(数字)组成。简单起见，这里定义的是未省略括号的算术表达式。我们根据以下4种情况从左到右逐个将这些实体送入栈处理。
+
+将操作数压如操作数栈...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>《算法》1.3~5算法进阶之路-基础 | 南国猫觅海的个人博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="南国猫觅海的个人博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/websiteicon.png">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="南国猫觅海">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 最怕一生碌碌无为-还说平凡难能可贵 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://wss981086665.github.com">南国猫觅海的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Java/"><i class="fa "></i>Java</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Python/"><i class="fa "></i>Python</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Spring-Boot/"><i class="fa "></i>Spring Boot</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Linux/"><i class="fa "></i>Linux</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/about/index.html"><i class="fa "></i>关于</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="《算法》1.3~5算法进阶之路-基础">
+            
+	            《算法》1.3~5算法进阶之路-基础
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/算法/">算法</a> <a class="category-link" href="/categories/算法/数据结构/">数据结构</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/数据结构/">数据结构</a> <a class="tag-link" href="/tags/算法/">算法</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/08/07</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="一、基础"><a href="#一、基础" class="headerlink" title="一、基础"></a>一、基础</h2><h3 id="1-算术表达式求值"><a href="#1-算术表达式求值" class="headerlink" title="1.算术表达式求值"></a>1.算术表达式求值</h3><blockquote>
+<p>表达式由括号、运算符和操作数(数字)组成。简单起见，这里定义的是未省略括号的算术表达式。我们根据以下4种情况从左到右逐个将这些实体送入栈处理。</p>
+<ul>
+<li>将操作数压如操作数栈；</li>
+<li>将运算符压入运算符栈；</li>
+<li>忽略左括号； </li>
+<li>在遇到右括号时，弹出一个运算符，弹出所需数量的操作数，冰江运算符和操作数的运算结果压入操作数栈</li>
+<li>本题用到的算数表达式: <strong><code>(1+((2+3)*(4*5)))</code></strong></li>
+</ul>
+</blockquote>
+<p><strong>示例代码:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Stack;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">test</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		</span><br><span class="line">		Stack&lt;String&gt; ops = <span class="keyword">new</span> Stack&lt;String&gt;();   <span class="comment">//操作符</span></span><br><span class="line">		Stack&lt;Double&gt; vals = <span class="keyword">new</span> Stack&lt;Double&gt;();   <span class="comment">//操作数</span></span><br><span class="line">		</span><br><span class="line">		String str = <span class="string">"(1+((2+3)*(4*5)))"</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;str.length(); i++) &#123;</span><br><span class="line">			String s = str.substring(i,i+<span class="number">1</span>);</span><br><span class="line">			<span class="keyword">if</span>(s.equals(<span class="string">"("</span>));</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(s.equals(<span class="string">"+"</span>)) ops.push(s);</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(s.equals(<span class="string">"-"</span>)) ops.push(s);</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(s.equals(<span class="string">"*"</span>)) ops.push(s);</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(s.equals(<span class="string">"/"</span>)) ops.push(s);</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(s.equals(<span class="string">"+"</span>)) ops.push(s);</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(s.equals(<span class="string">"sqrt"</span>)) ops.push(s);</span><br><span class="line">			<span class="keyword">else</span> <span class="keyword">if</span>(s.equals(<span class="string">")"</span>)) &#123;</span><br><span class="line">				String op = ops.pop();</span><br><span class="line">				<span class="keyword">double</span> val = vals.pop();</span><br><span class="line">				<span class="keyword">if</span>(op.equals(<span class="string">"+"</span>)) val = vals.pop() + val;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span>(op.equals(<span class="string">"-"</span>)) val = vals.pop() - val;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span>(op.equals(<span class="string">"*"</span>)) val = vals.pop() * val;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span>(op.equals(<span class="string">"/"</span>)) val = vals.pop() / val;</span><br><span class="line">				<span class="keyword">else</span> <span class="keyword">if</span>(op.equals(<span class="string">"sqrt"</span>)) val = Math.sqrt(val);</span><br><span class="line">				vals.push(val);</span><br><span class="line">			&#125;</span><br><span class="line">			<span class="keyword">else</span> vals.push(Double.parseDouble(s));</span><br><span class="line">		&#125;</span><br><span class="line">		System.out.println(<span class="string">"运算结果: "</span> + vals.pop());</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="2-数组实现一个泛型栈-下压-LIFO-栈"><a href="#2-数组实现一个泛型栈-下压-LIFO-栈" class="headerlink" title="2.数组实现一个泛型栈(下压(LIFO)栈)"></a>2.数组实现一个泛型栈(下压(LIFO)栈)</h3><blockquote>
+<p>Item是一个类型参数，用于表示用例将会使用的某种具体类型的象征性的占位符。可以将<strong><code>FixedCapacityStack&lt;Item&gt;</code></strong>理解为某种元素的栈，这正是我们想要的结果：依据这个栈可以处理任意数据类型。</p>
+</blockquote>
+<p>示例代码:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FixedCapacityStack</span>&lt;<span class="title">Item</span>&gt; <span class="keyword">implements</span> <span class="title">Iterable</span>&lt;<span class="title">Item</span>&gt;</span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> Item[] a;   <span class="comment">// Stack entries</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> N;      <span class="comment">// size</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FixedCapacityStack</span><span class="params">(<span class="keyword">int</span> cap)</span> </span>&#123;</span><br><span class="line">        a = (Item[]) <span class="keyword">new</span> Object[cap];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> N==<span class="number">0</span>; &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> N; &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(Item item)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 将元素压入站顶</span></span><br><span class="line">        <span class="keyword">if</span>(N == a.length) resize(<span class="number">2</span> * a.length);</span><br><span class="line">        a[N++] = item;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Item <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 从栈顶删除元素</span></span><br><span class="line">        Item item = a[--N];</span><br><span class="line">        a[N] = <span class="keyword">null</span>; <span class="comment">// 避免对象游离</span></span><br><span class="line">        <span class="keyword">if</span>(N&gt;<span class="number">0</span> &amp;&amp; N==a.length/<span class="number">4</span>) resize(a.length/<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">return</span> item;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">resize</span><span class="params">(<span class="keyword">int</span> max)</span> </span>&#123;</span><br><span class="line">        <span class="comment">// 将大小为N &lt;=max 的栈移动到一个新的大小为max的数组中</span></span><br><span class="line">        Item[] temp = (Item[]) <span class="keyword">new</span> Object[max];</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;N; i++) </span><br><span class="line">            temp[i] = a[i];</span><br><span class="line">        a = temp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 为FixedCapacityStack&lt;Item&gt;增加迭代功能</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterator&lt;Item&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ReverseArrayIterator();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 定义一个迭代器</span></span><br><span class="line">    <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ReverseArrayIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">Item</span>&gt; </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> i = N;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> i &gt; <span class="number">0</span>;  &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> Item <span class="title">next</span><span class="params">()</span>       </span>&#123; <span class="keyword">return</span> a[--i]; &#125;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span>     </span>&#123;                &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 何为对象游离？ 读者自行百度</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="3-使用链表实现泛型栈"><a href="#3-使用链表实现泛型栈" class="headerlink" title="3.使用链表实现泛型栈"></a>3.使用链表实现泛型栈</h3><blockquote>
+<ul>
+<li>Item是一个类型参数，用于表示用例将会使用的某种具体类型的象征性的占位符。可以将<strong><code>MyStack&lt;Item&gt;</code></strong>理解为某种元素的栈，这正是我们想要的结果：依据这个栈可以处理任意数据类型。<br><strong>使用链表实现栈的优点:</strong></li>
+<li>它可以处理任意类型的数据;</li>
+<li>所需的空间总是和集合的大小成正比;</li>
+<li>操作所需的时间总是和集合的大小无关;</li>
+</ul>
+</blockquote>
+<p><strong>示例代码:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyStack</span>&lt;<span class="title">Item</span>&gt; <span class="keyword">implements</span> <span class="title">Iterable</span>&lt;<span class="title">Item</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> Node first;   <span class="comment">//栈顶(最近添加的元素)</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> N;        <span class="comment">//元素数量</span></span><br><span class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 定义了节点的嵌套类</span></span><br><span class="line">		Item item;</span><br><span class="line">		Node next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> first == <span class="keyword">null</span>; &#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> N; &#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(Item item)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//向栈顶添加元素</span></span><br><span class="line">		Node oldfirst = first;</span><br><span class="line">		first = <span class="keyword">new</span> Node();</span><br><span class="line">		first.item = item;</span><br><span class="line">		first.next = oldfirst;</span><br><span class="line">		N++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Item <span class="title">pop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">//从栈顶删除元素并返回元素的值</span></span><br><span class="line">		Item item = first.item;</span><br><span class="line">		first = first.next;</span><br><span class="line">		N--;</span><br><span class="line">		<span class="keyword">return</span> item;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Iterator&lt;Item&gt; <span class="title">iterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="keyword">new</span> ListIterator();</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ListIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span>&lt;<span class="title">Item</span>&gt; </span>&#123;</span><br><span class="line">		<span class="keyword">private</span> Node current = first;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			<span class="keyword">return</span> current != <span class="keyword">null</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">remove</span><span class="params">()</span> </span>&#123; &#125;</span><br><span class="line">		<span class="function"><span class="keyword">public</span> Item <span class="title">next</span><span class="params">()</span> </span>&#123;</span><br><span class="line">			Item item = current.item;</span><br><span class="line">			current = current.next;</span><br><span class="line">			<span class="keyword">return</span> item;</span><br><span class="line">		&#125;</span><br><span class="line">		</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="4-队列的实现-链表"><a href="#4-队列的实现-链表" class="headerlink" title="4.队列的实现(链表)"></a>4.队列的实现(链表)</h3><blockquote>
+<ul>
+<li>要将一个元素入列（<strong><code>enqueue()</code></strong>），我们就将他添加到表尾（但是在链表为空时需要将<strong><code>first</code></strong>和<strong><code>last</code></strong>都指向新结点）；要将一个元素出列（<strong><code>dequeue()</code></strong>），我们就删除表头的结点（代码和Stack的<strong><code>pop()</code></strong>方法相同，只是当链表为空时需要更新last的值）。</li>
+</ul>
+</blockquote>
+<p><strong>示例代码:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyQueue</span>&lt;<span class="title">Item</span>&gt; <span class="keyword">implements</span> <span class="title">Iterable</span>&lt;<span class="title">Item</span>&gt; </span>&#123;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">private</span> Node first;   <span class="comment">//指向最早添加的结点的链接</span></span><br><span class="line">	<span class="keyword">private</span> Node last;    <span class="comment">//指向最近添加的结点的链接</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> N;        <span class="comment">//队列中的元素数量</span></span><br><span class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">		<span class="comment">// 定义了节点的嵌套类</span></span><br><span class="line">		Item item;</span><br><span class="line">		Node next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> first == <span class="keyword">null</span>; &#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">size</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> N; &#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">enqueue</span><span class="params">(Item item)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//向表尾添加元素</span></span><br><span class="line">		Node oldlast = last;</span><br><span class="line">		last = <span class="keyword">new</span> Node();</span><br><span class="line">		last.item = item;</span><br><span class="line">		last.next = <span class="keyword">null</span>;</span><br><span class="line">		<span class="keyword">if</span>(isEmpty()) first = last;</span><br><span class="line">		<span class="keyword">else</span> oldlast.next = <span class="keyword">null</span>;</span><br><span class="line">		N++;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> Item <span class="title">dequeue</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="comment">//从表头删除元素</span></span><br><span class="line">		Item item = first.item;</span><br><span class="line">		first = first.next;</span><br><span class="line">		<span class="keyword">if</span> (isEmpty()) last = <span class="keyword">null</span>;</span><br><span class="line">		N--;</span><br><span class="line">		<span class="keyword">return</span> item;</span><br><span class="line">	&#125;</span><br><span class="line">    <span class="comment">/*iterator()的实现方法不在重复写入*/</span></span><br><span class="line">    <span class="comment">/*测试用例main()的实现在此不再獒述*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="5-反转链表"><a href="#5-反转链表" class="headerlink" title="5.反转链表"></a>5.反转链表</h3><blockquote>
+<p><strong>目的：</strong>定义一个函数，输入一个链表的头结点，反转该链表并输出反转后链表的头结点0</p>
+<ul>
+<li>非递归实现: 为了完成这个任务，需要记录链表中三个连续的节点：reverse、first和second。在每一轮迭代中，我们从原链表中提取结点first并将它插入到逆链表的开头。在这过程中，我们需要一直保持first指向原链表中所有剩余的首结点，second指向原链表中剩余结点的第二个节点，reverse指向结果链表中的首结点。</li>
+<li>递归实现: 假设链表有N个结点，我们先递归颠倒最后N-1个结点，然后小心地将原链表中的首结点插入到结果链表地末端。</li>
+</ul>
+</blockquote>
+<p><strong>示例代码:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 非递归解法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Node <span class="title">reverse</span><span class="params">(Node x)</span> </span>&#123;</span><br><span class="line">    Node first = x;</span><br><span class="line">    Node reverse = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">while</span>(first != <span class="keyword">null</span>) &#123;</span><br><span class="line">        Node second = first.next;</span><br><span class="line">        first.next = reverse;</span><br><span class="line">        reverse = first;</span><br><span class="line">        first = second;    </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 递归解法</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Node <span class="title">reverse</span><span class="params">(Node first)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(first == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">if</span>(first.next == <span class="keyword">null</span>) <span class="keyword">return</span> first;</span><br><span class="line">    Node second = first.next;</span><br><span class="line">    Node rest = reverse(second);</span><br><span class="line">    second.next = first;</span><br><span class="line">    first.next = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">return</span> rest;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="6-union-find算法"><a href="#6-union-find算法" class="headerlink" title="6.union-find算法"></a>6.union-find算法</h3><blockquote>
+<ul>
+<li>描述: 动态连通性问题。输入一列整数对，其中每一个整数都表示一个某种类型的对象（这里用的是int型的值作为触点），一对整数p q可以被理解为“p和q是相连的”，我们假设“相连”是一种等价关系。这意味着它们具有<strong><code>自反性、对称性、传递性</code></strong>。</li>
+<li>等价关系能将对象分为多个等价类。在这里，当且仅当两个对象相连时他们才属于同一个等价类。我们的目标是编写一个程序来过滤掉序列中所有无意义的整数对（两个整数均来自于同一个等价类中）。当程序输入整数对p q时，如果所有的整数对都不能说明p和q是相连的，那么程序应该忽略p q这对整数并继续处理输入中的下一对整数。</li>
+<li>术语: 在这里：对象将被称为<strong><code>触点</code></strong>、整数对称将被称为<strong><code>连接</code></strong>、等价类将被称为<strong><code>连通分量</code></strong>或是<strong><code>分量</code></strong></li>
+<li>读者自行百度一下问题详细描述，再次不做详述。</li>
+</ul>
+</blockquote>
+<h4 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作:"></a>准备工作:</h4><p>我们需要维护两个实例变量，一个是<strong><code>连通分量的个数</code></strong>，另一个是数组<strong><code>id[]</code></strong>。<strong><code>find()</code></strong>和<strong><code>union()</code></strong>的实现将会是后面讨论的主题，也是<strong><code>union-fion</code></strong>算法的重点。<br><strong><code>说明:</code></strong>我们可以用一个以<strong><code>触点</code></strong>为索引的数组id[]作为基本的数据结构来表示所有的<strong><code>分量</code></strong>。我们将使用分量中的某个触点的名称作为分量的<strong><code>标识符</code></strong>，因此你可以认为每个分量都是由它的触点之一所标识的。一开始，我们有N个分量，每个触点都构成了一个只含有他自己的分量。因此我们将id[i]的值初始为i。对于每一个触点i，我们将<strong><code>find()</code></strong>方法用来判定它所在的分量所需的信息保存在id[i]之中。<strong><code>connected()</code></strong>方法的实现只用一条语句<strong><code>find(p) == find(q)</code></strong>，它返回一个布尔值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UF</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span>[] id;   <span class="comment">//分量id(以触点作为索引)</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> count;  <span class="comment">//分量数量</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">UF</span><span class="params">(<span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//初始化分量id数组</span></span><br><span class="line">		count = N;</span><br><span class="line">		id = <span class="keyword">new</span> <span class="keyword">int</span>[N];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;N; i++) &#123;</span><br><span class="line">			id[i] = i;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">count</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> count; &#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">connected</span><span class="params">(<span class="keyword">int</span> p, <span class="keyword">int</span> q)</span> </span>&#123; </span><br><span class="line">		<span class="keyword">return</span> find(p) == find(q);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> p)</span></span></span><br><span class="line"><span class="function">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">union</span><span class="params">(<span class="keyword">int</span> p, <span class="keyword">int</span> q)</span></span></span><br><span class="line"><span class="function">	<span class="comment">//find()与connected()方法将会在后面讨论，他们有三种实现方法(quick-find、quick-union、加权quick-union)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="comment">//StdIn: 标准输入，这样写是因为作者无法给定一个准确的输入方式。读者可以选择换一种方式实现输入操作</span></span><br><span class="line">        <span class="comment">//解决由标准输入得到的动态连通性问题</span></span><br><span class="line">		<span class="keyword">int</span> N = StdIn.readInt();             </span><br><span class="line">		UF uf = <span class="keyword">new</span> UF(N);                   <span class="comment">//读取触点数量</span></span><br><span class="line">		<span class="keyword">while</span>(StdIn.isEmpty()) &#123; </span><br><span class="line">			<span class="keyword">int</span> p = StdIn.readInt();</span><br><span class="line">			<span class="keyword">int</span> q = StdIn.readInt();         <span class="comment">//读取整数对</span></span><br><span class="line">			<span class="keyword">if</span>(uf.connected(p, q)) <span class="keyword">continue</span>; <span class="comment">//如果已经连通则忽略</span></span><br><span class="line">			uf.union(p, q);                  <span class="comment">//归并分量	 </span></span><br><span class="line">			System.out.println(uf.count() + <span class="string">"components"</span>);  <span class="comment">//打印连接</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="1-quick-find算法"><a href="#1-quick-find算法" class="headerlink" title="1.quick-find算法"></a>1.quick-find算法</h4><p><strong><code>思路:</code></strong></p>
+<ul>
+<li>这种方法是保证<strong><code>当且仅当id[p]等于id[q]时</code></strong>p和q是连通的，也就是在同一连通分量中的所有触点<strong><code>i</code></strong>对应的<strong><code>id[i]</code></strong>中的值必须全部相同。这意味着只需要调用<strong><code>connected()</code></strong>判断p和q是否在同一分量中，如果是，则不进行任何操作。如果不是，则使用<strong><code>union()</code></strong>进行p所在分量与q所在分量的连接操作。此处，我们可以便遍历整个数组，将所有和<strong><code>id[p]</code></strong>相等的元素的值变为<strong><code>id[q]</code></strong>的值。</li>
+<li>quick-find算法的性能并不是最好的，相反，该算法只适用于解决小数量的问题，如果用于解决大型问题，那么所需要的时间是不可估量的。</li>
+</ul>
+<p><strong><code>示例代码:</code></strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> p)</span></span>&#123; </span><br><span class="line">    <span class="keyword">return</span> id[p]; </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">union</span><span class="params">(<span class="keyword">int</span> p, <span class="keyword">int</span> q)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//将p和q归并到相同的分量中</span></span><br><span class="line">    <span class="keyword">int</span> pID = find(p);</span><br><span class="line">    <span class="keyword">int</span> qID = find(q);</span><br><span class="line">		</span><br><span class="line">    <span class="comment">//如果已经在相同的分量之中则不需要采取任何行动</span></span><br><span class="line">    <span class="keyword">if</span>(pID == qID) <span class="keyword">return</span>;</span><br><span class="line">		</span><br><span class="line">    <span class="comment">//将p的分量重命名为q的名称</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;id.length; i++) </span><br><span class="line">        <span class="keyword">if</span>(id[i] == pID) id[i] == qID;</span><br><span class="line">    count--;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-quick-union算法"><a href="#2-quick-union算法" class="headerlink" title="2.quick-union算法"></a>2.quick-union算法</h4><p><strong><code>思路:</code></strong></p>
+<ul>
+<li>正如算法名称一样，<strong><code>quick-union算法</code></strong>主要用于提高union()方法的速度，他和<strong><code>quick-find算法</code></strong>是互补的。</li>
+<li>以上两种算法具有相同的数据结构，但我们赋予这些值的意义不同，我们需要用它们来定义更加复杂的数据结构。每个触点所对应的id[]元素都是同一分量中的另一个触点的名称(也可能是它自己)——我们将这种联系称为<strong><code>链接</code></strong>。</li>
+<li>我们从给定的触点开始，由它的链接得到另一个触点，再由这个触点的链接到达第三个触点，如此继续跟随着链接直到到达一个跟触点，即链接指向自己的触点(你会发现，这样一个触点必然存在)。</li>
+<li>为何这样一个跟触点必然存在?：每次union()方法链接两个分量时都会事先到达跟触点，然后修改跟触点中对应的链接，这样使得每个触点都会有唯一的跟触点。如果读者不能理解，不妨拿出一张白纸，模拟一下查找与连接函数执行的过程，你会发现上面的理论是正确的。</li>
+</ul>
+<p><strong><code>示例代码:</code></strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> p)</span></span>&#123; </span><br><span class="line">	<span class="comment">//找出分量的名称</span></span><br><span class="line">	<span class="keyword">while</span>(p != id[p]) p = id[p];</span><br><span class="line">	<span class="keyword">return</span> p;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">union</span><span class="params">(<span class="keyword">int</span> p, <span class="keyword">int</span> q)</span> </span>&#123;</span><br><span class="line">	<span class="comment">//将p和q的根节点统一</span></span><br><span class="line">	<span class="keyword">int</span> pRoot = find(p);</span><br><span class="line">	<span class="keyword">int</span> qRoot = find(q);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//如果已经在相同的分量之中则不需要采取任何行动</span></span><br><span class="line">	<span class="keyword">if</span>(pRoot == qRoot) <span class="keyword">return</span>;</span><br><span class="line">	</span><br><span class="line">	id[pRoot] = qRoot;</span><br><span class="line">	</span><br><span class="line">	count--;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="3-带权quick-union算法"><a href="#3-带权quick-union算法" class="headerlink" title="3.带权quick-union算法"></a>3.带权quick-union算法</h4><p><strong><code>思路:</code></strong></p>
+<ul>
+<li>quick-union算法已经对quick-find算法进行了相当不错的改进，但是它还是由一个很大的缺点。</li>
+<li>在这里，分量之间的合并很类似于森林合并成树的操作。我们将分量称为一棵树，分量的长度称为树的深度，触点称为节点。现在我们来想一下，假如每次进行p和q的根节点统一操作时，都是深度较大的向深度较小的分量靠拢，那么最终将会形成一个深度很大的分量，而后每次进行find()方法时，可能需要很长的时间，这是随着程序运行而必然发生的情况，既然我们无法避免问题，那我们就要想办法去解决问题。。</li>
+<li>我们只需要简单地修改quick-union算法就能保证这样的糟糕情况不再出现。我们会记录每一棵树的大小并总是将较小的树连接到较大的树上。这项改动需要添加一个用于记录树中节点数的数组。</li>
+</ul>
+<p><strong><code>示例代码:</code></strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WeightedQuickUnionUF</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span>[] id;   <span class="comment">//父链接数组(以触点作为索引)</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span>[] sz;   <span class="comment">//(由触点索引的)各个根节点所对应的分量的大小</span></span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">int</span> count;  <span class="comment">//连通分量数量</span></span><br><span class="line">	</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">WeightedQuickUnionUF</span><span class="params">(<span class="keyword">int</span> N)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//初始化分量id数组</span></span><br><span class="line">		count = N;</span><br><span class="line">		id = <span class="keyword">new</span> <span class="keyword">int</span>[N];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;N; i++) id[i] = i; </span><br><span class="line">		sz = <span class="keyword">new</span> <span class="keyword">int</span>[N];</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;N; i++) sz[i] = <span class="number">1</span>; </span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">count</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> count; &#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">connected</span><span class="params">(<span class="keyword">int</span> p, <span class="keyword">int</span> q)</span> </span>&#123; </span><br><span class="line">		<span class="keyword">return</span> find(p) == find(q);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">find</span><span class="params">(<span class="keyword">int</span> p)</span></span>&#123; </span><br><span class="line">		<span class="comment">//跟随链接找到根节点</span></span><br><span class="line">		<span class="keyword">while</span>(p != id[p]) p = id[p];</span><br><span class="line">		<span class="keyword">return</span> p;</span><br><span class="line">	&#125;;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">union</span><span class="params">(<span class="keyword">int</span> p, <span class="keyword">int</span> q)</span> </span>&#123;</span><br><span class="line">		<span class="comment">//将p和q的根节点统一</span></span><br><span class="line">		<span class="keyword">int</span> i = find(p);</span><br><span class="line">		<span class="keyword">int</span> j = find(q);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(i == j) <span class="keyword">return</span>;</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//将小树的根节点连接到大树的根节点</span></span><br><span class="line">		<span class="keyword">if</span>(sz[i] &lt; sz[j]) &#123;id[i] = j; sz[j] += sz[i];&#125;</span><br><span class="line">		<span class="keyword">else</span> &#123;id[j] = i; sz[i] += sz[j];&#125;</span><br><span class="line">		count--;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="7-测量程序运行所需的时间"><a href="#7-测量程序运行所需的时间" class="headerlink" title="7.测量程序运行所需的时间"></a>7.测量程序运行所需的时间</h3><ul>
+<li><strong><code>Stopwatch类</code></strong>的<strong><code>elapsedTime()方法</code></strong> 能够返回自它被创建以来所经历的时间长度，以秒为单位。它的实现基于Java系统的<strong><code>currentTimeMillis()方法</code></strong>，该方法能够返回以毫秒计数的当前时间。它在被构造时纪录了当前时间，并在elapsedTime()方法被调用时再次调用该方法来计算得到对象创建以来所经过的时间。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Stopwatch</span> </span>&#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">long</span> start;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Stopwatch</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		start = System.currentTimeMillis();</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">double</span> <span class="title">elapsedTime</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		<span class="keyword">long</span> now = System.currentTimeMillis();</span><br><span class="line">		<span class="keyword">return</span> (now - start) / <span class="number">1000.0</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>声明：发表此文是出于传递更多信息之目的，并且做一些学习笔录是为了日后学习之用。文章大部分代码示例与文字内容均摘自《算法》一书。若有来源标注错误或侵犯了您的合法权益，请作者持权属证明与本我们(QQ:981086665；邮箱:<a href="mailto:981086665@qq.com" target="_blank" rel="noopener">981086665@qq.com</a>)联系联系，我们将及时更正、删除，谢谢。</p>
+</blockquote>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/08/07/《算法》2-1-2算法进阶之路-排序/" class="pre-post btn btn-default" title="《算法》2.1~2算法进阶之路-排序">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">《算法》2.1~2算法进阶之路-排序</span>
+        </a>
+    
+    
+        <a href="/2019/08/07/MySQL基础教程4-细节知识点/" class="next-post btn btn-default" title="MySQL基础教程4-细节知识点">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">MySQL基础教程4-细节知识点</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、基础"><span class="toc-text">一、基础</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-算术表达式求值"><span class="toc-text">1.算术表达式求值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-数组实现一个泛型栈-下压-LIFO-栈"><span class="toc-text">2.数组实现一个泛型栈(下压(LIFO)栈)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-使用链表实现泛型栈"><span class="toc-text">3.使用链表实现泛型栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-队列的实现-链表"><span class="toc-text">4.队列的实现(链表)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-反转链表"><span class="toc-text">5.反转链表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-union-find算法"><span class="toc-text">6.union-find算法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#准备工作"><span class="toc-text">准备工作:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-quick-find算法"><span class="toc-text">1.quick-find算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-quick-union算法"><span class="toc-text">2.quick-union算法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-带权quick-union算法"><span class="toc-text">3.带权quick-union算法</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-测量程序运行所需的时间"><span class="toc-text">7.测量程序运行所需的时间</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="/assets/tagcanvas.min.js?rev=2.9"></script>
+    <script>
+        var tagOption = {
+            textColour: '#444', // 字体颜色
+            outlineMethod: 'block', // 选中模式
+            outlineColour: '#FFDAB9', // 选中模式的颜色
+            interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+            textHeight: 13,
+            outlineRadius: 3,
+            freezeActive: true || '', // 选中的标签是否继续滚动
+            frontSelect: true || '', // 不选标签云后部的标签
+            initial: [0.1, -0.1],
+            depth: 0.5,
+            decel: 0.95,
+            maxSpeed: 0.03,
+            reverse: true || '', // 是否反向触发
+            fadeIn: 500, // 进入动画时间
+            wheelZoom: false || '' // 是否启用鼠标滚轮
+        }
+        TagCanvas.Start('tag-cloud-3d','',tagOption);
+    </script>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

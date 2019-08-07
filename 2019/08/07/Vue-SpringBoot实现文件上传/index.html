@@ -1,0 +1,366 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="南国猫觅海的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="https://wss981086665.github.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="Spring Boot,Vue.js,前端">
+
+
+    <meta name="description" content="Vue+SpringBoot实现文件上传
+最近由于业务需求，需要实现一个文件上传的上传的功能，可以是图片，也可以是文档，总之文件类型是随意的。下面我将会演示是一个简化版的文件上传示例。由于这里只...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>Vue+SpringBoot实现文件上传 | 南国猫觅海的个人博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="南国猫觅海的个人博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/websiteicon.png">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="南国猫觅海">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 最怕一生碌碌无为-还说平凡难能可贵 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://wss981086665.github.com">南国猫觅海的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Java/"><i class="fa "></i>Java</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Python/"><i class="fa "></i>Python</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Spring-Boot/"><i class="fa "></i>Spring Boot</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Linux/"><i class="fa "></i>Linux</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/about/index.html"><i class="fa "></i>关于</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Vue+SpringBoot实现文件上传">
+            
+	            Vue+SpringBoot实现文件上传
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/Vue-js/">Vue.js</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a> <a class="tag-link" href="/tags/Vue-js/">Vue.js</a> <a class="tag-link" href="/tags/前端/">前端</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/08/07</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h3 id="Vue-SpringBoot实现文件上传"><a href="#Vue-SpringBoot实现文件上传" class="headerlink" title="Vue+SpringBoot实现文件上传"></a>Vue+SpringBoot实现文件上传</h3><ul>
+<li>最近由于业务需求，需要实现一个文件上传的上传的功能，可以是图片，也可以是文档，总之文件类型是随意的。下面我将会演示是一个简化版的文件上传示例。由于这里只需要简单的上传一个文档，因此没有实现限制文件大小的代码。</li>
+<li>由于本人也是菜鸟一个，写此文章也为记录一下实现方法，当然也希望能给一些小伙伴带来帮助。代码写的不是很好，感谢读者指出不足之处。</li>
+</ul>
+<p><strong>前端页面:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-6237563da39b2073.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="前端页面"></p>
+<ul>
+<li>可以看到，该页面包含<strong>选择文件</strong>以及<strong>输入姓名</strong>两个表单。所以我并没有选择用<strong>form</strong>表单提交数据，而是直接使用Vue的<strong>双向数据绑定</strong>获取的文件信息与输入信息。</li>
+<li>在提交时，你可能会遇到各种各样的问题，其中包括<strong><code>跨域问题</code></strong>，跨域问题的简单解决方案会在后端代码中给出。</li>
+</ul>
+<p><strong>前端代码:</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">template</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"con"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"tip"</span>&gt;</span>选择文件：<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"file"</span> <span class="attr">type</span>=<span class="string">"file"</span> <span class="attr">title</span>=<span class="string">"请选择文件"</span> <span class="attr">value</span>=<span class="string">"请选择文件"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"tip"</span>&gt;</span>输入姓名：<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">input</span> <span class="attr">class</span>=<span class="string">"inputS"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">v-model</span>=<span class="string">"name"</span> <span class="attr">placeholder</span>=<span class="string">"请在此输入姓名"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">class</span>=<span class="string">"submit"</span> @<span class="attr">click</span>=<span class="string">"submit"</span>&gt;</span>提交<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">template</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">import</span> axios <span class="keyword">from</span> <span class="string">'axios'</span></span></span><br><span class="line"><span class="undefined"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> formData = <span class="keyword">new</span> FormData() <span class="comment">// 声明一个FormData对象</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">var</span> formData = <span class="keyword">new</span> <span class="built_in">window</span>.FormData() <span class="comment">// vue 中使用 window.FormData(),否则会报 'FormData isn't definded'</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="undefined">      data() &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">          name: <span class="string">''</span>,</span></span><br><span class="line"><span class="javascript">          <span class="comment">// file: ''</span></span></span><br><span class="line"><span class="undefined">        &#125;</span></span><br><span class="line"><span class="undefined">      &#125;,</span></span><br><span class="line"><span class="undefined">      methods: &#123;</span></span><br><span class="line"><span class="javascript">        submit: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">          formData.append(<span class="string">'file'</span>, <span class="built_in">document</span>.querySelector(<span class="string">'input[type=file]'</span>).files[<span class="number">0</span>]) <span class="comment">// 'file' 这个名字要和后台获取文件的名字一样;</span></span></span><br><span class="line"><span class="javascript">          formData.append(<span class="string">'user'</span>,<span class="keyword">this</span>.name)</span></span><br><span class="line"><span class="javascript">          <span class="comment">//'userfile'是formData这个对象的键名</span></span></span><br><span class="line"><span class="undefined">          axios(&#123;</span></span><br><span class="line"><span class="javascript">            url: <span class="string">'https://****:8081/ensure/uploadwork'</span>,   <span class="comment">//****: 你的ip地址</span></span></span><br><span class="line"><span class="undefined">            data: formData,</span></span><br><span class="line"><span class="javascript">            method: <span class="string">'post'</span>,</span></span><br><span class="line"><span class="undefined">            headers: &#123;</span></span><br><span class="line"><span class="javascript">              <span class="string">'Content-Type'</span>: <span class="string">'multipart/form-data'</span>,</span></span><br><span class="line"><span class="javascript">              <span class="comment">// 'Access-Control-Allow-Origin': 'http://127.0.0.1:8080'</span></span></span><br><span class="line"><span class="javascript">              <span class="comment">//这里是为了解决跨域问题，但是博主并没有用这种方式解决。后面会给出解决方案</span></span></span><br><span class="line"><span class="undefined">            &#125;</span></span><br><span class="line"><span class="javascript">          &#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(res.data);</span></span><br><span class="line"><span class="javascript">          &#125;) <span class="comment">// 发送请求</span></span></span><br><span class="line"><span class="undefined">        &#125;,</span></span><br><span class="line"><span class="undefined">      &#125;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span> <span class="attr">scoped</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">     // css属性由读者自行实现</span></span><br><span class="line"><span class="undefined"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>后端代码:</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CrossOrigin</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/ensure"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyController</span> </span>&#123;</span><br><span class="line">    <span class="comment">//上传文件</span></span><br><span class="line">    <span class="meta">@PostMapping</span>(<span class="string">"/uploadwork"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">uploadWork</span><span class="params">(HttpServletRequest request,@RequestParam(value = <span class="string">"file"</span>, required = <span class="keyword">false</span>)</span> MultipartFile file) <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line"></span><br><span class="line">        request.setCharacterEncoding(<span class="string">"UTF-8"</span>);</span><br><span class="line">        String user = request.getParameter(<span class="string">"user"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span>(!file.isEmpty()) &#123;</span><br><span class="line">            String fileName = file.getOriginalFilename();</span><br><span class="line">            String path = <span class="keyword">null</span>;</span><br><span class="line">            String type = fileName.indexOf(<span class="string">"."</span>) != -<span class="number">1</span> ? fileName.substring(fileName.lastIndexOf(<span class="string">"."</span>) + <span class="number">1</span>, fileName.length()) : <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">if</span> (type != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (<span class="string">"DOCX"</span>.equals(type.toUpperCase())||<span class="string">"DOC"</span>.equals(type.toUpperCase())) &#123;</span><br><span class="line">                    <span class="comment">// 项目在容器中实际发布运行的根路径</span></span><br><span class="line">                    String realPath = request.getSession().getServletContext().getRealPath(<span class="string">"/"</span>);</span><br><span class="line">                    <span class="comment">// 自定义的文件名称</span></span><br><span class="line">                    String trueFileName = user + <span class="string">"_"</span> + fileName;</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// 设置存放图片文件的路径</span></span><br><span class="line">                    path = <span class="string">"/workplace/classwork/"</span> + trueFileName;</span><br><span class="line">                    File dest = <span class="keyword">new</span> File(path);</span><br><span class="line">                    <span class="comment">//判断文件父目录是否存在</span></span><br><span class="line">                    <span class="keyword">if</span> (!dest.getParentFile().exists()) &#123;</span><br><span class="line">                        dest.getParentFile().mkdir();</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    file.transferTo(dest);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">return</span> trueFileName;</span><br><span class="line">                &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> <span class="string">"error"</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="string">"error"</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">"error"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>这段代码看起来可能会有一点难理解，但相信你只需要稍加思索就可以理解啦。</li>
+<li><strong><code>@CrossOrigin</code>: </strong>为Spring Boot的实现类加上此注解即可轻松解决跨域问题，这是不是要比上面在前端解决跨域问题简单得多呢。</li>
+</ul>
+<p><strong>提交成功:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-3d34827482d4a9c0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="提交成功"></p>
+<p><strong>文集推荐:</strong></p>
+<blockquote>
+<p><a href="https://www.jianshu.com/nb/35411761" target="_blank" rel="noopener">Java基础方法集1</a><br><a href="https://www.jianshu.com/nb/35412583" target="_blank" rel="noopener">Python基础知识完整版</a><br><a href="https://www.jianshu.com/nb/35490047" target="_blank" rel="noopener">Spring Boot学习笔记</a><br><a href="https://www.jianshu.com/nb/35411158" target="_blank" rel="noopener">Linux指令进阶</a><br><a href="https://www.jianshu.com/nb/35701647" target="_blank" rel="noopener">Java高并发编程</a><br><a href="https://www.jianshu.com/nb/36348245" target="_blank" rel="noopener">SpringMVC基础知识进阶</a><br><a href="https://www.jianshu.com/nb/36768953" target="_blank" rel="noopener">Mysql基础知识完整版</a><br><a href="https://www.jianshu.com/nb/36626677" target="_blank" rel="noopener">健康管理系统学习花絮(学习记录)</a><br><a href="https://www.jianshu.com/nb/36852271" target="_blank" rel="noopener">Node.js基础知识(随手笔记)</a><br><a href="https://www.jianshu.com/nb/36850994" target="_blank" rel="noopener">MongoDB基础知识</a><br><a href="https://www.jianshu.com/nb/36474207" target="_blank" rel="noopener">Dubbo学习笔记</a><br><a href="https://www.jianshu.com/nb/35411638" target="_blank" rel="noopener">Vue学习笔记(随手笔记)</a></p>
+</blockquote>
+<blockquote>
+<p>声明：发表此文是出于传递更多信息之目的。若有来源标注错误或侵犯了您的合法权益，请作者持权属证明与本我们(QQ:981086665；邮箱:<a href="mailto:981086665@qq.com" target="_blank" rel="noopener">981086665@qq.com</a>)联系联系，我们将及时更正、删除，谢谢。</p>
+</blockquote>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/08/07/健康管理系统花絮-1/" class="pre-post btn btn-default" title="健康管理系统花絮(1)">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">健康管理系统花絮(1)</span>
+        </a>
+    
+    
+        <a href="/2019/08/07/Vue学习笔记3-高级知识/" class="next-post btn btn-default" title="Vue学习笔记3-高级知识">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">Vue学习笔记3-高级知识</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Vue-SpringBoot实现文件上传"><span class="toc-text">Vue+SpringBoot实现文件上传</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="/assets/tagcanvas.min.js?rev=2.9"></script>
+    <script>
+        var tagOption = {
+            textColour: '#444', // 字体颜色
+            outlineMethod: 'block', // 选中模式
+            outlineColour: '#FFDAB9', // 选中模式的颜色
+            interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+            textHeight: 13,
+            outlineRadius: 3,
+            freezeActive: true || '', // 选中的标签是否继续滚动
+            frontSelect: true || '', // 不选标签云后部的标签
+            initial: [0.1, -0.1],
+            depth: 0.5,
+            decel: 0.95,
+            maxSpeed: 0.03,
+            reverse: true || '', // 是否反向触发
+            fadeIn: 500, // 进入动画时间
+            wheelZoom: false || '' // 是否启用鼠标滚轮
+        }
+        TagCanvas.Start('tag-cloud-3d','',tagOption);
+    </script>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

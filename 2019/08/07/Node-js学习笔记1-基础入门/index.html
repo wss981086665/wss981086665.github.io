@@ -1,0 +1,372 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="南国猫觅海的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="https://wss981086665.github.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="Node.js,后端">
+
+
+    <meta name="description" content="
+注意: 撰写本文目的主要是为了给自己做一个备忘录，如果你学过Node.js并且希望从本文中找到一些忘记的知识点，那么你可以阅读本文章。由于文章内讲解并不是很多，因此此文章并不适合小白入门使用。...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>Node.js学习笔记1-基础入门 | 南国猫觅海的个人博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="南国猫觅海的个人博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/websiteicon.png">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="南国猫觅海">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 最怕一生碌碌无为-还说平凡难能可贵 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://wss981086665.github.com">南国猫觅海的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Java/"><i class="fa "></i>Java</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Python/"><i class="fa "></i>Python</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Spring-Boot/"><i class="fa "></i>Spring Boot</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Linux/"><i class="fa "></i>Linux</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/about/index.html"><i class="fa "></i>关于</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Node.js学习笔记1-基础入门">
+            
+	            Node.js学习笔记1-基础入门
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/Node-js/">Node.js</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/Node-js/">Node.js</a> <a class="tag-link" href="/tags/后端/">后端</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/08/07</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <ul>
+<li><strong>注意:</strong> 撰写本文目的主要是<strong>为了给自己做一个备忘录</strong>，如果你学过Node.js并且希望从本文中找到一些忘记的知识点，那么你可以阅读本文章。由于文章内讲解并不是很多，因此此文章并不适合小白入门使用。</li>
+</ul>
+<h2 id="1-初识Node"><a href="#1-初识Node" class="headerlink" title="1.初识Node"></a>1.初识Node</h2><h3 id="1-1-HelloWorld"><a href="#1-1-HelloWorld" class="headerlink" title="1.1.HelloWorld"></a>1.1.HelloWorld</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//require表示引包，引包就是引用自己的一个特殊功能</span></span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">"http"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  res.writeHead(<span class="number">200</span>, &#123; <span class="string">"Content-type"</span>: <span class="string">"text/html;charset=UTF-8"</span> &#125;);</span><br><span class="line">  res.end(<span class="string">"哈哈哈哈，这是我的第一个Node页面"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//运行服务器,监听3000端口(端口号可以任意改动)</span></span><br><span class="line">server.listen(<span class="number">3000</span>, <span class="string">"127.0.0.1"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="1-2-使用http"><a href="#1-2-使用http" class="headerlink" title="1.2.使用http"></a>1.2.使用http</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//HTTP模块</span></span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">"http"</span>);</span><br><span class="line"></span><br><span class="line">http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">    res.writeHead(<span class="number">200</span>, &#123;</span><br><span class="line">      <span class="string">"Content-Type"</span>: <span class="string">"text/html;charset=UTF-8"</span></span><br><span class="line">    &#125;);</span><br><span class="line">    res.write(<span class="string">"&lt;h1&gt;我是主标题&lt;/h1&gt;"</span>);</span><br><span class="line">    res.write(<span class="string">"&lt;h2&gt;我是2标题&lt;/h2&gt;"</span>);</span><br><span class="line">    res.write(<span class="string">"&lt;h3&gt;我是3标题&lt;/h3&gt;"</span>);</span><br><span class="line">    res.end(<span class="string">"访问结束"</span>);</span><br><span class="line">  &#125;)</span><br><span class="line">  .listen(<span class="number">3000</span>, <span class="string">"127.0.0.1"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="1-3-解析URL"><a href="#1-3-解析URL" class="headerlink" title="1.3.解析URL"></a>1.3.解析URL</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//URL模块</span></span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">"http"</span>);</span><br><span class="line"><span class="keyword">var</span> url = <span class="built_in">require</span>(<span class="string">"url"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">    res.writeHead(<span class="number">200</span>, &#123;</span><br><span class="line">        <span class="string">"Content-Type"</span>: <span class="string">"text/html;charset=UTF-8"</span></span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">var</span> pathname = url.parse(req.url).pathname;</span><br><span class="line">    <span class="keyword">var</span> query = url.parse(req.url, <span class="literal">true</span>).query;</span><br><span class="line">    <span class="keyword">var</span> id = query.id;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(pathname);</span><br><span class="line">    <span class="built_in">console</span>.log(query);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">"id="</span> + id);</span><br><span class="line">    res.end(<span class="string">"访问结束"</span>);</span><br><span class="line">&#125;);</span><br><span class="line">server.listen(<span class="number">3000</span>, <span class="string">"127.0.0.1"</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="1-4-根据请求URL进行判断执行"><a href="#1-4-根据请求URL进行判断执行" class="headerlink" title="1.4.根据请求URL进行判断执行"></a>1.4.根据请求URL进行判断执行</h3><ul>
+<li>首先，列出这个例子是为了告诉读者有这种写法，这种根据URL进行判断执行的方法是非常低效的，不仅每个需要对每一个URL进行判断，还要对每一个选择的文件请求进行判断，试想一下，你的项目中需要显示几张图片，那么就需要分别对着几张图片进行URL判断并加载此图片。</li>
+</ul>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//require表示引包，引包就是引用自己的一个特殊功能</span></span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">"http"</span>);</span><br><span class="line"><span class="keyword">var</span> fs = <span class="built_in">require</span>(<span class="string">"fs"</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//创建服务器，参数是一个回调函数，表示如果有请求进来，要做什么</span></span><br><span class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (req.url == <span class="string">"/yuan"</span>) &#123;</span><br><span class="line">    fs.readFile(<span class="string">"./test.html"</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">      <span class="comment">//设置http头部，状态码是200，文件类型是html</span></span><br><span class="line">      res.writeHead(<span class="number">200</span>, &#123;</span><br><span class="line">        <span class="string">"Content-Type"</span>: <span class="string">"text/html;charset=UTF-8"</span></span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="comment">// res.end("哈哈哈哈，这是我的第一个Node页面");</span></span><br><span class="line">      res.end(data);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (req.url == <span class="string">"/bbb.css"</span>) &#123; <span class="comment">//html文件里涉及到访问文件</span></span><br><span class="line">    fs.readFile(<span class="string">"./css.css"</span>, <span class="function"><span class="keyword">function</span> (<span class="params">err, data</span>) </span>&#123;</span><br><span class="line">      <span class="comment">//设置http头部，状态码是200，文件类型是html</span></span><br><span class="line">      res.writeHead(<span class="number">200</span>, &#123;</span><br><span class="line">        <span class="string">"Content-Type"</span>: <span class="string">"text/css;charset=UTF-8"</span></span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="comment">// res.end("哈哈哈哈，这是我的第一个Node页面");</span></span><br><span class="line">      res.end(data);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    res.writeHead(<span class="number">404</span>, &#123;</span><br><span class="line">      <span class="string">"Content-Type"</span>: <span class="string">"text/html;charset=UTF-8"</span></span><br><span class="line">    &#125;);</span><br><span class="line">    res.end(<span class="string">"找不到页面"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//运行服务器,监听3000端口(端口号可以任意改动)</span></span><br><span class="line">server.listen(<span class="number">3000</span>, <span class="string">"127.0.0.1"</span>);</span><br></pre></td></tr></table></figure>
+<p><strong>其中的test.html与test2.html文件</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- test.html文件省略了一些内容 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    div &#123;</span></span><br><span class="line"><span class="undefined">      width: 200px;</span></span><br><span class="line"><span class="undefined">      height: 200px;</span></span><br><span class="line"><span class="undefined">      background-color: blue;</span></span><br><span class="line"><span class="undefined">      border-radius: 50%;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">type</span>=<span class="string">"text/css"</span> <span class="attr">href</span>=<span class="string">"bbb.css"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"abb.jpg"</span> <span class="attr">alt</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- test2.html文件省略了一些内容 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"></span></span><br><span class="line"><span class="undefined">    div &#123;</span></span><br><span class="line"><span class="undefined">      width: 200px;</span></span><br><span class="line"><span class="undefined">      height: 200px;</span></span><br><span class="line"><span class="undefined">      background-color: yellow;</span></span><br><span class="line"><span class="undefined">    &#125;</span></span><br><span class="line"><span class="undefined">  </span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>请求结果:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-e3777b7ac1e90e50.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="/yuan以及图片请求结果"></p>
+<h2 id="2-表单信息提交测试"><a href="#2-表单信息提交测试" class="headerlink" title="2.表单信息提交测试"></a>2.表单信息提交测试</h2><ul>
+<li>本小节主要是测试在网页中提交一些表单信息，并使用Node.js作为后端程序接收信息。</li>
+</ul>
+<p><strong>Node代码:</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//信息提交测试</span></span><br><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">"http"</span>);</span><br><span class="line"><span class="keyword">var</span> url = <span class="built_in">require</span>(<span class="string">"url"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  res.writeHead(<span class="number">200</span>, &#123;</span><br><span class="line">    <span class="string">"Content-Type"</span>: <span class="string">"text/html;charset=UTF-8"</span></span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">var</span> queryObj = url.parse(req.url, <span class="literal">true</span>).query;</span><br><span class="line">  <span class="keyword">var</span> name = queryObj.name;</span><br><span class="line">  <span class="keyword">var</span> age = queryObj.age;</span><br><span class="line">  <span class="keyword">var</span> sex = queryObj.sex;</span><br><span class="line"></span><br><span class="line">  res.write(<span class="string">"姓名:"</span> + name + <span class="string">" 年龄:"</span> + age + <span class="string">" 性别:"</span> + sex);</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"姓名:"</span> + name + <span class="string">" 年龄:"</span> + age + <span class="string">" 性别:"</span> + sex);</span><br><span class="line">  res.end();</span><br><span class="line">&#125;);</span><br><span class="line">server.listen(<span class="number">3000</span>, <span class="string">"127.0.0.1"</span>);</span><br></pre></td></tr></table></figure></p>
+<p><strong>前端body文件:</strong><br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"http://127.0.0.1:3000/"</span> <span class="attr">method</span>=<span class="string">"GET"</span>&gt;</span></span><br><span class="line">    姓名:<span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"name"</span> <span class="attr">type</span>=<span class="string">"text"</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></span><br><span class="line">    年龄:<span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"age"</span> <span class="attr">type</span>=<span class="string">"text"</span>&gt;</span><span class="tag">&lt;/<span class="name">br</span>&gt;</span></span><br><span class="line">    性别:<span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"sex"</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">value</span>=<span class="string">"男"</span>&gt;</span> 男</span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"sex"</span> <span class="attr">type</span>=<span class="string">"radio"</span> <span class="attr">value</span>=<span class="string">"女"</span>&gt;</span> 女<span class="tag">&lt;/<span class="name">br</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="3-路由-router"><a href="#3-路由-router" class="headerlink" title="3.路由-router"></a>3.路由-router</h2><ul>
+<li>下面给出的示例代码只能起到帮助你理解路由的概念，使用这样的路由方式进行生产并不是一个好的选择，但这并不代表这段代码毫无意义，请浏览并理解这段代码。</li>
+</ul>
+<p><strong>路由-router示例:</strong><br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">"http"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span> (<span class="params">req, res</span>) </span>&#123;</span><br><span class="line">  <span class="comment">//得到url</span></span><br><span class="line">  <span class="keyword">var</span> userurl = req.url;</span><br><span class="line">  res.writeHead(<span class="number">200</span>, &#123;</span><br><span class="line">    <span class="string">"Content-Type"</span>: <span class="string">"text/html;charset=UTF-8"</span></span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//substr函数来判断此时的开头</span></span><br><span class="line">  <span class="keyword">if</span> (userurl.substr(<span class="number">0</span>, <span class="number">9</span>) == <span class="string">"/student/"</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> studentid = userurl.substr(<span class="number">9</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="regexp">/^\d&#123;10&#125;$/</span>.test(studentid)) &#123;</span><br><span class="line">      res.end(<span class="string">"您需要查询学生在信息，id为"</span> + studentid);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      res.end(<span class="string">"学生学号位数不对"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (userurl.substr(<span class="number">0</span>, <span class="number">9</span>) == <span class="string">"/teacher/"</span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> teacherid = userurl.substr(<span class="number">9</span>);</span><br><span class="line">    <span class="keyword">if</span> (<span class="regexp">/^\d&#123;6&#125;$/</span>.test(teacherid)) &#123;</span><br><span class="line">      res.end(<span class="string">"您需要查询老师在信息，id为"</span> + teacherid);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      res.end(<span class="string">"老师学号位数不对"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line">server.listen(<span class="number">3000</span>, <span class="string">"127.0.0.1"</span>);</span><br></pre></td></tr></table></figure></p>
+<p><strong>查询结果:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-b294c9a16fab07b0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="查询结果"></p>
+<p><strong>文集推荐:</strong></p>
+<blockquote>
+<p><a href="https://www.jianshu.com/nb/35411761" target="_blank" rel="noopener">Java基础方法集1</a><br><a href="https://www.jianshu.com/nb/35412583" target="_blank" rel="noopener">Python基础知识完整版</a><br><a href="https://www.jianshu.com/nb/35490047" target="_blank" rel="noopener">Spring Boot学习笔记</a><br><a href="https://www.jianshu.com/nb/35411158" target="_blank" rel="noopener">Linux指令进阶</a><br><a href="https://www.jianshu.com/nb/35701647" target="_blank" rel="noopener">Java高并发编程</a><br><a href="https://www.jianshu.com/nb/36348245" target="_blank" rel="noopener">SpringMVC基础知识进阶</a><br><a href="https://www.jianshu.com/nb/36768953" target="_blank" rel="noopener">Mysql基础知识完整版</a><br><a href="https://www.jianshu.com/nb/36626677" target="_blank" rel="noopener">健康管理系统学习花絮(学习记录)</a><br><a href="https://www.jianshu.com/nb/36852271" target="_blank" rel="noopener">Node.js基础知识(随手笔记)</a><br><a href="https://www.jianshu.com/nb/36850994" target="_blank" rel="noopener">MongoDB基础知识</a><br><a href="https://www.jianshu.com/nb/36474207" target="_blank" rel="noopener">Dubbo学习笔记</a><br><a href="https://www.jianshu.com/nb/35411638" target="_blank" rel="noopener">Vue学习笔记(随手笔记)</a></p>
+</blockquote>
+<blockquote>
+<p>声明：发表此文是出于传递更多信息之目的。若有来源标注错误或侵犯了您的合法权益，请作者持权属证明与本我们(QQ:981086665；邮箱:<a href="mailto:981086665@qq.com" target="_blank" rel="noopener">981086665@qq.com</a>)联系联系，我们将及时更正、删除，谢谢。</p>
+</blockquote>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/08/07/Node-js学习笔记2-文件与静态资源/" class="pre-post btn btn-default" title="Node.js学习笔记2-文件与静态资源">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">Node.js学习笔记2-文件与静态资源</span>
+        </a>
+    
+    
+        <a href="/2019/08/07/Redis配置启动填坑/" class="next-post btn btn-default" title="Redis配置启动填坑">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">Redis配置启动填坑</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-初识Node"><span class="toc-text">1.初识Node</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-HelloWorld"><span class="toc-text">1.1.HelloWorld</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-使用http"><span class="toc-text">1.2.使用http</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-解析URL"><span class="toc-text">1.3.解析URL</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-根据请求URL进行判断执行"><span class="toc-text">1.4.根据请求URL进行判断执行</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-表单信息提交测试"><span class="toc-text">2.表单信息提交测试</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-路由-router"><span class="toc-text">3.路由-router</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="/assets/tagcanvas.min.js?rev=2.9"></script>
+    <script>
+        var tagOption = {
+            textColour: '#444', // 字体颜色
+            outlineMethod: 'block', // 选中模式
+            outlineColour: '#FFDAB9', // 选中模式的颜色
+            interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+            textHeight: 13,
+            outlineRadius: 3,
+            freezeActive: true || '', // 选中的标签是否继续滚动
+            frontSelect: true || '', // 不选标签云后部的标签
+            initial: [0.1, -0.1],
+            depth: 0.5,
+            decel: 0.95,
+            maxSpeed: 0.03,
+            reverse: true || '', // 是否反向触发
+            fadeIn: 500, // 进入动画时间
+            wheelZoom: false || '' // 是否启用鼠标滚轮
+        }
+        TagCanvas.Start('tag-cloud-3d','',tagOption);
+    </script>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

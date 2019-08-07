@@ -1,0 +1,415 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="南国猫觅海的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="https://wss981086665.github.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="MySQL">
+
+
+    <meta name="description" content="
+注意: 撰写本文目的主要是为了给自己做一个备忘录，如果你学过Mysql并且希望从本文中找到一些忘记的知识点，那么你可以阅读本文章。由于文章内讲解并不是很多，因此此文章并不适合小白入门使用。
+
+...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>MySQL基础教程1-DML(基本指令) | 南国猫觅海的个人博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="南国猫觅海的个人博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/websiteicon.png">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="南国猫觅海">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 最怕一生碌碌无为-还说平凡难能可贵 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://wss981086665.github.com">南国猫觅海的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Java/"><i class="fa "></i>Java</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Python/"><i class="fa "></i>Python</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Spring-Boot/"><i class="fa "></i>Spring Boot</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Linux/"><i class="fa "></i>Linux</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/about/index.html"><i class="fa "></i>关于</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="MySQL基础教程1-DML(基本指令)">
+            
+	            MySQL基础教程1-DML(基本指令)
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/MySQL/">MySQL</a> <a class="category-link" href="/categories/MySQL/数据库/">数据库</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/MySQL/">MySQL</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/08/07</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <ul>
+<li><strong>注意:</strong> 撰写本文目的主要是<strong>为了给自己做一个备忘录</strong>，如果你学过Mysql并且希望从本文中找到一些忘记的知识点，那么你可以阅读本文章。由于文章内讲解并不是很多，因此此文章并不适合小白入门使用。</li>
+</ul>
+<h1 id="基本指令操作"><a href="#基本指令操作" class="headerlink" title="基本指令操作"></a>基本指令操作</h1><h2 id="一、Sql分类"><a href="#一、Sql分类" class="headerlink" title="一、Sql分类"></a>一、Sql分类</h2><ul>
+<li><strong>数据库查询语言(DQL-Data Query Language)</strong><pre><code>代表关键字: select
+</code></pre></li>
+<li><strong>数据操纵语言(DML-Data Manipulation Language)</strong><pre><code>代表关键字: insert，delete，update
+</code></pre></li>
+<li><strong>数据库定义语言(DDL-Data Definition Language)</strong><pre><code>代表关键字: creat，drop，alter
+</code></pre></li>
+<li>事务控制语言(TCL-Transactional Control Language)<pre><code>代表关键字: commit，rollback
+</code></pre></li>
+<li>数据控制语言(DCL-Data Control Language)<pre><code>代表关键字: grant，revoke
+</code></pre><blockquote>
+<p>注意: 以下给出的代码块均为示例代码块</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="二、MySQL指令操作"><a href="#二、MySQL指令操作" class="headerlink" title="二、MySQL指令操作"></a>二、MySQL指令操作</h2><h3 id="1、基本操作"><a href="#1、基本操作" class="headerlink" title="1、基本操作"></a>1、基本操作</h3><h4 id="1-创建数据库"><a href="#1-创建数据库" class="headerlink" title="(1).创建数据库"></a>(1).创建数据库</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> myDatabase;</span><br></pre></td></tr></table></figure>
+<h4 id="2-查看所有数据库"><a href="#2-查看所有数据库" class="headerlink" title="(2).查看所有数据库"></a>(2).查看所有数据库</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">databases</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="3-使用数据库"><a href="#3-使用数据库" class="headerlink" title="(3).使用数据库"></a>(3).使用数据库</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> myDatabase;</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-a6a0058772dcfe40.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="使用myDatabase数据库.png"></p>
+<h4 id="4-在数据库中创建表"><a href="#4-在数据库中创建表" class="headerlink" title="(4).在数据库中创建表"></a>(4).在数据库中创建表</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> <span class="keyword">user</span>(</span><br><span class="line">    <span class="keyword">id</span> <span class="built_in">int</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT,</span><br><span class="line">    <span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    age <span class="built_in">int</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>,</span><br><span class="line">    PRIMARY <span class="keyword">KEY</span>(<span class="keyword">id</span>)</span><br><span class="line">    )<span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8;</span><br></pre></td></tr></table></figure>
+<h4 id="5-查看数据库中的所有表"><a href="#5-查看数据库中的所有表" class="headerlink" title="(5).查看数据库中的所有表"></a>(5).查看数据库中的所有表</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">tables</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-30df4c2876d4b433.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="myDatabase中的表.png"></p>
+<h4 id="6-查看表结构"><a href="#6-查看表结构" class="headerlink" title="(6).查看表结构"></a>(6).查看表结构</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desc user;</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-7ec33ac9ef915c8a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="user表结构.png"></p>
+<h4 id="7-设置字符编码"><a href="#7-设置字符编码" class="headerlink" title="(7).设置字符编码"></a>(7).设置字符编码</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> <span class="keyword">names</span> gbk;</span><br></pre></td></tr></table></figure>
+<h4 id="8-为已创建的表添加字段-列"><a href="#8-为已创建的表添加字段-列" class="headerlink" title="(8).为已创建的表添加字段(列)"></a>(8).为已创建的表添加字段(列)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter table user add gender int unsigned;</span><br></pre></td></tr></table></figure>
+<h3 id="2、insert操作"><a href="#2、insert操作" class="headerlink" title="2、insert操作"></a>2、insert操作</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">user</span> (<span class="keyword">id</span>,<span class="keyword">name</span>,age) <span class="keyword">values</span> (<span class="number">1</span>,<span class="string">"wss"</span>,<span class="number">18</span>);</span><br></pre></td></tr></table></figure>
+<p>如果id是自动递增的，也可以这样写:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">user</span> (<span class="keyword">name</span>,age) <span class="keyword">values</span> (<span class="string">"wss"</span>,<span class="number">18</span>);</span><br></pre></td></tr></table></figure></p>
+<p>如果age设置了默认值并且不需要填写时，也可以这样写:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">user</span> (<span class="keyword">name</span>) <span class="keyword">values</span> (<span class="string">"wss"</span>);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意：数与值严格对应。<br>数字不必加引号，字符串必须加引号</p>
+</blockquote>
+<p><strong>一次添加多个数据:</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> <span class="keyword">user</span> <span class="keyword">values</span> </span><br><span class="line">     (<span class="number">1</span>,<span class="string">'wss'</span>,<span class="number">18</span>),</span><br><span class="line">     (<span class="number">2</span>,<span class="string">'xqz'</span>,<span class="number">20</span>),</span><br><span class="line">     (<span class="number">3</span>,<span class="string">'xg'</span>,<span class="number">19</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="3、update操作"><a href="#3、update操作" class="headerlink" title="3、update操作"></a>3、update操作</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> age = <span class="number">10</span> <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'xqz'</span>;</span><br></pre></td></tr></table></figure>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-a6b0e0a610e28549.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="更新&#39;xqz&#39;的年龄"><br><img src="https://upload-images.jianshu.io/upload_images/13687958-ffc8d6fa7b2e0606.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="update图解"></p>
+<blockquote>
+<p>如果不加where条件，就是修改表中所有的数据，这是非常危险的做法。</p>
+</blockquote>
+<h3 id="4、delete操作"><a href="#4、delete操作" class="headerlink" title="4、delete操作"></a>4、delete操作</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+<p>清除全部数据:(<strong><code>危险的做法</code></strong>)<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> <span class="keyword">user</span>;</span><br></pre></td></tr></table></figure></p>
+<h3 id="5、select操作"><a href="#5、select操作" class="headerlink" title="5、select操作"></a>5、select操作</h3><p><img src="https://upload-images.jianshu.io/upload_images/13687958-258d93d88430ace6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="select语法"><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> 字段 <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> 条件;</span><br></pre></td></tr></table></figure></p>
+<p><strong>例:</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">2</span>;</span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">id</span>&gt;=<span class="number">2</span>;</span><br><span class="line"><span class="keyword">select</span> <span class="keyword">id</span>,<span class="keyword">name</span> <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">id</span> &gt;=<span class="number">2</span>;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p><strong><code>注意</code></strong>： 真正开发环境中，要尽量避免使用 <em> 来查村数据，如果你经常使用 </em> 查询数据，那么你的水平只能在3000以下。</p>
+</blockquote>
+<p><strong>常用表达式(<code>重要</code>):</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-1e44cad566eca1aa.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="常用表达式"><br><strong>select 5种子句之where匹配</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-fc5b2d2a44b962d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="select 5种子句之where匹配"></p>
+<h3 id="6、select查询模型-重要"><a href="#6、select查询模型-重要" class="headerlink" title="6、select查询模型(重要)"></a>6、select查询模型(重要)</h3><blockquote>
+<p>列是变量<br>变量可以计算<br>where是表达式，值为真假 </p>
+</blockquote>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<p>理解: where后面是表达式，返回布尔值。语句根据这个来判断是否匹配<br>例如: 输入全部还可以写成:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="number">1</span>;           <span class="comment">/* 1 代表真，0代表假*/</span></span><br></pre></td></tr></table></figure></p>
+<p>为取出的age值 +1 :<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">id</span>,<span class="keyword">name</span>,age <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure></p>
+<h2 id="三、奇怪的NULL"><a href="#三、奇怪的NULL" class="headerlink" title="三、奇怪的NULL"></a>三、奇怪的NULL</h2><blockquote>
+<p>如果一个字段被设置为不允许为NULL类型，那么会在给他赋值NULL时报错<br>NULL字段不等用普通的 = 来查询，那样将会很混乱，结果通常是错误的</p>
+</blockquote>
+<p>查询NULL的方法:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">is</span> <span class="literal">null</span>;          <span class="comment">/* 正确 */</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">name</span> <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">null</span>;      <span class="comment">/* 正确 */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">user</span> <span class="keyword">where</span> <span class="keyword">name</span>=<span class="literal">null</span>;             <span class="comment">/* 错误 */</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>友情链接:</strong></p>
+<blockquote>
+<p><a href="https://www.jianshu.com/p/d583773bbbd0" target="_blank" rel="noopener">MySQL基础教程2-DQL(select查询)</a><br><a href="https://www.jianshu.com/p/9122020759d5" target="_blank" rel="noopener">MySQL基础教程3-DDL(创建表)</a><br><a href="https://www.jianshu.com/p/979c9843101a" target="_blank" rel="noopener">MySQL基础教程4-细节知识点</a></p>
+</blockquote>
+<p><strong>文集推荐:</strong></p>
+<blockquote>
+<p><a href="https://www.jianshu.com/nb/35411761" target="_blank" rel="noopener">Java基础方法集1</a><br><a href="https://www.jianshu.com/nb/35412583" target="_blank" rel="noopener">Python基础知识完整版</a><br><a href="https://www.jianshu.com/nb/35490047" target="_blank" rel="noopener">Spring Boot学习笔记</a><br><a href="https://www.jianshu.com/nb/35411158" target="_blank" rel="noopener">Linux指令进阶</a><br><a href="https://www.jianshu.com/nb/35701647" target="_blank" rel="noopener">Java高并发编程</a><br><a href="https://www.jianshu.com/nb/36348245" target="_blank" rel="noopener">SpringMVC基础知识进阶</a><br><a href="https://www.jianshu.com/nb/36768953" target="_blank" rel="noopener">Mysql基础知识完整版</a><br><a href="https://www.jianshu.com/nb/36626677" target="_blank" rel="noopener">健康管理系统学习花絮(学习记录)</a><br><a href="https://www.jianshu.com/nb/36852271" target="_blank" rel="noopener">Node.js基础知识(随手笔记)</a><br><a href="https://www.jianshu.com/nb/36850994" target="_blank" rel="noopener">MongoDB基础知识</a><br><a href="https://www.jianshu.com/nb/36474207" target="_blank" rel="noopener">Dubbo学习笔记</a><br><a href="https://www.jianshu.com/nb/35411638" target="_blank" rel="noopener">Vue学习笔记(随手笔记)</a></p>
+</blockquote>
+<blockquote>
+<p>声明：发表此文是出于传递更多信息之目的。若有来源标注错误或侵犯了您的合法权益，请作者持权属证明与本我们(QQ:981086665；邮箱:<a href="mailto:981086665@qq.com" target="_blank" rel="noopener">981086665@qq.com</a>)联系联系，我们将及时更正、删除，谢谢。</p>
+</blockquote>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/08/07/MySQL基础教程2-DQL-select查询/" class="pre-post btn btn-default" title="MySQL基础教程2-DQL(select查询)">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">MySQL基础教程2-DQL(select查询)</span>
+        </a>
+    
+    
+        <a href="/2019/05/07/hello-world/" class="next-post btn btn-default" title="Hello World">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">Hello World</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#基本指令操作"><span class="toc-text">基本指令操作</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、Sql分类"><span class="toc-text">一、Sql分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、MySQL指令操作"><span class="toc-text">二、MySQL指令操作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1、基本操作"><span class="toc-text">1、基本操作</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-创建数据库"><span class="toc-text">(1).创建数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-查看所有数据库"><span class="toc-text">(2).查看所有数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-使用数据库"><span class="toc-text">(3).使用数据库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-在数据库中创建表"><span class="toc-text">(4).在数据库中创建表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-查看数据库中的所有表"><span class="toc-text">(5).查看数据库中的所有表</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-查看表结构"><span class="toc-text">(6).查看表结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#7-设置字符编码"><span class="toc-text">(7).设置字符编码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#8-为已创建的表添加字段-列"><span class="toc-text">(8).为已创建的表添加字段(列)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2、insert操作"><span class="toc-text">2、insert操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3、update操作"><span class="toc-text">3、update操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4、delete操作"><span class="toc-text">4、delete操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5、select操作"><span class="toc-text">5、select操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6、select查询模型-重要"><span class="toc-text">6、select查询模型(重要)</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、奇怪的NULL"><span class="toc-text">三、奇怪的NULL</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="/assets/tagcanvas.min.js?rev=2.9"></script>
+    <script>
+        var tagOption = {
+            textColour: '#444', // 字体颜色
+            outlineMethod: 'block', // 选中模式
+            outlineColour: '#FFDAB9', // 选中模式的颜色
+            interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+            textHeight: 13,
+            outlineRadius: 3,
+            freezeActive: true || '', // 选中的标签是否继续滚动
+            frontSelect: true || '', // 不选标签云后部的标签
+            initial: [0.1, -0.1],
+            depth: 0.5,
+            decel: 0.95,
+            maxSpeed: 0.03,
+            reverse: true || '', // 是否反向触发
+            fadeIn: 500, // 进入动画时间
+            wheelZoom: false || '' // 是否启用鼠标滚轮
+        }
+        TagCanvas.Start('tag-cloud-3d','',tagOption);
+    </script>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

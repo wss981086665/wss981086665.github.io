@@ -1,0 +1,415 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="南国猫觅海的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="https://wss981086665.github.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="JavaEE,后端,Spring Boot,Cache">
+
+
+    <meta name="description" content="六、Cache集成Spring Cache1234&lt;dependency&gt;        &lt;groupId&gt;org.springframework.boot&lt;/gr...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>Spring Boot6(Cache) | 南国猫觅海的个人博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="南国猫觅海的个人博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/websiteicon.png">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="南国猫觅海">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 最怕一生碌碌无为-还说平凡难能可贵 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://wss981086665.github.com">南国猫觅海的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Java/"><i class="fa "></i>Java</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Python/"><i class="fa "></i>Python</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Spring-Boot/"><i class="fa "></i>Spring Boot</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Linux/"><i class="fa "></i>Linux</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/about/index.html"><i class="fa "></i>关于</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Spring Boot6(Cache)">
+            
+	            Spring Boot6(Cache)
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/Spring-Boot/">Spring Boot</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/Cache/">Cache</a> <a class="tag-link" href="/tags/JavaEE/">JavaEE</a> <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a> <a class="tag-link" href="/tags/后端/">后端</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/05/04</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="六、Cache"><a href="#六、Cache" class="headerlink" title="六、Cache"></a>六、Cache</h2><p>集成Spring Cache<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-cache<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>若要使用Spring自带的内存缓存管理器,需要添加:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"> spring.cache.type = Simple</span><br><span class="line"></span><br><span class="line">*Simple: 基于ConcurrentHashMap实现的缓存,适合单体应用或者开发环境使用</span><br><span class="line"></span><br><span class="line">*none: 关闭缓存,比如开发阶段为为了确保功能正确,可以先禁用缓存</span><br><span class="line"></span><br><span class="line">*redis: 使用Redis作为缓存,还需要在pom中增加Redis依赖<span class="comment">//Redis实现一二级缓存</span></span><br><span class="line"></span><br><span class="line">*Generic: 用户自定义缓存实现,用户需要实现一个org.springframework.cache.CacheManager的实现</span><br></pre></td></tr></table></figure></p>
+<p>其他还有JCache、EhCache 2.x、Hazelcast</p>
+<h3 id="6-1-注释驱动缓存"><a href="#6-1-注释驱动缓存" class="headerlink" title="6.1.注释驱动缓存"></a>6.1.注释驱动缓存</h3><p>*需要使用注解@EnableCaching打开缓存功能<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Cacheable</span>: 作用在方法上,触发缓存读取操作</span><br><span class="line"><span class="meta">@CacheEvict</span>: 作用在方法上,触发缓存失效操作</span><br><span class="line"><span class="meta">@CachePut</span>: 作用在方法上,触发缓存更新操作</span><br><span class="line"><span class="meta">@Cache</span>: 作用在方法上，综合上面的各种操作,在有些场景下,调用业务会触发多种缓存操作</span><br><span class="line"><span class="meta">@CacheConfig</span>: 在类上设置当前缓存的一些公共设置</span><br></pre></td></tr></table></figure></p>
+<h4 id="6-1-1-Cacheable"><a href="#6-1-1-Cacheable" class="headerlink" title="6.1.1.@Cacheable"></a><a href="mailto:6.1.1.@Cacheable" target="_blank" rel="noopener">6.1.1.@Cacheable</a></h4><blockquote>
+<p>CacheManager 管理多个 Cache 组件，对缓存真正的CRUD操作在Cache组件中，每一个缓存组建由自己唯一的名字;<br>几个属性:</p>
+<ul>
+<li>cacheNames/value: 指定缓存的名字</li>
+<li>key: 缓存数据使用的key；可以用来指定缓存的对象。默认是使用方法参数的值。也可以用SpEL表达式:<br><img src="https://upload-images.jianshu.io/upload_images/13687958-05b1433852a3d03e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Cache SpEL available metadate.png"></li>
+<li>keyGenerator: key的生成器；可以自己指定key的生成器的组件id<pre><code>key/keyGenerator:二选一使用
+</code></pre></li>
+<li>cacheManage: 指定缓存管理器；或者是cacheResolver指定缓存解析器</li>
+<li>condition: 指定符合条件的情况下才缓存<br>例：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&gt; @Cacheable(value = &#123;&quot;emp&quot;,&quot;xxx&quot;&#125;,keyGenerator = &quot;myKeyGenerator&quot;,</span><br><span class="line">&gt;                condition=&quot;#id&gt;0 and #root.methodName eq &apos;aaa&apos;&quot;)</span><br><span class="line">&gt; public Employee getEmp(Integer id)&#123;</span><br><span class="line">&gt;     System.out.println(&quot;查询&quot;+id+&quot;号员工&quot;);</span><br><span class="line">&gt;     Employee emp = employeeMapper.getEmpById(id);</span><br><span class="line">&gt;     return emp;</span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>unless: 否定缓存，当unless指定的条件为true，方法的返回值就不会被缓存</li>
+<li>sync: 是否使用异步模式</li>
+<li>使用自定义的keyGenerator—自定义keyGenerator：<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="meta">@Configuration</span></span><br><span class="line">&gt; <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyCacheConfig</span> </span>&#123;</span><br><span class="line">&gt;     <span class="meta">@Bean</span>(<span class="string">"myKeyGenerator"</span>)</span><br><span class="line">&gt;     <span class="function"><span class="keyword">public</span> KeyGenerator <span class="title">keyGenerator</span><span class="params">()</span></span>&#123;</span><br><span class="line">&gt;         <span class="keyword">return</span> <span class="keyword">new</span>  KeyGenerator()&#123;</span><br><span class="line">&gt;             <span class="function"><span class="keyword">public</span> Object <span class="title">generate</span><span class="params">(Object target, Method method,Object... params)</span></span>&#123;</span><br><span class="line">&gt;                 <span class="keyword">return</span> method.getName()+<span class="string">"["</span>+ Arrays.asList(params).toString()+<span class="string">"]"</span>;</span><br><span class="line">&gt;             &#125;</span><br><span class="line">&gt;         &#125;;</span><br><span class="line">&gt;     &#125;</span><br><span class="line">&gt; &#125;</span><br><span class="line">&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<p>注解声明了方法的结果是可缓存的,如果缓存还在,则目标方法不会被调用,直接取缓存。可以为方法声明多个缓存,如果至少有一个缓存有缓存想项,则其缓存项将被返回：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Cacheable</span>(&#123;“Menu”,”menuExt”&#125;)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Menu <span class="title">findMenu</span><span class="params">(Long menuId)</span></span>&#123;…&#125;</span><br></pre></td></tr></table></figure></p>
+<p>注意:对于不同的缓存实现,最好将缓存对象实现序列化Serializable接口,这样可以无缝切换到分布式缓存系统</p>
+<h4 id="6-1-2-Key生成器"><a href="#6-1-2-Key生成器" class="headerlink" title="6.1.2.Key生成器"></a>6.1.2.Key生成器</h4><p>(1).缓存的Key非常重要,Spring使用了KeyGenerator类来根据方法参数生成Key</p>
+<ul>
+<li>如果只有一个参数,那么这个参数就是Key          </li>
+<li>如果没有参数,则返回SimpleKey.EMPTY</li>
+<li>如果有多个Key,则返回包含多个参数的SimpleKey<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Cacheable</span>(“user_function”)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">canAcessFunction</span><span class="params">(Long userId,Long orgId,String functionCode)</span></span>&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>(2).使用ApEL表达式来指定Key比自定义KeyGenerator更简单<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Cacheable(cacheNames=”org”,key=”#orgId”)</span></span><br><span class="line">public Org findOrg(Long orgId , boolean checkCrmSystem)&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Cacheable(cacheNames=”org” , key=”#user.orgId”)</span></span><br><span class="line">public Org findOrg(User user) &#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="6-1-3-CachePut"><a href="#6-1-3-CachePut" class="headerlink" title="6.1.3.@CachePut"></a><a href="mailto:6.1.3.@CachePut" target="_blank" rel="noopener">6.1.3.@CachePut</a></h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">*@CachePut:即调用方法，又更新缓存数据</span></span><br><span class="line"><span class="comment">* 修改了数据库的某个数据，同时更新缓存;</span></span><br><span class="line"><span class="comment">* 运行时机:</span></span><br><span class="line"><span class="comment">*    1.先调用目标方法</span></span><br><span class="line"><span class="comment">*    2.把调用方法的结果缓存起来</span></span><br><span class="line"><span class="comment">*  测试步骤</span></span><br><span class="line"><span class="comment">*    1.查询一号员工，查到的结果会放到缓存中</span></span><br><span class="line"><span class="comment">*    2.以后查询还是之前的结果</span></span><br><span class="line"><span class="comment">*    3.更新1号员工？【lastName:zhangsna;gender:0】</span></span><br><span class="line"><span class="comment">*                 将方法的返回值也放进缓存了；</span></span><br><span class="line"><span class="comment">*                 key:传入的employee对象  值：返回的employee对象</span></span><br><span class="line"><span class="comment">*                 ***必须要指定id--&gt;key = "#employee.id";</span></span><br><span class="line"><span class="comment">*                         或者是--&gt;key = "#result.id";使用返回后的id</span></span><br><span class="line"><span class="comment">*                    @Cacheable是不能用#result</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>注解CachePut总是会执行方法主体,并且使用返回的结果更新缓存,其他同Cacheable<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@CachePut(cacheNames=”org” , key=”#data.id”)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Org <span class="title">updateOrg</span><span class="params">(Org data)</span> </span>&#123; … &#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="6-1-4-CacheEvict"><a href="#6-1-4-CacheEvict" class="headerlink" title="6.1.4.@CacheEvict"></a><a href="mailto:6.1.4.@CacheEvict" target="_blank" rel="noopener">6.1.4.@CacheEvict</a></h4><p>注解CacheEvict用于删除缓存项或清空缓存,CacheEvict可以指定多个缓存名字来清空多个缓存。</p>
+<ul>
+<li>清除单个缓存<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@CacheEvict(cacheNames=”user”,key=”#id”)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateUser</span><span class="params">(Long id , <span class="keyword">int</span> status)</span> </span>&#123; … &#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>注意:CacheEvict只能清除不能加载,只有想用的Cacheable方法被调用后才会加载最新缓存项</p>
+<ul>
+<li><p>清除全部缓存(重新加载后,会清空config缓存)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@CacheEvict</span>(cacheNames=”config”,allEntries=<span class="keyword">true</span>)</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loadConfig</span><span class="params">()</span> </span>&#123; … &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>beforeInvocation = false: 缓存的清楚是否在方法之前执行，默认(false)代表是在方法之后执行；如果方法执行执行过程中出现异常，则会清除失败</p>
+<h4 id="6-1-5-Caching"><a href="#6-1-5-Caching" class="headerlink" title="6.1.5.@Caching"></a><a href="mailto:6.1.5.@Caching" target="_blank" rel="noopener">6.1.5.@Caching</a></h4><blockquote>
+<p>注解Caching可以混合以上各种注解,可以在Caching标签中混合<code>@Cacheable</code>、<code>@CachePut</code>、<code>@CacheEvict</code></p>
+<ul>
+<li>@Caching源代码实现:<br><img src="https://upload-images.jianshu.io/upload_images/13687958-2a50b8170cf7cad8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="@Caching源代码实现.png"></li>
+</ul>
+</blockquote>
+</li>
+<li><p>示例1:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Caching(evict = &#123;</span></span><br><span class="line"><span class="meta">        @CacheEvict(cacheNames="user",key="#user.id")@CacheEvict(cacheNames="user",key="#user.id"),</span></span><br><span class="line"><span class="meta">        @CacheEvict(cacheNames=”userExt”,key=”#ext.id”)</span></span><br><span class="line">&#125;)</span><br><span class="line">public void updateUser(User user,UserExt ext) &#123; … &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>示例2:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* @Caching当有些方法的缓存规则比较复杂的时候，使用Caching注解来指定多个复杂规则</span></span><br><span class="line"><span class="comment">* */</span></span><br><span class="line"><span class="meta">@Cacheable</span>(value = &#123;<span class="string">"emp"</span>&#125;,key = <span class="string">"#id"</span>)</span><br><span class="line"><span class="meta">@Caching</span>(</span><br><span class="line">    cacheable = &#123;</span><br><span class="line">          <span class="meta">@Cacheable</span>(value = <span class="string">"emp"</span>,key = <span class="string">"#lastName"</span>)</span><br><span class="line">    &#125;,</span><br><span class="line">    put = &#123;</span><br><span class="line">          <span class="meta">@CachePut</span>(value = <span class="string">"emp"</span>,key = <span class="string">"#result.id"</span>),</span><br><span class="line">          <span class="meta">@CachePut</span>(value = <span class="string">"emp"</span>,key = <span class="string">"#result.email"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line"><span class="function"><span class="keyword">public</span> Employee <span class="title">getEmpByLastName</span><span class="params">(String lastName)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> employeeMapper.getEmpByLastName(lastName);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="6-1-6-CacheConfig"><a href="#6-1-6-CacheConfig" class="headerlink" title="6.1.6.@CacheConfig"></a>6.1.6.@CacheConfig</h4><blockquote>
+<p>注解CacheConfig作用于类上,可为此类的方法的缓存注解提供默认值(cacheNames)</p>
+</blockquote>
+<h3 id="6-2使用Redis-Cache"><a href="#6-2使用Redis-Cache" class="headerlink" title="6.2使用Redis Cache"></a>6.2使用Redis Cache</h3><h4 id="6-2-1-Redis缓存原理"><a href="#6-2-1-Redis缓存原理" class="headerlink" title="6.2.1.Redis缓存原理"></a>6.2.1.Redis缓存原理</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@AutoConfigureAfter</span>(RedisAutoConfiguration.class) <span class="comment">//确保Redis配置成功</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@ConditionalOnBean</span>(RedisTemplate.class) <span class="comment">//使用RedisTemplate来操作缓存</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//生效的条件是系统没有实现CacheMansger</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@ConditionalOnMissingBean</span>(CacheManager.class)</span><br><span class="line"></span><br><span class="line"><span class="comment">//注解Conditional需要联合一个CacheCondition进一步判断是否执行当前匹配类</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//CacheCondition实现了Condition接口,该接口返回boolean值,用来判断是否启用该配置, CacheCondition用于判断application.properties中是否配置了spring.cache.type,取出其对应的值与CacheCondition所在的配置类进行比较,若一致,返回match</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@Conditional</span>(CacheCondition.class) </span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedisCacheConfiguration</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"> ……</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Cache接口包含以下方法:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">*<span class="function">ValueWrapper <span class="title">get</span><span class="params">(Object key)</span>: 根据Key获取缓存对象, ValueWrapper包含了get方法用于获取缓存对象</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">*<span class="keyword">void</span> <span class="title">put</span><span class="params">(Object key,Object value)</span>: 设置缓存</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">*<span class="keyword">void</span> <span class="title">evict</span><span class="params">(Object key)</span>: 根据Key值清除缓存</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">*<span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span>: 清除所有缓存</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="6-3-实现Redis两级缓存"><a href="#6-3-实现Redis两级缓存" class="headerlink" title="6.3.实现Redis两级缓存"></a>6.3.实现Redis两级缓存</h3><p>当缓存发生变化时,注解@CachePut和@CacheEvict会触发RedisCache的put(Object Key,Object Value)和evict(Object Key)操作,两级缓存需要同时更新ConcurrentHashMap和Redis缓存,而且需要通过Redis的Pub发出通知消息,其他Spring Boot应用通过Sub来接收消息,同步更新Spring Boot应用自身的一级缓存</p>
+<h4 id="6-3-1-实现TwoLevelCacheManager"><a href="#6-3-1-实现TwoLevelCacheManager" class="headerlink" title="6.3.1.实现TwoLevelCacheManager"></a>6.3.1.实现TwoLevelCacheManager</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TwoLevelCacheManager</span> <span class="keyword">extends</span> <span class="title">RedisCacheManager</span> </span>&#123;</span><br><span class="line">     RedisTemplate redisTemplate;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="title">TwoLevelCacheManager</span><span class="params">(RedisTemplate </span></span></span><br><span class="line"><span class="function"><span class="params">          redisTemplate,RedisCacheWriter cacheWriter, RedisCacheConfiguration defaultCacheConfiguration)</span> </span>&#123;</span><br><span class="line">          <span class="keyword">super</span>(cacheWriter,defaultCacheConfiguration);</span><br><span class="line">          <span class="keyword">this</span>.redisTemplate = redisTemplate;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//使用RedisAndLocalCache代替Spring Boot自带的RedisCache</span></span><br><span class="line">      <span class="meta">@Override</span></span><br><span class="line">      <span class="function"><span class="keyword">protected</span> Cache <span class="title">decorateCache</span><span class="params">(Cache cache)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">return</span> <span class="keyword">new</span> RedisAndLocalCache(<span class="keyword">this</span>, (RedisCache) cache);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//通过其他分布式节点，缓存改变</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">publishMessage</span><span class="params">(String cacheName)</span> </span>&#123;</span><br><span class="line">           <span class="keyword">this</span>.redisTemplate.convertAndSend(topicName, cacheName);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// 接受一个消息清空本地缓存</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receiver</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">          RedisAndLocalCache cache = ((RedisAndLocalCache) <span class="keyword">this</span>.getCache(name));</span><br><span class="line">          <span class="keyword">if</span>(cache!=<span class="keyword">null</span>)&#123;</span><br><span class="line">               cache.clearLocal();</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>在Spring Cache中,在缓存管理器中创建好每个缓存后,都会调用decorateCache方法,这样缓存管理器子类就有机会实现自己的扩展</p>
+<h4 id="6-3-2-创建RedisAndLocalCanch"><a href="#6-3-2-创建RedisAndLocalCanch" class="headerlink" title="6.3.2.创建RedisAndLocalCanch"></a>6.3.2.创建RedisAndLocalCanch</h4><p>RedisAndLocalCanch时系统的核心,它实现了Cache接口、类<br>class RedisAndLocalCache implements Cache {<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line"> <span class="comment">// 本地缓存提供</span></span><br><span class="line">ConcurrentHashMap&lt;Object, Object&gt; local = <span class="keyword">new</span> ConcurrentHashMap&lt;Object, Object&gt;();</span><br><span class="line">RedisCache redisCache;</span><br><span class="line">TwoLevelCacheManager cacheManager;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">RedisAndLocalCache</span><span class="params">(TwoLevelCacheManager cacheManager, RedisCache redisCache)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">this</span>.redisCache = redisCache;</span><br><span class="line">     <span class="keyword">this</span>.cacheManager = cacheManager;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> String <span class="title">getName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> redisCache.getName();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Object <span class="title">getNativeCache</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> redisCache.getNativeCache();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">**关键的****get****和****put****方法如下****:**</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ValueWrapper <span class="title">get</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">    ValueWrapper wrapper = (ValueWrapper) local.get(key);</span><br><span class="line">    <span class="keyword">if</span> (wrapper != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> wrapper;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 二级缓存取</span></span><br><span class="line">        wrapper = redisCache.get(key);</span><br><span class="line">        <span class="keyword">if</span> (wrapper != <span class="keyword">null</span>) &#123;</span><br><span class="line">            local.put(key, wrapper);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> wrapper;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">get</span><span class="params">(Object key, Class&lt;T&gt; type)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> redisCache.get(key, type);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="keyword">public</span> &lt;T&gt; <span class="function">T <span class="title">get</span><span class="params">(Object key, Callable&lt;T&gt; valueLoader)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> redisCache.get(key, valueLoader);</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">put</span><span class="params">(Object key, Object value)</span> </span>&#123;</span><br><span class="line">    System.out.println(value.getClass().getClassLoader());</span><br><span class="line">    redisCache.put(key, value);</span><br><span class="line">    clearOtherJVM();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ValueWrapper <span class="title">putIfAbsent</span><span class="params">(Object key, Object value)</span> </span>&#123;</span><br><span class="line">    ValueWrapper v = redisCache.putIfAbsent(key, value);</span><br><span class="line">    clearOtherJVM();</span><br><span class="line">    <span class="keyword">return</span> v;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">evict</span><span class="params">(Object key)</span> </span>&#123;</span><br><span class="line">    redisCache.evict(key);</span><br><span class="line">    clearOtherJVM();</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    redisCache.clear();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">clearLocal</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.local.clear();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">clearOtherJVM</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    cacheManager.publishMessage(redisCache.getName());</span><br><span class="line">&#125;</span><br><span class="line">``` java</span><br><span class="line">变量local代表了一个简单地缓存实现,使用了ConcurrentHashMap</span><br><span class="line"></span><br><span class="line">get方法有如下逻辑实现:</span><br><span class="line"></span><br><span class="line">*通过Key从本地取出ValueWrapper</span><br><span class="line"></span><br><span class="line">*如果ValueWrapper存在,则直接返回</span><br><span class="line"></span><br><span class="line">*如果ValueWrapper不存在,则调用父类RedisCache取得缓存项</span><br><span class="line"></span><br><span class="line">*如果缓存项为空,则说明暂时无此项,直接返回空,等待<span class="meta">@Cacheable</span>调用业务方法获取缓存项</span><br><span class="line"></span><br><span class="line">Put方法的实现逻辑如下:</span><br><span class="line"></span><br><span class="line">*先调用redisCache,更新二级缓存</span><br><span class="line"></span><br><span class="line">*调用clearOtherJVM方法,通知其他节点缓存更新</span><br><span class="line"></span><br><span class="line">*其他节点(包括本节点)的TwoLevelCacheManager收到消息后,会调用receiver方法从而实现一级缓存</span><br><span class="line"></span><br><span class="line">#### 6.3.3.缓存同步说明</span><br><span class="line"></span><br><span class="line">实现Redis的Pub/Sub模式</span><br><span class="line">``` java</span><br><span class="line"><span class="comment">// 定义一个redis 的频道，默认叫cache，用于pub/sub</span></span><br><span class="line"> <span class="meta">@Value</span>(<span class="string">"$&#123;springext.cache.redis.topic:cache&#125;"</span>)</span><br><span class="line"> String topicName;</span><br><span class="line"><span class="comment">// Redis message，参考Redis一章</span></span><br><span class="line"> <span class="meta">@Bean</span></span><br><span class="line"> <span class="function">RedisMessageListenerContainer <span class="title">container</span><span class="params">(RedisConnectionFactory connectionFactory,</span></span></span><br><span class="line"><span class="function"><span class="params">         MessageListenerAdapter listenerAdapter)</span> </span>&#123;</span><br><span class="line">     RedisMessageListenerContainer container = <span class="keyword">new</span> RedisMessageListenerContainer();</span><br><span class="line">     container.setConnectionFactory(connectionFactory);</span><br><span class="line">     container.addMessageListener(listenerAdapter, <span class="keyword">new</span>   PatternTopic(topicName));</span><br><span class="line">     <span class="keyword">return</span> container;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>需要在配置文件中配置springext.cache.redis.topic 指定一个频道名字,如果没有配置,默认的频道名字是cache</p>
+<p>配置监听器<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Bean</span></span><br><span class="line"> <span class="function">MessageListenerAdapter <span class="title">listenerAdapter</span><span class="params">(<span class="keyword">final</span> TwoLevelCacheManager cacheManager)</span> </span>&#123;</span><br><span class="line">     <span class="keyword">return</span> <span class="keyword">new</span> MessageListenerAdapter(<span class="keyword">new</span> MessageListener() &#123;</span><br><span class="line">         <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onMessage</span><span class="params">(Message message, <span class="keyword">byte</span>[] pattern)</span> </span>&#123;</span><br><span class="line">             <span class="keyword">byte</span>[] bs = message.getChannel();</span><br><span class="line">             <span class="keyword">try</span> &#123;</span><br><span class="line">                 <span class="comment">// Sub 一个消息，通知缓存管理器</span></span><br><span class="line">                 String type = <span class="keyword">new</span> String(bs, <span class="string">"UTF-8"</span>);</span><br><span class="line">                 String cacheName = <span class="keyword">new</span> String(message.getBody(),<span class="string">"UTF-8"</span>);</span><br><span class="line">                 cacheManager.receiver(cacheName);</span><br><span class="line">             &#125; <span class="keyword">catch</span> (UnsupportedEncodingException e) &#123;</span><br><span class="line">                 e.printStackTrace();</span><br><span class="line">                 <span class="comment">// 不可能出错，忽略</span></span><br><span class="line">             &#125;</span><br><span class="line">         &#125;</span><br><span class="line">     &#125;);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="6-3-4-将代码组合在一起"><a href="#6-3-4-将代码组合在一起" class="headerlink" title="6.3.4.将代码组合在一起"></a>6.3.4.将代码组合在一起</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuratio</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CacheConfig</span> </span>&#123;</span><br><span class="line">     <span class="meta">@Bean</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> TwoLevelCacheManager <span class="title">cacheManager</span><span class="params">(StringRedisTemplate redisTemplate)</span> </span>&#123;</span><br><span class="line">         RedisCacheWriter writer = RedisCacheWriter.lockingRedisCacheWriter(redisTemplate.getConnectionFactory());</span><br><span class="line">         SerializationPair pair = SerializationPair.fromSerializer(<span class="keyword">new</span> JdkSerializationRedisSerializer(<span class="keyword">this</span>.getClass().getClassLoader()));</span><br><span class="line">         RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig().serializeValuesWith(pair);</span><br><span class="line">         TwoLevelCacheManager cacheManager = <span class="keyword">new</span> TwoLevelCacheManager(redisTemplate,writer,config);</span><br><span class="line">         <span class="keyword">return</span> cacheManager;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/05/04/SpringBoot7-Junit测试/" class="pre-post btn btn-default" title="SpringBoot7(Junit测试)">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">SpringBoot7(Junit测试)</span>
+        </a>
+    
+    
+        <a href="/2019/05/04/Spring-Boot学习笔记5-Redis/" class="next-post btn btn-default" title="Spring Boot学习笔记5(Redis)">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">Spring Boot学习笔记5(Redis)</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#六、Cache"><span class="toc-text">六、Cache</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#6-1-注释驱动缓存"><span class="toc-text">6.1.注释驱动缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-1-1-Cacheable"><span class="toc-text">6.1.1.@Cacheable</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-1-2-Key生成器"><span class="toc-text">6.1.2.Key生成器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-1-3-CachePut"><span class="toc-text">6.1.3.@CachePut</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-1-4-CacheEvict"><span class="toc-text">6.1.4.@CacheEvict</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-1-5-Caching"><span class="toc-text">6.1.5.@Caching</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-1-6-CacheConfig"><span class="toc-text">6.1.6.@CacheConfig</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-2使用Redis-Cache"><span class="toc-text">6.2使用Redis Cache</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-2-1-Redis缓存原理"><span class="toc-text">6.2.1.Redis缓存原理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-3-实现Redis两级缓存"><span class="toc-text">6.3.实现Redis两级缓存</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-1-实现TwoLevelCacheManager"><span class="toc-text">6.3.1.实现TwoLevelCacheManager</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-2-创建RedisAndLocalCanch"><span class="toc-text">6.3.2.创建RedisAndLocalCanch</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-3-4-将代码组合在一起"><span class="toc-text">6.3.4.将代码组合在一起</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="/assets/tagcanvas.min.js?rev=2.9"></script>
+    <script>
+        var tagOption = {
+            textColour: '#444', // 字体颜色
+            outlineMethod: 'block', // 选中模式
+            outlineColour: '#FFDAB9', // 选中模式的颜色
+            interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+            textHeight: 13,
+            outlineRadius: 3,
+            freezeActive: true || '', // 选中的标签是否继续滚动
+            frontSelect: true || '', // 不选标签云后部的标签
+            initial: [0.1, -0.1],
+            depth: 0.5,
+            decel: 0.95,
+            maxSpeed: 0.03,
+            reverse: true || '', // 是否反向触发
+            fadeIn: 500, // 进入动画时间
+            wheelZoom: false || '' // 是否启用鼠标滚轮
+        }
+        TagCanvas.Start('tag-cloud-3d','',tagOption);
+    </script>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

@@ -1,0 +1,370 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="南国猫觅海的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="https://wss981086665.github.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="Spring Boot,健康管理系统">
+
+
+    <meta name="description" content="
+第二课验依然是用户端后台接口开发，主要有三大功能:
+
+记录用户饮食情况。
+记录用户运动情况。
+显示用户主要生理指标与用户饮食、运动关系，以此来指导用户合理饮食和运动。
+
+
+FoodContro...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>健康管理系统花絮(2.1 Controller) | 南国猫觅海的个人博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="南国猫觅海的个人博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/websiteicon.png">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="南国猫觅海">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 最怕一生碌碌无为-还说平凡难能可贵 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://wss981086665.github.com">南国猫觅海的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Java/"><i class="fa "></i>Java</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Python/"><i class="fa "></i>Python</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Spring-Boot/"><i class="fa "></i>Spring Boot</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Linux/"><i class="fa "></i>Linux</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/about/index.html"><i class="fa "></i>关于</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="健康管理系统花絮(2.1 Controller)">
+            
+	            健康管理系统花絮(2.1 Controller)
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/MySQL/">MySQL</a> <a class="category-link" href="/categories/MySQL/健康管理系统/">健康管理系统</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a> <a class="tag-link" href="/tags/健康管理系统/">健康管理系统</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/08/07</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <blockquote>
+<p>第二课验依然是用户端后台接口开发，主要有三大功能:</p>
+<ul>
+<li>记录用户饮食情况。</li>
+<li>记录用户运动情况。</li>
+<li>显示用户主要生理指标与用户饮食、运动关系，以此来指导用户合理饮食和运动。</li>
+</ul>
+</blockquote>
+<h4 id="FoodController-java"><a href="#FoodController-java" class="headerlink" title="FoodController.java"></a>FoodController.java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">/ 标识controller，返回json数据，URL前缀/api/v1/food</span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"api/v1/food"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">FoodController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 自动注入service</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> FoodService foodService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 查询食物</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"get"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResultObject <span class="title">getFoodById</span><span class="params">(@RequestParam <span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        Food food = foodService.getFoodById(id);</span><br><span class="line">        ResultObject resultObject = <span class="keyword">new</span> ResultObject(<span class="number">200</span>, <span class="string">"success"</span>, food);</span><br><span class="line">        <span class="keyword">return</span> resultObject;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 新建食物</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> food</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping</span>(<span class="string">"add"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResultObject <span class="title">insertFood</span><span class="params">(@RequestBody Food food)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> modifyId = foodService.insertFood(food);</span><br><span class="line">        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"modifyId"</span>, modifyId);</span><br><span class="line">        ResultObject resultObject = <span class="keyword">new</span> ResultObject(<span class="number">200</span>, <span class="string">"success"</span>, map);</span><br><span class="line">        <span class="keyword">return</span> resultObject;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 分页查询食物</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> pageNum, pageSize</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"list"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResultObject <span class="title">getAllFood</span><span class="params">(@RequestParam <span class="keyword">int</span> pageNum, @RequestParam <span class="keyword">int</span> pageSize)</span> </span>&#123;</span><br><span class="line">        PaginationObject paginationObj = foodService.getAllFood(pageNum, pageSize);</span><br><span class="line">        ResultObject resultObject = <span class="keyword">new</span> ResultObject(<span class="number">200</span>, <span class="string">"success"</span>, paginationObj);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> resultObject;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除食物</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@DeleteMapping</span>(<span class="string">"delete"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResultObject <span class="title">deleteFood</span><span class="params">(@RequestParam <span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> modifyId = foodService.deleteFood(id);</span><br><span class="line">        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"modifyId"</span>, modifyId);</span><br><span class="line">        ResultObject resultObject = <span class="keyword">new</span> ResultObject(<span class="number">200</span>, <span class="string">"success"</span>, map);</span><br><span class="line">        <span class="keyword">return</span> resultObject;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 更新食物</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> food</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PutMapping</span>(<span class="string">"edit"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResultObject <span class="title">updateFood</span><span class="params">(@RequestBody Food food)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> modifyId = foodService.updateFood(food);</span><br><span class="line">        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"modifyId"</span>, modifyId);</span><br><span class="line">        ResultObject resultObject = <span class="keyword">new</span> ResultObject(<span class="number">200</span>, <span class="string">"success"</span>, map);</span><br><span class="line">        <span class="keyword">return</span> resultObject;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="SportController-java"><a href="#SportController-java" class="headerlink" title="SportController.java"></a>SportController.java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 标识controller，返回json数据，URL前缀/api/v1/sport</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"api/v1/sport"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SportController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 自动注入service</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> SportService sportService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 查询运动</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"get"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResultObject <span class="title">getSportById</span><span class="params">(@RequestParam <span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        Sport sport = sportService.getSportById(id);</span><br><span class="line">        ResultObject resultObject = <span class="keyword">new</span> ResultObject(<span class="number">200</span>, <span class="string">"success"</span>, sport);</span><br><span class="line">        <span class="keyword">return</span> resultObject;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 新建运动</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> sport</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping</span>(<span class="string">"add"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResultObject <span class="title">insertSport</span><span class="params">(@RequestBody Sport sport)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> modifyId = sportService.insertSport(sport);</span><br><span class="line">        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"modifyId"</span>, modifyId);</span><br><span class="line">        ResultObject resultObject = <span class="keyword">new</span> ResultObject(<span class="number">200</span>, <span class="string">"success"</span>, map);</span><br><span class="line">        <span class="keyword">return</span> resultObject;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 分页查询运动</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> pageNum, pageSize</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"list"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResultObject <span class="title">getAllSport</span><span class="params">(@RequestParam <span class="keyword">int</span> pageNum, @RequestParam <span class="keyword">int</span> pageSize)</span> </span>&#123;</span><br><span class="line">        PaginationObject paginationObject = sportService.getAllSport(pageNum, pageSize);</span><br><span class="line">        ResultObject resultObject = <span class="keyword">new</span> ResultObject(<span class="number">200</span>, <span class="string">"success"</span>, paginationObject);</span><br><span class="line">        <span class="keyword">return</span> resultObject;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 删除运动</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> id</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@DeleteMapping</span>(<span class="string">"delete"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResultObject <span class="title">deleteSport</span><span class="params">(@RequestParam <span class="keyword">int</span> id)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> modifyId = sportService.deleteSport(id);</span><br><span class="line">        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"modifyId"</span>, modifyId);</span><br><span class="line">        ResultObject resultObject = <span class="keyword">new</span> ResultObject(<span class="number">200</span>, <span class="string">"success"</span>, map);</span><br><span class="line">        <span class="keyword">return</span> resultObject;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 更新运动</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> sport</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PutMapping</span>(<span class="string">"edit"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResultObject <span class="title">updateSport</span><span class="params">(@RequestBody Sport sport)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> modifyId = sportService.updateSport(sport);</span><br><span class="line">        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"modifyId"</span>, modifyId);</span><br><span class="line">        ResultObject resultObject = <span class="keyword">new</span> ResultObject(<span class="number">200</span>, <span class="string">"success"</span>, map);</span><br><span class="line">        <span class="keyword">return</span> resultObject;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="UserFoodHistoryController-java"><a href="#UserFoodHistoryController-java" class="headerlink" title="UserFoodHistoryController.java"></a>UserFoodHistoryController.java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 标识controller，返回json数据，URL前缀/api/v1/user_food_history</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/api/v1/user_food_history"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserFoodHistoryController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 自动注入service</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserFoodHistoryService userFoodHistoryService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 新建用户饮食记录</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userFoodHistory</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping</span>(<span class="string">"add"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResultObject <span class="title">insertUserFoodHistory</span><span class="params">(@RequestBody UserFoodHistory userFoodHistory)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> modifyId = userFoodHistoryService.insertUserFoodHistory(userFoodHistory);</span><br><span class="line">        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"modifyId"</span>, modifyId);</span><br><span class="line">        ResultObject resultObject = <span class="keyword">new</span> ResultObject();</span><br><span class="line">        resultObject.setResult(map);</span><br><span class="line">        <span class="keyword">if</span> (modifyId == <span class="number">1</span>) &#123;</span><br><span class="line">            resultObject.setCode(<span class="number">1</span>);</span><br><span class="line">            resultObject.setMsg(<span class="string">"success"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            resultObject.setCode(-<span class="number">1</span>);</span><br><span class="line">            resultObject.setMsg(<span class="string">"fail"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> resultObject;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 查询用户所有运动历史记录</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userId</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"get"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResultObject <span class="title">getAllUserFoodHistory</span><span class="params">(@RequestParam <span class="keyword">int</span> userId)</span> </span>&#123;</span><br><span class="line">        List&lt;UserEverydayFoodSituation&gt; userEverydayFoodSituations = userFoodHistoryService.getAllUserFoodHistory(userId);</span><br><span class="line">        ResultObject resultObject = <span class="keyword">new</span> ResultObject(<span class="number">200</span>, <span class="string">"success"</span>, userEverydayFoodSituations);</span><br><span class="line">        <span class="keyword">return</span> resultObject;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="UserRelationshipController-java"><a href="#UserRelationshipController-java" class="headerlink" title="UserRelationshipController.java"></a>UserRelationshipController.java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 标识controller，返回json数据，URL前缀/api/v1/relationship</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"api/v1/relationship"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserRelationshipController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 自动注入service</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserRelationshipService relationshipService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 查询用户饮食、运动、生理指标关系</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userId</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping</span>(<span class="string">"get"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResultObject <span class="title">getRelationship</span><span class="params">(@RequestParam <span class="keyword">int</span> userId)</span> </span>&#123;</span><br><span class="line">        UserRelationship relationship = relationshipService.getRelationship(userId);</span><br><span class="line">        ResultObject resultObject = <span class="keyword">new</span> ResultObject(<span class="number">0</span>, <span class="string">"success"</span>, relationship);</span><br><span class="line">        <span class="keyword">return</span> resultObject;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="UserSportHistoryController-java"><a href="#UserSportHistoryController-java" class="headerlink" title="UserSportHistoryController.java"></a>UserSportHistoryController.java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 标识controller，返回json数据，URL前缀/api/v1/user_sport_history</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/api/v1/user_sport_history"</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserSportHistoryController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 自动注入service</span></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserSportHistoryService userSportHistoryService;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 新建用户饮食记录</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userSportHistory</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@PostMapping</span>(<span class="string">"add"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResultObject <span class="title">insertUserSportHistory</span><span class="params">(@RequestBody UserSportHistory userSportHistory)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> modifyId = userSportHistoryService.insertUserSportHistory(userSportHistory);</span><br><span class="line">        Map&lt;String, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">        map.put(<span class="string">"modifyId"</span>, modifyId);</span><br><span class="line">        ResultObject resultObject = <span class="keyword">new</span> ResultObject();</span><br><span class="line">        resultObject.setResult(map);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 通过modifyid判断是否执行成功</span></span><br><span class="line">        <span class="keyword">if</span> (modifyId == <span class="number">1</span>) &#123;</span><br><span class="line">            resultObject.setCode(<span class="number">1</span>);</span><br><span class="line">            resultObject.setMsg(<span class="string">"success"</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            resultObject.setCode(-<span class="number">1</span>);</span><br><span class="line">            resultObject.setMsg(<span class="string">"fail"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> resultObject;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 查询用户饮食历史</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> userId</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@GetMapping</span>(<span class="string">"get"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> ResultObject <span class="title">getAllUserSportHistory</span><span class="params">(@RequestParam <span class="keyword">int</span> userId)</span> </span>&#123;</span><br><span class="line">        List&lt;UserEverydaySportSituation&gt; userEverydaySportSituations = userSportHistoryService.getAllUserSportHistory(userId);</span><br><span class="line">        ResultObject resultObject = <span class="keyword">new</span> ResultObject(<span class="number">200</span>, <span class="string">"success"</span>, userEverydaySportSituations);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> resultObject;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>文集推荐:</strong></p>
+<blockquote>
+<p><a href="https://www.jianshu.com/nb/35411761" target="_blank" rel="noopener">Java基础方法集1</a><br><a href="https://www.jianshu.com/nb/35412583" target="_blank" rel="noopener">Python基础知识完整版</a><br><a href="https://www.jianshu.com/nb/35490047" target="_blank" rel="noopener">Spring Boot学习笔记</a><br><a href="https://www.jianshu.com/nb/35411158" target="_blank" rel="noopener">Linux指令进阶</a><br><a href="https://www.jianshu.com/nb/35701647" target="_blank" rel="noopener">Java高并发编程</a><br><a href="https://www.jianshu.com/nb/36348245" target="_blank" rel="noopener">SpringMVC基础知识进阶</a><br><a href="https://www.jianshu.com/nb/36768953" target="_blank" rel="noopener">Mysql基础知识完整版</a><br><a href="https://www.jianshu.com/nb/36626677" target="_blank" rel="noopener">健康管理系统学习花絮(学习记录)</a><br><a href="https://www.jianshu.com/nb/36852271" target="_blank" rel="noopener">Node.js基础知识(随手笔记)</a><br><a href="https://www.jianshu.com/nb/36850994" target="_blank" rel="noopener">MongoDB基础知识</a><br><a href="https://www.jianshu.com/nb/36474207" target="_blank" rel="noopener">Dubbo学习笔记</a><br><a href="https://www.jianshu.com/nb/35411638" target="_blank" rel="noopener">Vue学习笔记(随手笔记)</a></p>
+</blockquote>
+<blockquote>
+<p>声明：发表此文是出于传递更多信息之目的。若有来源标注错误或侵犯了您的合法权益，请作者持权属证明与本我们(QQ:981086665；邮箱:<a href="mailto:981086665@qq.com" target="_blank" rel="noopener">981086665@qq.com</a>)联系联系，我们将及时更正、删除，谢谢。</p>
+</blockquote>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/08/07/健康管理系统花絮-2-2-Mapper/" class="pre-post btn btn-default" title="健康管理系统花絮(2.2 Mapper)">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">健康管理系统花絮(2.2 Mapper)</span>
+        </a>
+    
+    
+        <a href="/2019/08/07/健康管理系统花絮-1/" class="next-post btn btn-default" title="健康管理系统花絮(1)">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">健康管理系统花絮(1)</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#FoodController-java"><span class="toc-text">FoodController.java</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SportController-java"><span class="toc-text">SportController.java</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#UserFoodHistoryController-java"><span class="toc-text">UserFoodHistoryController.java</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#UserRelationshipController-java"><span class="toc-text">UserRelationshipController.java</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#UserSportHistoryController-java"><span class="toc-text">UserSportHistoryController.java</span></a></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="/assets/tagcanvas.min.js?rev=2.9"></script>
+    <script>
+        var tagOption = {
+            textColour: '#444', // 字体颜色
+            outlineMethod: 'block', // 选中模式
+            outlineColour: '#FFDAB9', // 选中模式的颜色
+            interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+            textHeight: 13,
+            outlineRadius: 3,
+            freezeActive: true || '', // 选中的标签是否继续滚动
+            frontSelect: true || '', // 不选标签云后部的标签
+            initial: [0.1, -0.1],
+            depth: 0.5,
+            decel: 0.95,
+            maxSpeed: 0.03,
+            reverse: true || '', // 是否反向触发
+            fadeIn: 500, // 进入动画时间
+            wheelZoom: false || '' // 是否启用鼠标滚轮
+        }
+        TagCanvas.Start('tag-cloud-3d','',tagOption);
+    </script>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

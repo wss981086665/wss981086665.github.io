@@ -1,0 +1,381 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="南国猫觅海的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="https://wss981086665.github.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="Python,爬虫">
+
+
+    <meta name="description" content="六、网络爬虫1.  python如何访问互联网(1).urllib模块:
+实战1:  下载图片download_cat.py实战2: 有道翻译translation.py实战3: 代理请求pro...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>Python基础知识全网最全6(网络爬虫) | 南国猫觅海的个人博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="南国猫觅海的个人博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/websiteicon.png">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="南国猫觅海">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 最怕一生碌碌无为-还说平凡难能可贵 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://wss981086665.github.com">南国猫觅海的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Java/"><i class="fa "></i>Java</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Python/"><i class="fa "></i>Python</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Spring-Boot/"><i class="fa "></i>Spring Boot</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Linux/"><i class="fa "></i>Linux</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/about/index.html"><i class="fa "></i>关于</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="Python基础知识全网最全6(网络爬虫)">
+            
+	            Python基础知识全网最全6(网络爬虫)
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/Python/">Python</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/Python/">Python</a> <a class="tag-link" href="/tags/爬虫/">爬虫</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/05/04</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="六、网络爬虫"><a href="#六、网络爬虫" class="headerlink" title="六、网络爬虫"></a>六、网络爬虫</h2><h3 id="1-python如何访问互联网"><a href="#1-python如何访问互联网" class="headerlink" title="1.  python如何访问互联网"></a>1.  python如何访问互联网</h3><h4 id="1-urllib模块"><a href="#1-urllib模块" class="headerlink" title="(1).urllib模块:"></a>(1).urllib模块:</h4><blockquote>
+<p>实战1:  <strong>下载图片download_cat.py</strong><br>实战2: <strong>有道翻译translation.py</strong><br>实战3: <strong>代理请求proxy_eg.py</strong><br>实战4: <strong>爬取图片:**</strong>download_mm1.py**<br>注：为了不影响读者阅读博客，这些程序将会在博客末尾列出</p>
+</blockquote>
+<ul>
+<li>1.<strong>访问</strong>: <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line">response = urllib.request.urlopen(“http://www.xztywss.top”)</span><br><span class="line">html= response.read()          <span class="comment">#将网页所有代码转换成字符串返回</span></span><br><span class="line">html= html.decode(“utf<span class="number">-8</span>”)      <span class="comment">#将网页源码进行转码</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">…</span><br><span class="line">req = urllib.request.Request( url[, data][,head])</span><br><span class="line">response = urllib.request.urlopen(req)</span><br><span class="line">…</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>2.<strong>response.geturl()</strong>: 获取访问的网络地址</p>
+</li>
+<li><p>3.<strong>response.info()</strong>: 获取远程服务器返回的header信息</p>
+</li>
+<li><p>4.<strong>response.getcode()</strong>: 返回访问的状态。正常访问是200</p>
+</li>
+<li><p>5.<strong>编码(urllib.parse)</strong>: </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import urllib.parse</span><br><span class="line">data = urllib.parse.urlencode(data).encode(‘utf-8’)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>6.<strong>JSON**</strong>转换**: </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line">target =json.loads(html)         <span class="comment">#此处target即为JSON数据</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>7.<strong>隐藏(head**</strong>设置)**: (1).配置head参数然后添加到Request请求</p>
+</li>
+</ul>
+<h4 id="2-直接设置-Request-add-header-key-value"><a href="#2-直接设置-Request-add-header-key-value" class="headerlink" title="(2).直接设置:Request.add_header(key,value)"></a>(2).直接设置:Request.add_header(key,value)</h4><ul>
+<li><p>8.<strong>延时请求(sleep(index))</strong>: </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> time</span><br><span class="line">    ……</span><br><span class="line">Time.sleep(<span class="number">5</span>)            <span class="comment">#程序停顿5秒</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>9.<strong>代理请求(proxy)</strong>: </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">1</span>).参数是一个字典&#123;<span class="string">'类型'</span>:<span class="string">'代理ip:端口号'</span>&#125;</span><br><span class="line">        proxy_support =urllib.request.ProxyHandler(&#123;&#125;)</span><br><span class="line">(<span class="number">2</span>).定制、创建一个opener</span><br><span class="line">        opener =urllib.request.build_opener(proxy_support)</span><br><span class="line">(<span class="number">3</span>)(非必要)</span><br><span class="line">        opener.addheaders = [(key,value)]</span><br><span class="line">(<span class="number">4</span>).安装opener</span><br><span class="line">        urllib.request.install_opener(opener)</span><br><span class="line">(<span class="number">5</span>).调用opener</span><br><span class="line">        opener.open(url)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="爬取示例"><a href="#爬取示例" class="headerlink" title="爬取示例:"></a>爬取示例:</h3><blockquote>
+<p>注:  由于可能会有侵犯网站权限的风险，因此我将程序中的网站地址全覆盖掉了，读者可以自行根据图片网站的源码修改程序的相关内容。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">url_open</span><span class="params">(url)</span>:</span>           <span class="comment">#返回页面的html代码</span></span><br><span class="line">    req = urllib.request.Request(url)</span><br><span class="line">   </span><br><span class="line">    response = urllib.request.urlopen(url)</span><br><span class="line">    html = response.read()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> html</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_img_url</span><span class="params">(url)</span>:</span></span><br><span class="line">    print(url)</span><br><span class="line">    html2 = url_open(url).decode(<span class="string">"gbk"</span>,<span class="string">"ignore"</span>)</span><br><span class="line">    e = html2.find(<span class="string">'当前位置'</span>)</span><br><span class="line">    f = html2.find(<span class="string">'XXXX是全网最好的4K壁纸站'</span>)</span><br><span class="line">    g = html2.find(<span class="string">'img src='</span>,e,f)</span><br><span class="line">    h = html2.find(<span class="string">'.jpg'</span>,g,f)</span><br><span class="line"></span><br><span class="line">    imgstr2 = (<span class="string">"http://xxx.xxxx.com"</span> + html2[g+<span class="number">9</span>:h+<span class="number">4</span>])    <span class="comment">#/upload/allimg/</span></span><br><span class="line">    <span class="keyword">return</span> imgstr2</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_imgs</span><span class="params">(url)</span>:</span></span><br><span class="line">    html = url_open(url).decode(<span class="string">'gbk'</span>,<span class="string">"ignore"</span>)</span><br><span class="line">    img_addrs = []</span><br><span class="line"></span><br><span class="line">    c = html.find(<span class="string">'当前位置'</span>)</span><br><span class="line">    d = html.find(<span class="string">'上一页'</span>)</span><br><span class="line">    a = html.find(<span class="string">'/tupian'</span>,c)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> a != <span class="number">-1</span>:</span><br><span class="line">        b = html.find(<span class="string">'.html'</span>,a)</span><br><span class="line">        <span class="keyword">if</span> b != <span class="number">-1</span>:</span><br><span class="line">            imgstr = get_img_url(<span class="string">"http://xxx.xxxx.com"</span> + html[a:b+<span class="number">5</span>])</span><br><span class="line">            img_addrs.append(imgstr)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            b = a + <span class="number">9</span></span><br><span class="line">        a = html.find(<span class="string">'/tupian'</span>,b,d)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> img_addrs</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_imgs</span><span class="params">(folder,img_addrs)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> each <span class="keyword">in</span> img_addrs:</span><br><span class="line">        print(each)</span><br><span class="line">        filename = str(random.randint(<span class="number">111111</span>,<span class="number">999999</span>)) + <span class="string">'.jpg'</span></span><br><span class="line">        <span class="keyword">with</span> open(filename,<span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            img = url_open(each)</span><br><span class="line">            f.write(img)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download_mm</span><span class="params">(folder=<span class="string">'4kBiZhi'</span>)</span>:</span></span><br><span class="line">    os.mkdir(folder)</span><br><span class="line">    os.chdir(folder)</span><br><span class="line"></span><br><span class="line">    index = [<span class="string">'2'</span>,<span class="string">'3'</span>,<span class="string">'4'</span>,<span class="string">'5'</span>,<span class="string">'6'</span>,<span class="string">'7'</span>,<span class="string">'8'</span>,<span class="string">'9'</span>,<span class="string">'10'</span>,<span class="string">'11'</span>,<span class="string">'12'</span>,<span class="string">'13'</span>,<span class="string">'14'</span>,<span class="string">'15'</span>,<span class="string">'16'</span>,<span class="string">'17'</span>,<span class="string">'18'</span>,<span class="string">'19'</span>,<span class="string">'20'</span>]</span><br><span class="line">    <span class="keyword">for</span> each <span class="keyword">in</span> index:</span><br><span class="line">        url = <span class="string">'http://xxx.xxxx.com/index_'</span>+ each + <span class="string">'.html'</span>    <span class="comment">#/index_?.html</span></span><br><span class="line">        img_addrs = find_imgs(url)</span><br><span class="line">        save_imgs(folder,img_addrs)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    download_mm()</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h3 id="urllib模块-程序-终"><a href="#urllib模块-程序-终" class="headerlink" title="urllib模块-程序(终)"></a>urllib模块-程序(终)</h3><h4 id="1-download-cat-py"><a href="#1-download-cat-py" class="headerlink" title="(1) download_cat.py"></a>(1) download_cat.py</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"></span><br><span class="line">response = urllib.request.urlopen(<span class="string">"http://placekitten.com/500/600"</span>)</span><br><span class="line">cat_img = response.read()</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> open(<span class="string">'cat_500_600.jpg'</span>,<span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.write(cat_img)</span><br></pre></td></tr></table></figure>
+<h4 id="2-translation-py"><a href="#2-translation-py" class="headerlink" title="(2) translation.py"></a>(2) translation.py</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#由于不可知原因,此程序无法执行。但是代码书协逻辑值得参考</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> urllib.parse</span><br><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line">content = input(<span class="string">"请输入需要翻译的内容:"</span>)</span><br><span class="line"></span><br><span class="line">url = <span class="string">'http://fanyi.youdao.com/translate_o?smartresult=dict&amp;smartresult=rule'</span></span><br><span class="line"></span><br><span class="line">head = &#123;&#125;</span><br><span class="line">head[<span class="string">'User-Agent'</span>] = <span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'</span></span><br><span class="line"></span><br><span class="line">data = &#123;&#125;</span><br><span class="line">data[<span class="string">'i'</span>] = content</span><br><span class="line">data[<span class="string">'from'</span>] = <span class="string">'AUTO'</span></span><br><span class="line">data[<span class="string">'to'</span>] = <span class="string">'AUTO'</span></span><br><span class="line">data[<span class="string">'smartresult'</span>] = <span class="string">'dict'</span></span><br><span class="line">data[<span class="string">'client'</span>] = <span class="string">'fanyideskweb'</span></span><br><span class="line">data[<span class="string">'salt'</span>] = <span class="string">'15484690529866'</span></span><br><span class="line">data[<span class="string">'sign'</span>] = <span class="string">'552cf5a85c7937e6dfb1c478b413148r'</span></span><br><span class="line">data[<span class="string">'ts'</span>] = <span class="string">'1548469052987'</span></span><br><span class="line">data[<span class="string">'bv'</span>] = <span class="string">'b34b626f1c1da1753c455d5223882b60'</span></span><br><span class="line">data[<span class="string">'doctype'</span>] = <span class="string">'json'</span></span><br><span class="line">data[<span class="string">'keyfrom'</span>] = <span class="string">'fanyi.web'</span></span><br><span class="line">data[<span class="string">'ue'</span>] = <span class="string">'UTF-8'</span></span><br><span class="line">data[<span class="string">'action'</span>] = <span class="string">'FY_BY_CLICKBUTTION'</span></span><br><span class="line">data[<span class="string">'typoResult'</span>] = <span class="string">'true'</span></span><br><span class="line">data = urllib.parse.urlencode(data).encode(<span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line">req = urllib.request.Request(url,data,head)</span><br><span class="line">response = urllib.request.urlopen(req)</span><br><span class="line">html = response.read().decode(<span class="string">'utf-8'</span>)</span><br><span class="line"></span><br><span class="line">target = json.loads(html)</span><br><span class="line"></span><br><span class="line">print(target)</span><br><span class="line"></span><br><span class="line"><span class="comment"># print("翻译结果:%s" % (target['translateResult'][0][0]['tgt']))</span></span><br></pre></td></tr></table></figure>
+<h4 id="3-proxy-eg-py"><a href="#3-proxy-eg-py" class="headerlink" title="(3) proxy_eg.py"></a>(3) proxy_eg.py</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> random</span><br><span class="line"></span><br><span class="line">url = <span class="string">"http://www.ip111.cn/"</span></span><br><span class="line"></span><br><span class="line">iplist = [<span class="string">'123.118.171.184:9999'</span>,<span class="string">'223.241.78.137:8010'</span>,<span class="string">'193.112.15.70:8118'</span>]</span><br><span class="line"></span><br><span class="line">proxy_support = urllib.request.ProxyHandler(&#123;<span class="string">'http'</span>:random.choice(iplist)&#125;)</span><br><span class="line"></span><br><span class="line">opener = urllib.request.build_opener(proxy_support)</span><br><span class="line">opener.addheaders = [(<span class="string">'User-Agent'</span>,<span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'</span>)]</span><br><span class="line"></span><br><span class="line">urllib.request.install_opener(opener)</span><br><span class="line"></span><br><span class="line">response = urllib.request.urlopen(url)</span><br><span class="line">html = response.read().decode(<span class="string">"utf-8"</span>)</span><br><span class="line"></span><br><span class="line">print(html)</span><br></pre></td></tr></table></figure>
+<h4 id="4-download-mm1-py"><a href="#4-download-mm1-py" class="headerlink" title="(4) download_mm1.py"></a>(4) download_mm1.py</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> urllib.request</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">url_open</span><span class="params">(url)</span>:</span>           <span class="comment">#返回页面的html代码</span></span><br><span class="line">    req = urllib.request.Request(url)</span><br><span class="line">    req.add_header(<span class="string">'User-Agent'</span>, <span class="string">'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36'</span>)</span><br><span class="line">    response = urllib.request.urlopen(url)</span><br><span class="line">    html = response.read()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> html</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_page</span><span class="params">(url)</span>:</span>          <span class="comment">#返回的是一组字符串类型的数字</span></span><br><span class="line">    html = url_open(url).decode(<span class="string">'utf-8'</span>)</span><br><span class="line">    </span><br><span class="line">    a = html.find(<span class="string">'current-comment-page'</span>) + <span class="number">23</span></span><br><span class="line">    b = html.find(<span class="string">']'</span>,a)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> html[a:b]</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">find_imgs</span><span class="params">(url)</span>:</span></span><br><span class="line">    html = url_open(url).decode(<span class="string">'utf-8'</span>)</span><br><span class="line">    img_addrs = []</span><br><span class="line">    </span><br><span class="line">    a = html.find(<span class="string">'img src='</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> a != <span class="number">-1</span>:</span><br><span class="line">        b = html.find(<span class="string">'.jpg'</span>,a+<span class="number">255</span>)</span><br><span class="line">        <span class="keyword">if</span> b != <span class="number">-1</span>:</span><br><span class="line">            img_addrs.append(html[a+<span class="number">9</span>:b+<span class="number">4</span>])</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            b = a + <span class="number">9</span></span><br><span class="line">        a = html.find(<span class="string">'img src='</span>,b)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> img_addrs</span><br><span class="line">    </span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">save_imgs</span><span class="params">(folder,img_addrs)</span>:</span></span><br><span class="line">    <span class="keyword">for</span> each <span class="keyword">in</span> img_addrs:</span><br><span class="line">        filename = each.split(<span class="string">'/'</span>)[<span class="number">-1</span>]</span><br><span class="line">        <span class="keyword">with</span> open(filename,<span class="string">'wb'</span>) <span class="keyword">as</span> f:</span><br><span class="line">            img = url_open(each)</span><br><span class="line">            f.write(img)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">download_mm</span><span class="params">(folder=<span class="string">'ooxx'</span>,pages=<span class="number">10</span>)</span>:</span></span><br><span class="line">    os.mkdir(folder)</span><br><span class="line">    os.chdir(folder)</span><br><span class="line"></span><br><span class="line">    url = <span class="string">"http://xxoo.net/ooxx/"</span></span><br><span class="line">    page_num = int(get_page(url))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(pages):</span><br><span class="line">        page_num -= i</span><br><span class="line">        page_url = url + <span class="string">'page-'</span> + str(page_num) + <span class="string">'#comments'</span></span><br><span class="line">        img_addr = find_imgs(page_url)</span><br><span class="line">        save_imgs(folder,img_addrs)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    download_mm()</span><br></pre></td></tr></table></figure>
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/05/04/Java基础方法1-字符串/" class="pre-post btn btn-default" title="Java基础方法1(字符串)">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">Java基础方法1(字符串)</span>
+        </a>
+    
+    
+        <a href="/2019/05/04/Python基础知识全网最全1-细节知识点/" class="next-post btn btn-default" title="Python基础知识全网最全1(细节知识点)">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">Python基础知识全网最全1(细节知识点)</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#六、网络爬虫"><span class="toc-text">六、网络爬虫</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-python如何访问互联网"><span class="toc-text">1.  python如何访问互联网</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-urllib模块"><span class="toc-text">(1).urllib模块:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-直接设置-Request-add-header-key-value"><span class="toc-text">(2).直接设置:Request.add_header(key,value)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#爬取示例"><span class="toc-text">爬取示例:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#urllib模块-程序-终"><span class="toc-text">urllib模块-程序(终)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-download-cat-py"><span class="toc-text">(1) download_cat.py</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-translation-py"><span class="toc-text">(2) translation.py</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-proxy-eg-py"><span class="toc-text">(3) proxy_eg.py</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-download-mm1-py"><span class="toc-text">(4) download_mm1.py</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="/assets/tagcanvas.min.js?rev=2.9"></script>
+    <script>
+        var tagOption = {
+            textColour: '#444', // 字体颜色
+            outlineMethod: 'block', // 选中模式
+            outlineColour: '#FFDAB9', // 选中模式的颜色
+            interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+            textHeight: 13,
+            outlineRadius: 3,
+            freezeActive: true || '', // 选中的标签是否继续滚动
+            frontSelect: true || '', // 不选标签云后部的标签
+            initial: [0.1, -0.1],
+            depth: 0.5,
+            decel: 0.95,
+            maxSpeed: 0.03,
+            reverse: true || '', // 是否反向触发
+            fadeIn: 500, // 进入动画时间
+            wheelZoom: false || '' // 是否启用鼠标滚轮
+        }
+        TagCanvas.Start('tag-cloud-3d','',tagOption);
+    </script>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

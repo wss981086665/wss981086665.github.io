@@ -1,0 +1,407 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="南国猫觅海的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="https://wss981086665.github.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="JavaEE,后端,Spring Boot,RabbitMQ">
+
+
+    <meta name="description" content="消息
+一、消息概述
+
+JMS与AMQP的差异
+
+二、异步处理
+三、RabbitMQ简介
+四、RabbitMQ运行机制
+五、安装与使用RabbitMQ
+Linux 安装
+12345678-- 下载...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>SpringBoot学习笔记9(消息) | 南国猫觅海的个人博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="南国猫觅海的个人博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/websiteicon.png">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="南国猫觅海">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 最怕一生碌碌无为-还说平凡难能可贵 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://wss981086665.github.com">南国猫觅海的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Java/"><i class="fa "></i>Java</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Python/"><i class="fa "></i>Python</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Spring-Boot/"><i class="fa "></i>Spring Boot</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Linux/"><i class="fa "></i>Linux</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/about/index.html"><i class="fa "></i>关于</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="SpringBoot学习笔记9(消息)">
+            
+	            SpringBoot学习笔记9(消息)
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/Spring-Boot/">Spring Boot</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/JavaEE/">JavaEE</a> <a class="tag-link" href="/tags/RabbitMQ/">RabbitMQ</a> <a class="tag-link" href="/tags/Spring-Boot/">Spring Boot</a> <a class="tag-link" href="/tags/后端/">后端</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/05/04</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <h2 id="消息"><a href="#消息" class="headerlink" title="消息"></a>消息</h2><ul>
+<li><h4 id="一、消息概述"><a href="#一、消息概述" class="headerlink" title="一、消息概述"></a>一、消息概述</h4><p><img src="https://upload-images.jianshu.io/upload_images/13687958-0745cc8671175a2b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="消息概述.png"><br><img src="https://upload-images.jianshu.io/upload_images/13687958-32b61c54cf175479.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="消息概述.png"><br><img src="https://upload-images.jianshu.io/upload_images/13687958-fb651b4e0d5d0e22.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image.png.png"></p>
+</li>
+<li><p>JMS与AMQP的差异<br><img src="https://upload-images.jianshu.io/upload_images/13687958-a7c246f50e1d160b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="JMS与AMQP的差异.png"></p>
+</li>
+<li><h4 id="二、异步处理"><a href="#二、异步处理" class="headerlink" title="二、异步处理"></a>二、异步处理</h4><p><img src="https://upload-images.jianshu.io/upload_images/13687958-94319f6ee29c1a32.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="异步处理.png"></p>
+<h4 id="三、RabbitMQ简介"><a href="#三、RabbitMQ简介" class="headerlink" title="三、RabbitMQ简介"></a>三、RabbitMQ简介</h4><p><img src="https://upload-images.jianshu.io/upload_images/13687958-e427d0fbdb12818e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RabbitMQ简介.png"><br><img src="https://upload-images.jianshu.io/upload_images/13687958-1ec349af9ec86b2c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RabbitMQ简介.png"><br><img src="https://upload-images.jianshu.io/upload_images/13687958-005b9222cb787f6f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RabbitMQ简介.png"></p>
+<h4 id="四、RabbitMQ运行机制"><a href="#四、RabbitMQ运行机制" class="headerlink" title="四、RabbitMQ运行机制"></a>四、RabbitMQ运行机制</h4><p><img src="https://upload-images.jianshu.io/upload_images/13687958-8f85e9c585d0878a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="RabbitMQ运行机制.png"><br><img src="https://upload-images.jianshu.io/upload_images/13687958-6c9c24c6e085d48e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Exchange类型.png"><br><img src="https://upload-images.jianshu.io/upload_images/13687958-3edd735916cc5e14.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Fanout Exchange.png"></p>
+<h4 id="五、安装与使用RabbitMQ"><a href="#五、安装与使用RabbitMQ" class="headerlink" title="五、安装与使用RabbitMQ"></a>五、安装与使用RabbitMQ</h4></li>
+<li><p>Linux 安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">-- 下载：</span><br><span class="line">docker pull rabbitmq:3-management</span><br><span class="line">-- 运行：</span><br><span class="line">docker run -d -p 5672:5672 -p 15672:15672 --name myrabbitmq xxx</span><br><span class="line">xxx 代表 IMAGE ID</span><br><span class="line">注意：下载过程中涉及的镜像问题请自行百度</span><br><span class="line">- p 5672端口：主机与客户端进行通信的接口</span><br><span class="line">- p 15672端口：访问web管理页面的接口</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试<br>打开web浏览器，输入:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:15672</span><br><span class="line">也可以将127.0.0.1替换成你的服务器地址</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>会看到如下页面：输入默认的账号与密码：guest进入rabbit服务<br><img src="https://upload-images.jianshu.io/upload_images/13687958-2001a2ecfa82bc40.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="rabbit登录界面.png"><br><img src="https://upload-images.jianshu.io/upload_images/13687958-2bbdf1ae19406d23.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="rabbit页面.png"></p>
+<ul>
+<li>添加第一个direct类型的Exchanges<br><img src="https://upload-images.jianshu.io/upload_images/13687958-d45c680db154b321.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="添加第一个direct类型的Exchanges.png"></li>
+<li>添加消息队列<br><img src="https://upload-images.jianshu.io/upload_images/13687958-59271094ca456c6e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="添加消息队列.png"></li>
+<li>为Exchanges绑定Queues<br><img src="https://upload-images.jianshu.io/upload_images/13687958-9099e14be38d6962.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="为Exchanges绑定Queues.png"></li>
+<li>exchange.topic需要模糊匹配<br><img src="https://upload-images.jianshu.io/upload_images/13687958-6f27257e0074782c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="exchange.topic模糊匹配.png"></li>
+<li>exchange发送消息<blockquote>
+<p>exchange.direct 只会想与key匹配成功的Queue发送消息<br>exchange.fanout会向所有的Queue发送消息<br>exchange.topic会向与匹配规则相匹配的Queue发送消息</p>
+</blockquote>
+</li>
+</ul>
+<p>下面以exchange.direct发送消息为例<br><img src="https://upload-images.jianshu.io/upload_images/13687958-163cc4f8043a42fb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="exchange.direct页面发送消息.png"></p>
+<ul>
+<li>Queues之helloworld获取消息<br><img src="https://upload-images.jianshu.io/upload_images/13687958-9d927ecf2f0515a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="helloworld获取消息.png"><h4 id="六、SpringBoot整合RabbitMQ"><a href="#六、SpringBoot整合RabbitMQ" class="headerlink" title="六、SpringBoot整合RabbitMQ"></a>六、SpringBoot整合RabbitMQ</h4></li>
+<li><p>引入spring-boot-starter-amqp</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>properties文件配置</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">spring.rabbitmq.host=xxx</span>    <span class="string">//xxx:</span> <span class="string">rabbitmq运行的ip地址</span></span><br><span class="line"><span class="string">spring.rabbitmq.username=guest</span></span><br><span class="line"><span class="string">spring.rabbitmq.password=guest</span></span><br><span class="line"><span class="comment">#spring.rabbitmq.virtual-host</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>主类</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">* 自动配置</span></span><br><span class="line"><span class="comment">*  1、RabbitAutoConfiguration</span></span><br><span class="line"><span class="comment">*  2.有自动配置的连接工厂ConnectionFactory;</span></span><br><span class="line"><span class="comment">*  3.RabbitProperties封装了RabbitMQ的配置</span></span><br><span class="line"><span class="comment">*  4、RabbitTemplate,给RabbitMQ发送和接收消息</span></span><br><span class="line"><span class="comment">*  5、AmqpAdmin:RabbitMQ系统管理功能组件</span></span><br><span class="line"><span class="comment">*  6.@EnableRabbit + @RabbitListener 监听消息队列的内容</span></span><br><span class="line"><span class="comment">* */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@EnableRabbit</span>   <span class="comment">//开启基于注解的Rabbit模式</span></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Springboot1300AmqpApplication</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		SpringApplication.run(Springboot1300AmqpApplication.class, args);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>首先定制序列化规则</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyAMPQConfig</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Bean</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> MessageConverter <span class="title">messageConverter</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Jackson2JsonMessageConverter();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Book对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Book</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String bookName;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String author;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Book</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">super</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Book</span><span class="params">(String bookName, String author)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bookName = bookName;</span><br><span class="line">        <span class="keyword">this</span>.author = author;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getBookName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> bookName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setBookName</span><span class="params">(String bookName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.bookName = bookName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getAuthor</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> author;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setAuthor</span><span class="params">(String author)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.author = author;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(SpringRunner.class)</span><br><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Springboot1300AmqpApplicationTests</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@Autowired</span></span><br><span class="line">	RabbitTemplate rabbitTemplate;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	* 1、单播(点对点)</span></span><br><span class="line"><span class="comment">	* */</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">contextLoads</span><span class="params">()</span> </span>&#123;</span><br><span class="line"><span class="comment">//      Message需要自己构造一个;定义消息体内容和消息头</span></span><br><span class="line"><span class="comment">//		rabbitTemplate.send(exchange,routeKey,message);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//		object默认当成消息体，只需要传入要发送的对象,自动序列化发给rabbitmq;</span></span><br><span class="line"><span class="comment">//		rabbitTemplate.convertAndSend(exchange,routeKey,object);</span></span><br><span class="line"></span><br><span class="line">		Map&lt;String,Object&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();</span><br><span class="line">		map.put(<span class="string">"msg"</span>,<span class="string">"这是第一个消息"</span>);</span><br><span class="line">		map.put(<span class="string">"data"</span>, Arrays.asList(<span class="string">"helloworld"</span>,<span class="number">123</span>,<span class="keyword">true</span>));</span><br><span class="line">		<span class="comment">//对象被默认序列化以后发送出去</span></span><br><span class="line"><span class="comment">//		rabbitTemplate.convertAndSend("exchange.direct","helloworld.news",new Book("XXX","王圣嵩"));</span></span><br><span class="line">		rabbitTemplate.convertAndSend(<span class="string">"exchange.direct"</span>,<span class="string">"helloworld"</span>,map);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//接收数据,如何将数据自动的转为json数据</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receive</span><span class="params">()</span></span>&#123;</span><br><span class="line">		Object o = rabbitTemplate.receiveAndConvert(<span class="string">"helloworld"</span>);</span><br><span class="line">		System.out.println(o.getClass());</span><br><span class="line">		System.out.println(o);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/*</span></span><br><span class="line"><span class="comment">	* 2.广播</span></span><br><span class="line"><span class="comment">	* */</span></span><br><span class="line">	<span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendMsg</span><span class="params">()</span></span>&#123;</span><br><span class="line">		rabbitTemplate.convertAndSend(<span class="string">"exchange.fanout"</span>,<span class="string">""</span>,<span class="keyword">new</span> Book(<span class="string">"XXX"</span>,<span class="string">"王圣嵩"</span>));</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用监听模式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BookService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//想要RabbitListener起作用,需要开启基于注解的Rabbit模式(主程序中标注@EnableRabbit)</span></span><br><span class="line">    <span class="meta">@RabbitListener</span>(queues = <span class="string">"helloworld.news"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receive</span><span class="params">(Book book)</span></span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"收到消息"</span>+book);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@RabbitListener</span>(queues = <span class="string">"helloworld"</span>)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">receive02</span><span class="params">(Message message)</span> </span>&#123;</span><br><span class="line">        System.out.println(message.getBody());</span><br><span class="line">        System.out.println(message.getMessageProperties());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用SpringBoot管理Exchange与Queue</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">creatExchange</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		amqpAdmin.declareExchange(<span class="keyword">new</span> DirectExchange(<span class="string">"amqpadmin.exchange"</span>));</span><br><span class="line">		System.out.println(<span class="string">"创建完成"</span>);</span><br><span class="line"></span><br><span class="line">		amqpAdmin.declareQueue(<span class="keyword">new</span> Queue(<span class="string">"amqpadmin.queue"</span>,<span class="keyword">true</span>));</span><br><span class="line"></span><br><span class="line">		<span class="comment">// 创建绑定规则</span></span><br><span class="line">		amqpAdmin.declareBinding(<span class="keyword">new</span> Binding(<span class="string">"amqpadmin.queue"</span>, Binding.DestinationType.QUEUE,<span class="string">"amqpadmin.exchange"</span>,<span class="string">"amqp.haha"</span>,<span class="keyword">null</span>));</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/05/04/Python基础知识全网最全1-细节知识点/" class="pre-post btn btn-default" title="Python基础知识全网最全1(细节知识点)">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">Python基础知识全网最全1(细节知识点)</span>
+        </a>
+    
+    
+        <a href="/2019/05/04/SpringBoot学习笔记8-过滤器、监听器、拦截器/" class="next-post btn btn-default" title="SpringBoot学习笔记8(过滤器、监听器、拦截器)">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">SpringBoot学习笔记8(过滤器、监听器、拦截器)</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#消息"><span class="toc-text">消息</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#一、消息概述"><span class="toc-text">一、消息概述</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#二、异步处理"><span class="toc-text">二、异步处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#三、RabbitMQ简介"><span class="toc-text">三、RabbitMQ简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#四、RabbitMQ运行机制"><span class="toc-text">四、RabbitMQ运行机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#五、安装与使用RabbitMQ"><span class="toc-text">五、安装与使用RabbitMQ</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#六、SpringBoot整合RabbitMQ"><span class="toc-text">六、SpringBoot整合RabbitMQ</span></a></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="/assets/tagcanvas.min.js?rev=2.9"></script>
+    <script>
+        var tagOption = {
+            textColour: '#444', // 字体颜色
+            outlineMethod: 'block', // 选中模式
+            outlineColour: '#FFDAB9', // 选中模式的颜色
+            interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+            textHeight: 13,
+            outlineRadius: 3,
+            freezeActive: true || '', // 选中的标签是否继续滚动
+            frontSelect: true || '', // 不选标签云后部的标签
+            initial: [0.1, -0.1],
+            depth: 0.5,
+            decel: 0.95,
+            maxSpeed: 0.03,
+            reverse: true || '', // 是否反向触发
+            fadeIn: 500, // 进入动画时间
+            wheelZoom: false || '' // 是否启用鼠标滚轮
+        }
+        TagCanvas.Start('tag-cloud-3d','',tagOption);
+    </script>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>

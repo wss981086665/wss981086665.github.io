@@ -1,0 +1,445 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!--Setting-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="apple-mobile-web-app-capable" content="南国猫觅海的个人博客">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no,email=no,adress=no">
+    <meta name="browsermode" content="application">
+    <meta name="screen-orientation" content="portrait">
+    <link rel="dns-prefetch" href="https://wss981086665.github.com">
+    <!--SEO-->
+
+    <meta name="keywords" content="MySQL">
+
+
+    <meta name="description" content="
+注意: 撰写本文目的主要是为了给自己做一个备忘录，如果你学过Mysql并且希望从本文中找到一些忘记的知识点，那么你可以阅读本文章。由于文章内讲解并不是很多，因此此文章并不适合小白入门使用。
+
+...">
+
+
+
+<meta name="robots" content="all">
+<meta name="google" content="all">
+<meta name="googlebot" content="all">
+<meta name="verify" content="all">
+
+    <!--Title-->
+
+
+<title>MySQL基础教程3-DDL(创建表) | 南国猫觅海的个人博客</title>
+
+
+    <link rel="alternate" href="/atom.xml" title="南国猫觅海的个人博客" type="application/atom+xml">
+
+
+    <link rel="icon" href="/websiteicon.png">
+
+    
+
+
+
+<link rel="stylesheet" href="/css/bootstrap.min.css?rev=3.3.7">
+<link rel="stylesheet" href="/css/font-awesome.min.css?rev=4.5.0">
+<link rel="stylesheet" href="/css/style.css?rev=@@hash">
+
+
+
+
+    
+	<div class="hide">
+		<script type="text/javascript">
+			var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan class='cnzz_stat_icon_1263868967 hide' %3E%3Cscript%20src%3D%22https%3A%2F%2Fs95.cnzz.com%2Fz_stat.php%3Fweb_id%3D1272564536%22%3E%3C%2Fscript%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s19.cnzz.com/z_stat.php%3Fid%3D1263868967%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+	</div>
+
+
+
+
+
+
+    
+
+</head>
+
+</html>
+<!--[if lte IE 8]>
+<style>
+    html{ font-size: 1em }
+</style>
+<![endif]-->
+<!--[if lte IE 9]>
+<div style="ie">你使用的浏览器版本过低，为了你更好的阅读体验，请更新浏览器的版本或者使用其他现代浏览器，比如Chrome、Firefox、Safari等。</div>
+<![endif]-->
+
+<body>
+    <header class="main-header" style="background-image:url(http://snippet.shenliyang.com/img/banner.jpg)">
+    <div class="main-header-box">
+        <a class="header-avatar" href="/" title="南国猫觅海">
+            <img src="/img/avatar.jpg" alt="logo头像" class="img-responsive center-block">
+        </a>
+        <div class="branding">
+        	<!--<h2 class="text-hide">Snippet主题,从未如此简单有趣</h2>-->
+            
+                <h2> 最怕一生碌碌无为-还说平凡难能可贵 </h2>
+            
+    	</div>
+    </div>
+</header>
+    <nav class="main-navigation">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="navbar-header"><span class="nav-toggle-button collapsed pull-right" data-toggle="collapse" data-target="#main-menu" id="mnav">
+                    <span class="sr-only"></span>
+                        <i class="fa fa-bars"></i>
+                    </span>
+                    <a class="navbar-brand" href="https://wss981086665.github.com">南国猫觅海的个人博客</a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <ul class="menu">
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/"><i class="fa "></i>首页</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Java/"><i class="fa "></i>Java</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Python/"><i class="fa "></i>Python</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Spring-Boot/"><i class="fa "></i>Spring Boot</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/categories/Linux/"><i class="fa "></i>Linux</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/archives/"><i class="fa "></i>时间轴</a>
+                            </li>
+                        
+                            <li role="presentation" class="text-center">
+                                <a href="/about/index.html"><i class="fa "></i>关于</a>
+                            </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+    <section class="content-wrap">
+        <div class="container">
+            <div class="row">
+                <main class="col-md-8 main-content m-post">
+                    <p id="process"></p>
+<article class="post">
+    <div class="post-head">
+        <h1 id="MySQL基础教程3-DDL(创建表)">
+            
+	            MySQL基础教程3-DDL(创建表)
+            
+        </h1>
+        <div class="post-meta">
+    
+        <span class="categories-meta fa-wrap">
+            <i class="fa fa-folder-open-o"></i>
+            <a class="category-link" href="/categories/MySQL/">MySQL</a> <a class="category-link" href="/categories/MySQL/数据库/">数据库</a>
+        </span>
+    
+
+    
+        <span class="fa-wrap">
+            <i class="fa fa-tags"></i>
+            <span class="tags-meta">
+                
+                    <a class="tag-link" href="/tags/MySQL/">MySQL</a>
+                
+            </span>
+        </span>
+    
+
+    
+        
+        <span class="fa-wrap">
+            <i class="fa fa-clock-o"></i>
+            <span class="date-meta">2019/08/07</span>
+        </span>
+        
+    
+</div>
+            
+            
+    </div>
+    
+    <div class="post-body post-content">
+        <ul>
+<li><strong>注意:</strong> 撰写本文目的主要是<strong>为了给自己做一个备忘录</strong>，如果你学过Mysql并且希望从本文中找到一些忘记的知识点，那么你可以阅读本文章。由于文章内讲解并不是很多，因此此文章并不适合小白入门使用。</li>
+</ul>
+<h1 id="DDL-创建表"><a href="#DDL-创建表" class="headerlink" title="DDL-创建表"></a>DDL-创建表</h1><blockquote>
+<ul>
+<li>所谓建表，就是一个声明字段的过程<br>列选什么类型，列选什么属性</li>
+</ul>
+</blockquote>
+<p><strong>简单建个表:</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> people(</span><br><span class="line">     -&gt; age <span class="built_in">int</span>,</span><br><span class="line">     -&gt; <span class="keyword">name</span> <span class="built_in">varchar</span>(<span class="number">10</span>)</span><br><span class="line">     -&gt; );</span><br></pre></td></tr></table></figure></p>
+<p><strong>建表语句:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-09b243e830d5b0c4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="建表语句"></p>
+<h2 id="一、列"><a href="#一、列" class="headerlink" title="一、列"></a>一、列</h2><blockquote>
+<p><strong>列的类型:</strong></p>
+<ul>
+<li>数值型—整形、型，浮点型，定点型</li>
+<li>字符串型—char，varchar，text</li>
+<li>日期时间类型—2020-12-30 23:59:59</li>
+</ul>
+</blockquote>
+<h3 id="1-1-整型列"><a href="#1-1-整型列" class="headerlink" title="1.1.整型列"></a>1.1.整型列</h3><p><strong>(1).各整型类型所占字节大小:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-0056674a8240bd07.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="各整型类型所占字节大小"><br><strong>(2).整型列可选参数:</strong></p>
+<ul>
+<li><strong>unsigned:</strong> 无符号，列的值从0开始，不为负</li>
+<li><strong>zerofill:</strong> 适用于 学号、编码 等，固定宽度的数字，可以用0填充至固定宽度<br>学号–&gt;1–&gt;0001<br>学号–&gt;123–&gt;0123<br>思路: zerofill填充至多宽？M<br>注意: zerofill属性默认决定列为unsigned类型</li>
+<li><strong>M:</strong> 为zerofill 指定填充的宽度。只使用M没有任何意义，必须配合zerofill使用<br>注意: M的数值不是为了限制数值宽度，只是为了当数值宽度不到M时，为其填充至宽度为M</li>
+</ul>
+<p><strong>例:</strong><br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 为user表添加带有unsigned属性的number字段 */</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> <span class="keyword">user</span> <span class="keyword">add</span> <span class="built_in">number</span> <span class="built_in">tinyint</span> <span class="keyword">unsigned</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 为user表添加带有zerofill属性的number字段，并为其指定宽度 */</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> <span class="keyword">user</span> <span class="keyword">add</span> <span class="built_in">number</span> <span class="built_in">tinyint</span>(<span class="number">5</span>) zerofill;</span><br></pre></td></tr></table></figure></p>
+<h3 id="1-2-浮点列与定点列"><a href="#1-2-浮点列与定点列" class="headerlink" title="1.2.浮点列与定点列"></a>1.2.浮点列与定点列</h3><ul>
+<li><strong>flocat(M,D): 浮点型</strong><br><strong><code>M</code></strong>是精度,即总位数<br><strong><code>D</code></strong>是标度,即小数点后面的位数</li>
+<li><strong>double: 浮点型</strong></li>
+<li><strong>decimal: 定点型</strong><br><strong><code>float/double</code></strong>浮点型数据会有精度损失,<strong><code>decmail</code></strong>定点型,更精确</li>
+</ul>
+<p><strong>float/double官方文档:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-16a07e2ead04af4a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="float/double官方文档"></p>
+<h3 id="1-3-字符型"><a href="#1-3-字符型" class="headerlink" title="1.3.字符型"></a>1.3.字符型</h3><p><strong>MySQL字符串类型:</strong></p>
+<ul>
+<li>Char: 定长类型<br>char型，传入数据如果不够M个字符，内部用空格补齐，取出时再把<strong><code>右侧空格</code></strong>删掉。这意味着:<strong><code>如果数据本身右侧有空格，将会丢失</code></strong></li>
+<li>Varchar: 变长类型</li>
+</ul>
+<blockquote>
+<p><strong>注意:</strong>char(M)限制的是字符，不是字节。即char(2) charset utf8，能存两个utf8字符，比如中国;<br>**char与varchar型的选择原则:</p>
+<ul>
+<li>1.空间利用率：<br>四字成语表:char(4)；<br>微博个人简介140字:varchar(140)</li>
+<li>2.速度：<br>用户名: char</li>
+</ul>
+</blockquote>
+<p><strong>Char与Varchar:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-294c0ca607b85089.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="MySQL字符串类型"><br><strong>Char右侧空格丢失:</strong><br>注: 从截图中可以看出，最后输出的数据中的char型数据丢失了右侧的空格<br><img src="https://upload-images.jianshu.io/upload_images/13687958-df43fa941f6f348b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Char右侧空格丢失"></p>
+<p><strong>其他类型的字符类型及容量:</strong></p>
+<blockquote>
+<ul>
+<li><strong>Text</strong>: 文本类型，可以存比较大的文本段，搜索速度慢。因此，如果不是特别大的内容，建议用char、varchar来代替。test不用默认值(加了也没用) </li>
+<li><strong>Blob</strong>:二进制类型，用来存储图像、音频等二进制信息。<br><strong>意义:</strong>2进制，0-255都有可能出现。Blob在于防止因为字符集而导致信息丢失的问题。比如: 一张图片中有0xFF字节，这个在ascii字符集中认为非法，在入库的时候被过滤了。</li>
+<li><strong>Enum:</strong>枚举类型。意思是值是定义好的，就在几个枚举范围内。<br>例: gender(‘男’,’女’)；insert时只能选”男”,”女”。</li>
+<li><strong>Set:</strong>同Enum。但insert时可同时选多个值。</li>
+</ul>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-1902abf72caee170.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="其他类型的字符类型及容量"></p>
+<h3 id="1-4-日期时间类型"><a href="#1-4-日期时间类型" class="headerlink" title="1.4.日期时间类型"></a>1.4.日期时间类型</h3><p><img src="https://upload-images.jianshu.io/upload_images/13687958-e033035cf27b686b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="日期时间类型"></p>
+<h2 id="二、列的默认值"><a href="#二、列的默认值" class="headerlink" title="二、列的默认值"></a>二、列的默认值</h2><blockquote>
+<p>列的默认值</p>
+<ul>
+<li>1.NULL 查询不便</li>
+<li>2.NULL的索引效果不高<br>所以，实用中要避免列的值为NULL</li>
+<li>如何避免–声明列 :<br><strong><code>NOT NULL default 默认值</code></strong></li>
+</ul>
+</blockquote>
+<h2 id="三、主键与自增"><a href="#三、主键与自增" class="headerlink" title="三、主键与自增"></a>三、主键与自增</h2><ul>
+<li><strong>主键:</strong>primary key，此列不重复，能够区分每一行</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 第一重指定方式 */</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t1(</span><br><span class="line">     -&gt; <span class="keyword">id</span> <span class="built_in">int</span> primary <span class="keyword">key</span>,</span><br><span class="line">     -&gt; <span class="keyword">name</span> <span class="built_in">char</span>(<span class="number">2</span>)</span><br><span class="line">);</span><br><span class="line"><span class="comment">/* 第一重指定方式 */</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t2(</span><br><span class="line">     -&gt; <span class="keyword">id</span> <span class="built_in">int</span>,</span><br><span class="line">     -&gt; <span class="keyword">name</span> <span class="built_in">char</span>(<span class="number">2</span>),</span><br><span class="line">     -&gt; primary <span class="keyword">key</span>(<span class="keyword">id</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>自增<code>(auto_increment)</code>:</strong> 一张表只能有1列为auto_increment，且此列必须加索引(index/key)<br>一般实用中自增与主键搭配使用</li>
+</ul>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> t3(</span><br><span class="line">     -&gt; <span class="keyword">id</span> <span class="built_in">int</span> auto_increment,</span><br><span class="line">     -&gt; <span class="keyword">name</span> <span class="built_in">char</span>(<span class="number">2</span>),</span><br><span class="line">     -&gt; <span class="keyword">key</span> <span class="keyword">id</span>(<span class="keyword">id</span>)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>表设计案例:某社交网站</strong></li>
+</ul>
+<blockquote>
+<p><strong>建表秘诀:</strong><br>1.定长与变长分离<br>2.常用与不常用分离</p>
+</blockquote>
+<p><img src="https://upload-images.jianshu.io/upload_images/13687958-069982d22e3e5968.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="表设计案例"><br>上面表设计的并不是很好，还可以优化<br><strong>分析:</strong>张这表除了username/intro列之外，每一行都是定长的，我们不妨让其所有列都定长。可以极大地提高查询速度。<br><img src="https://upload-images.jianshu.io/upload_images/13687958-49a5f294513de090.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="表设计优化"><br><strong>MySQL建立上述表表指令:</strong><br> <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> regist3(</span><br><span class="line">     -&gt; <span class="keyword">id</span> <span class="built_in">int</span> <span class="keyword">unsigned</span> primary <span class="keyword">key</span> auto_increment,</span><br><span class="line">     -&gt; username <span class="built_in">char</span>(<span class="number">10</span>) <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="string">' '</span>,</span><br><span class="line">     -&gt; gender <span class="built_in">tinyint</span> <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="number">0</span>,</span><br><span class="line">     -&gt; weight <span class="built_in">tinyint</span> <span class="keyword">unsigned</span> <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="number">0</span>,</span><br><span class="line">     -&gt; Birth <span class="built_in">Date</span> <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="string">'0000-00-00'</span>,</span><br><span class="line">     -&gt; Salary <span class="built_in">Decimal</span>(<span class="number">8</span>,<span class="number">2</span>) <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="string">'000000.00'</span>,</span><br><span class="line">     -&gt; lastlogin <span class="built_in">int</span> <span class="keyword">unsigned</span> <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="number">0</span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> regist1(</span><br><span class="line">     -&gt; <span class="keyword">id</span> <span class="built_in">int</span> <span class="keyword">unsigned</span> primary <span class="keyword">key</span> auto_increment,</span><br><span class="line">     -&gt; username <span class="built_in">char</span>(<span class="number">10</span>) <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="string">' '</span>,</span><br><span class="line">     -&gt; intro <span class="built_in">varchar</span>(<span class="number">1500</span>) <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="string">''</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure></p>
+<p><strong>效果图:</strong><br><img src="https://upload-images.jianshu.io/upload_images/13687958-32582aed59c5353e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="效果图"></p>
+<h2 id="四、列的增删改"><a href="#四、列的增删改" class="headerlink" title="四、列的增删改"></a>四、列的增删改</h2><h3 id="4-1-添加列"><a href="#4-1-添加列" class="headerlink" title="4.1.添加列"></a>4.1.添加列</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*格式:*/</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> 表名</span><br><span class="line">     -&gt; <span class="keyword">add</span> 列名 列类型 列属性... </span><br><span class="line">注意: 默认将该列添加到表的最后</span><br><span class="line"></span><br><span class="line"><span class="comment">/*实例1:*/</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> student</span><br><span class="line">     -&gt; <span class="keyword">add</span> height <span class="built_in">tinyint</span> <span class="keyword">unsigned</span> <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*实例2: 添加到weight列后面*/</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> student</span><br><span class="line">     -&gt; <span class="keyword">add</span> height <span class="built_in">tinyint</span> <span class="keyword">unsigned</span> <span class="keyword">after</span> weight;</span><br></pre></td></tr></table></figure>
+<h3 id="4-2-删除列"><a href="#4-2-删除列" class="headerlink" title="4.2.删除列"></a>4.2.删除列</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> student</span><br><span class="line">     -&gt; <span class="keyword">drop</span> <span class="keyword">column</span> height;</span><br></pre></td></tr></table></figure>
+<h3 id="4-3-修改列"><a href="#4-3-修改列" class="headerlink" title="4.3.修改列"></a>4.3.修改列</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*修改列名并修改该列的属性*/</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> student</span><br><span class="line">     -&gt; <span class="keyword">change</span> height shengao <span class="built_in">smallint</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*修改列的属性*/</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> student</span><br><span class="line">     -&gt; <span class="keyword">change</span> shengao <span class="built_in">tinyint</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="五、表管理语句"><a href="#五、表管理语句" class="headerlink" title="五、表管理语句"></a>五、表管理语句</h2><h3 id="5-1-查看所有表"><a href="#5-1-查看所有表" class="headerlink" title="5.1.查看所有表"></a>5.1.查看所有表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">tables</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="5-2-查看表结构"><a href="#5-2-查看表结构" class="headerlink" title="5.2.查看表结构"></a>5.2.查看表结构</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desc 表名/视图名;</span><br></pre></td></tr></table></figure>
+<h3 id="5-3-查看建表过程"><a href="#5-3-查看建表过程" class="headerlink" title="5.3.查看建表过程"></a>5.3.查看建表过程</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*查看建表过程*/</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">create</span> <span class="keyword">table</span> 表名;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*查看建视图过程*/</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">create</span> <span class="keyword">view</span> 视图名;</span><br></pre></td></tr></table></figure>
+<h3 id="5-4-查看表详细信息"><a href="#5-4-查看表详细信息" class="headerlink" title="5.4.查看表详细信息"></a>5.4.查看表详细信息</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*查看所有表详细信息*/</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">table</span> <span class="keyword">status</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*查看某张表详细信息*/</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">table</span> <span class="keyword">status</span> <span class="keyword">where</span> <span class="keyword">name</span>=<span class="string">'表名'</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*竖列显示表信息*/</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">table</span> <span class="keyword">status</span> \G;</span><br></pre></td></tr></table></figure>
+<h3 id="5-5-删除表"><a href="#5-5-删除表" class="headerlink" title="5.5.删除表"></a>5.5.删除表</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*删除表*/</span></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> 表名;</span><br><span class="line"></span><br><span class="line"><span class="comment">/*删除视图*/</span></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">view</span> 视图名;</span><br></pre></td></tr></table></figure>
+<h3 id="5-6-为表改名"><a href="#5-6-为表改名" class="headerlink" title="5.6.为表改名"></a>5.6.为表改名</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">rename</span> <span class="keyword">table</span> oldName <span class="keyword">to</span> newName;</span><br></pre></td></tr></table></figure>
+<h3 id="5-7-清空表数据"><a href="#5-7-清空表数据" class="headerlink" title="5.7.清空表数据"></a>5.7.清空表数据</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">truncate</span> 表名;</span><br><span class="line"><span class="comment">/*相当于删除表，再重建*/</span></span><br></pre></td></tr></table></figure>
+<p><strong>友情链接:</strong></p>
+<blockquote>
+<p><a href="https://www.jianshu.com/p/dbb98595da53" target="_blank" rel="noopener">MySQL基础教程全网最全1(基本指令操作)</a><br><a href="https://www.jianshu.com/p/d583773bbbd0" target="_blank" rel="noopener">MySQL基础教程2-DQL(select查询)</a><br><a href="https://www.jianshu.com/p/979c9843101a" target="_blank" rel="noopener">MySQL基础教程4-细节知识点</a></p>
+</blockquote>
+<p><strong>文集推荐:</strong></p>
+<blockquote>
+<p><a href="https://www.jianshu.com/nb/35411761" target="_blank" rel="noopener">Java基础方法集1</a><br><a href="https://www.jianshu.com/nb/35412583" target="_blank" rel="noopener">Python基础知识完整版</a><br><a href="https://www.jianshu.com/nb/35490047" target="_blank" rel="noopener">Spring Boot学习笔记</a><br><a href="https://www.jianshu.com/nb/35411158" target="_blank" rel="noopener">Linux指令进阶</a><br><a href="https://www.jianshu.com/nb/35701647" target="_blank" rel="noopener">Java高并发编程</a><br><a href="https://www.jianshu.com/nb/36348245" target="_blank" rel="noopener">SpringMVC基础知识进阶</a><br><a href="https://www.jianshu.com/nb/36768953" target="_blank" rel="noopener">Mysql基础知识完整版</a><br><a href="https://www.jianshu.com/nb/36626677" target="_blank" rel="noopener">健康管理系统学习花絮(学习记录)</a><br><a href="https://www.jianshu.com/nb/36852271" target="_blank" rel="noopener">Node.js基础知识(随手笔记)</a><br><a href="https://www.jianshu.com/nb/36850994" target="_blank" rel="noopener">MongoDB基础知识</a><br><a href="https://www.jianshu.com/nb/36474207" target="_blank" rel="noopener">Dubbo学习笔记</a><br><a href="https://www.jianshu.com/nb/35411638" target="_blank" rel="noopener">Vue学习笔记(随手笔记)</a></p>
+</blockquote>
+<blockquote>
+<p>声明：发表此文是出于传递更多信息之目的。若有来源标注错误或侵犯了您的合法权益，请作者持权属证明与本我们(QQ:981086665；邮箱:<a href="mailto:981086665@qq.com" target="_blank" rel="noopener">981086665@qq.com</a>)联系联系，我们将及时更正、删除，谢谢。</p>
+</blockquote>
+
+    </div>
+    
+    <div class="post-footer">
+        <div>
+            
+                转载声明：商业转载请联系作者获得授权,非商业转载请注明出处 © <a href target="_blank">Snippet</a>
+            
+        </div>
+        <div>
+            
+        </div>
+    </div>
+</article>
+
+<div class="article-nav prev-next-wrap clearfix">
+    
+        <a href="/2019/08/07/MySQL基础教程4-细节知识点/" class="pre-post btn btn-default" title="MySQL基础教程4-细节知识点">
+            <i class="fa fa-angle-left fa-fw"></i><span class="hidden-lg">上一篇</span>
+            <span class="hidden-xs">MySQL基础教程4-细节知识点</span>
+        </a>
+    
+    
+        <a href="/2019/08/07/MySQL基础教程2-DQL-select查询/" class="next-post btn btn-default" title="MySQL基础教程2-DQL(select查询)">
+            <span class="hidden-lg">下一篇</span>
+            <span class="hidden-xs">MySQL基础教程2-DQL(select查询)</span><i class="fa fa-angle-right fa-fw"></i>
+        </a>
+    
+</div>
+
+
+    <div id="comments">
+        
+	
+    <div id="vcomments" class="valine"></div>
+    <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src="/assets/valine.min.js"></script>
+
+    <script>
+        new Valine({
+            av: AV,
+            el: '#vcomments',
+            appId: 'xOKV9J4UeQAtVkvnJC7Kq2Jn-gzGzoHsz',
+            appKey: 'erIpQac4azoCmgfBB7Dl9maa',
+            placeholder: '说点什么吧',
+            notify: false,
+            verify: false,
+            avatar: 'mm',
+            meta: 'nick,mail'.split(','),
+            pageSize: '10',
+            path: window.location.pathname,
+            lang: 'zh-CN'.toLowerCase()
+        })
+    </script>
+
+
+    </div>
+
+
+
+
+
+                </main>
+                
+                    <aside id="article-toc" role="navigation" class="col-md-4">
+    <div class="widget">
+        <h3 class="title">文章目录</h3>
+        
+            <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#DDL-创建表"><span class="toc-text">DDL-创建表</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#一、列"><span class="toc-text">一、列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-整型列"><span class="toc-text">1.1.整型列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-浮点列与定点列"><span class="toc-text">1.2.浮点列与定点列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-字符型"><span class="toc-text">1.3.字符型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-日期时间类型"><span class="toc-text">1.4.日期时间类型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二、列的默认值"><span class="toc-text">二、列的默认值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三、主键与自增"><span class="toc-text">三、主键与自增</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四、列的增删改"><span class="toc-text">四、列的增删改</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-添加列"><span class="toc-text">4.1.添加列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-2-删除列"><span class="toc-text">4.2.删除列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-3-修改列"><span class="toc-text">4.3.修改列</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五、表管理语句"><span class="toc-text">五、表管理语句</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#5-1-查看所有表"><span class="toc-text">5.1.查看所有表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-2-查看表结构"><span class="toc-text">5.2.查看表结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-3-查看建表过程"><span class="toc-text">5.3.查看建表过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-4-查看表详细信息"><span class="toc-text">5.4.查看表详细信息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-5-删除表"><span class="toc-text">5.5.删除表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-6-为表改名"><span class="toc-text">5.6.为表改名</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-7-清空表数据"><span class="toc-text">5.7.清空表数据</span></a></li></ol></li></ol></li></ol>
+        
+    </div>
+</aside>
+
+                
+            </div>
+        </div>
+    </section>
+    <footer class="main-footer">
+    <div class="container">
+        <div class="row">
+        </div>
+    </div>
+</footer>
+
+<a id="back-to-top" class="icon-btn hide">
+	<i class="fa fa-chevron-up"></i>
+</a>
+
+
+
+
+    <div class="copyright">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="busuanzi">
+    
+        访问量:
+        <strong id="busuanzi_value_site_pv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+        &nbsp; | &nbsp;
+        访客数:
+        <strong id="busuanzi_value_site_uv">
+            <i class="fa fa-spinner fa-spin"></i>
+        </strong>
+    
+</div>
+
+            </div>
+            <div class="col-sm-12">
+                <span>Copyright &copy; 2017
+                </span> |
+                <span>
+                    Powered by <a href="//hexo.io" class="copyright-links" target="_blank" rel="nofollow">Hexo</a>
+                </span> |
+                <span>
+                    Theme by <a href="//github.com/shenliyang/hexo-theme-snippet.git" class="copyright-links" target="_blank" rel="nofollow">Snippet</a>
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+    <script src="/assets/tagcanvas.min.js?rev=2.9"></script>
+    <script>
+        var tagOption = {
+            textColour: '#444', // 字体颜色
+            outlineMethod: 'block', // 选中模式
+            outlineColour: '#FFDAB9', // 选中模式的颜色
+            interval: 30 || 30, // 动画帧之间的时间间隔，值越大，转动幅度越大
+            textHeight: 13,
+            outlineRadius: 3,
+            freezeActive: true || '', // 选中的标签是否继续滚动
+            frontSelect: true || '', // 不选标签云后部的标签
+            initial: [0.1, -0.1],
+            depth: 0.5,
+            decel: 0.95,
+            maxSpeed: 0.03,
+            reverse: true || '', // 是否反向触发
+            fadeIn: 500, // 进入动画时间
+            wheelZoom: false || '' // 是否启用鼠标滚轮
+        }
+        TagCanvas.Start('tag-cloud-3d','',tagOption);
+    </script>
+
+
+
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+<script src="/js/app.js?rev=@@hash"></script>
+
+</body>
+</html>
