@@ -1,0 +1,92 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.8.0"><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><meta name="author" content="南国猫觅海"><link rel="icon" href="/hexo.png"><title>南国猫觅海</title><meta name="description" content="Life = Coding; Enjoy Life == Enjoy Coding;"><link rel="alternate" type="application/rss+xml" title="南国猫觅海" href="/atom.xml"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.5.0/css/font-awesome.min.css"><link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"><link rel="stylesheet" href="/css/main.css"><link rel="stylesheet" href="/css/highlight.css"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"><link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"><link rel="stylesheet" href="/css/prism-tomorrow.css" type="text/css"></head><body><nav class="navbar navbar-default navbar-fixed-top navbar-custom"><div class="container-fluid"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#main-navbar" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand">南国猫觅海</a></div><div id="main-navbar" class="collapse navbar-collapse"><ul class="nav navbar-nav navbar-right"><li><a href="/">首页</a></li><li><a href="/tags/">标签</a></li><li><a href="/categories/算法/">算法</a></li><li><a href="/categories/Java/">Java</a></li><li><a href="/categories/Redis/">Redis</a></li><li><a href="/categories/MySQL/">MySQL</a></li><li><a href="/categories/Python/">Python</a></li><li><a href="/categories/Linux/">Linux</a></li><li><a href="/archives/">时间轴</a></li><li><a href="/about/">About</a></li></ul></div><div class="avatar-container"><div class="avatar-img-border"><a href="/"><img src="/avatar.jpg" class="avatar-img"></a></div></div></div></nav><header class="header-section"><div class="intro-header no-img"><div class="container"><div class="row"><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class="post-heading"><h1>MongoDB基础知识全网最全1</h1><p class="post-meta">Posted on 8月 8 2019 · <a href="/tags/MongoDB/" class="tag post-meta">MongoDB</a> · <a href="/tags/数据库/" class="tag post-meta">数据库</a></p></div></div></div></div></div></header><div class="container"><div class="row"><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><article role="main" class="blog-post"><h2 id="一、细节"><a href="#一、细节" class="headerlink" title="一、细节"></a>一、细节</h2><h3 id="1-更改端口号"><a href="#1-更改端口号" class="headerlink" title="1. 更改端口号"></a>1. 更改端口号</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">命令后加上 –port 10086</span><br></pre></td></tr></table></figure>
+<h3 id="2-更改数据存放地址"><a href="#2-更改数据存放地址" class="headerlink" title="2.更改数据存放地址"></a>2.更改数据存放地址</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">--dppath C:\Users\MongoDB\data\db</span><br></pre></td></tr></table></figure>
+<h3 id="3-启动"><a href="#3-启动" class="headerlink" title="3.启动"></a>3.启动</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net <span class="keyword">start</span> MongoDB</span><br><span class="line">mongod –dbpath 数据库路径 –port 端口号</span><br></pre></td></tr></table></figure>
+<h3 id="4-启动与打开"><a href="#4-启动与打开" class="headerlink" title="4.启动与打开"></a>4.启动与打开</h3><blockquote>
+<p>启动mongodb: 打开cmd窗口，输入mongod启动服务器<br>连接mongodb: 打开cmd窗口，输入mongo连接mongodb启动客户端，出现 &gt;</p>
+</blockquote>
+<h3 id="5-将MongoDB设置为系统服务"><a href="#5-将MongoDB设置为系统服务" class="headerlink" title="5.将MongoDB设置为系统服务"></a>5.将MongoDB设置为系统服务</h3><p>可以在后台启动，不需要每次都手动</p>
+<blockquote>
+<ul>
+<li>先在data文件下创建一个新文件夹log（用来存放日志文件）</li>
+<li>在Mongodb新建配置文件mongo.config</li>
+<li>用记事本打开mongo.config  ，并输入：<br>dbpath=MongoDB安装目录\data\db<br>logpath= MongoDB安装目录\data\log\mongo.log</li>
+<li>用管理员身份打开cmd:</li>
+<li>配置windows服务：<br>cmd先跳转到 MongoDB安装目录\bin目录下。<br>输入：mongod –config “D:\software\Mongodb\mongo.config” –install –serviceName “MongoDB”<br>即根据刚创建的mongo.config配置文件安装服务，名称为MongoDB。</li>
+</ul>
+</blockquote>
+<h2 id="二、三个重要概念"><a href="#二、三个重要概念" class="headerlink" title="二、三个重要概念"></a>二、三个重要概念</h2><h3 id="数据库-database"><a href="#数据库-database" class="headerlink" title="数据库( database ):"></a>数据库( database ):</h3><p>数据库是一个仓库，在仓库中可以存放集合</p>
+<h3 id="集合-collection"><a href="#集合-collection" class="headerlink" title="集合( collection ):"></a>集合( collection ):</h3><p>集合类似于数组，在集合中可以存放文档</p>
+<h3 id="文档-document"><a href="#文档-document" class="headerlink" title="文档( document ):"></a>文档( document ):</h3><blockquote>
+<ul>
+<li>文档是数据库中最小单位，我们存储和操作的内容都是文档</li>
+<li>在MongoDB中，数据库和集合都不需要手动创建。</li>
+<li>当创建文档时，如果文档所在的集合或数据库不存在就会自动创建数据库和集合</li>
+</ul>
+</blockquote>
+<h2 id="三、指令"><a href="#三、指令" class="headerlink" title="三、指令"></a>三、指令</h2><h3 id="3-1-基本指令"><a href="#3-1-基本指令" class="headerlink" title="3.1.基本指令"></a>3.1.基本指令</h3><p><strong>注</strong>: 以下指令中collection均指集合的名称:<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">1. <span class="keyword">show</span> dbs (<span class="keyword">show</span> <span class="keyword">databases</span>):        <span class="comment">#显示所有数据库</span></span><br><span class="line"><span class="number">2.</span> <span class="keyword">use</span> <span class="keyword">test</span>:      <span class="comment">#表示进入test这个数据库</span></span><br><span class="line"><span class="number">3.</span> db:       <span class="comment">#显示当前所在的数据库的名称</span></span><br><span class="line"><span class="number">4.</span> <span class="keyword">show</span> collections:       <span class="comment">#显示数据库所有的集合</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="3-2-数据库的CRUD-增删改查-的操作"><a href="#3-2-数据库的CRUD-增删改查-的操作" class="headerlink" title="3.2.数据库的CRUD(增删改查)的操作:"></a>3.2.数据库的CRUD(增删改查)的操作:</h3><ul>
+<li><p><strong>5.db.collection.insert(doc):</strong>  </p>
+<blockquote>
+<p>向集合中插入一个文档(collection是集合的名称)(参数是数组即插入多个。插入时会自动生成一个_id,这个值也可以自己设置)</p>
+</blockquote>
+</li>
+<li><p><strong>6.db.collection.insertOne():</strong><br>其实和insert一样，只是看起来更清晰<br>作用: 插入一个文档</p>
+</li>
+<li><strong>7.db.collection.insertMany():</strong>    插入多个文档</li>
+<li><p><strong>8.db.collection.find():</strong>  </p>
+<blockquote>
+<ul>
+<li>查询集合中所有的文档,没有参数表示查询所有文档。可以传入对象作为参数。返回的是一个数组，后面加上<code>[i]</code>表示数组里的第i个文档。加上<code>.length()</code>或<code>.count()</code>获取该数组的长度<br>例如: <code>db.collection.find({name:&quot;demo&quot;})</code>;表示查询所有<code>name</code>为<code>demo</code>的文档</li>
+<li>在查询时,可以在第二个参数的位置设置查询结果的投影。例<code>({},{sal:1})</code>即只显示查询结果<code>sal</code>属性(<code>_id</code>属性默认显示),可以设置不显示<code>{_id:0}</code></li>
+<li>注意:<code>MongoDB</code>支持直接通过内嵌文档的属性进行查询,如果要查询内嵌文档则可以通过 . 的形式进行匹配。如果一个内嵌文档的值是一个数组,那么只要数组里含有此参数值就可以匹配上。而且,此属性名必须使用引号,说明他是一个表达式</li>
+</ul>
+</blockquote>
+</li>
+<li><p><strong>9.db.collection.findOne({name:”demo”}):</strong></p>
+<blockquote>
+<p>查询符合条件的第一个文档，返回的是对象，可以直接在后面加上<code>.name</code>获取name属性的值</p>
+</blockquote>
+</li>
+<li><strong>10.db.collection.update(查询条件,新对象):</strong>     //替换<blockquote>
+<ul>
+<li>update()默认会直接用新对象替换掉匹配到的对象;如果只是需要修改部分属性,而不是整个替换,就要使用”修改操作符”。详情看*11</li>
+<li>注意:如果匹配到的值是一个数组,那么就可以用$set替换$push实现往数组里添加此参数,且允许重复。$addToSet向数组中添加一个新元素,但是如果数组中含有此元素,就不会重复添加(不允许重复)。</li>
+</ul>
+</blockquote>
+</li>
+<li><strong>11.db.collection.update:</strong><br>使用方法:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">db.collection.update(</span><br><span class="line">      查询条件,</span><br><span class="line">      &#123; $set:&#123;</span><br><span class="line">          Name:”demo”</span><br><span class="line">      &#125; &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<ul>
+<li>$set 表示只修改文档中指定的属性</li>
+<li>$unset 表示删除文档中的指定属性,值任意取都行</li>
+<li>如果想修改多个，就需要在添加一个对象参数,并设置multi:true</li>
+<li><strong>12.db.collection.replaceOne():</strong></li>
+<li><strong>13.db.collection.replaceMany():</strong></li>
+<li><strong>14.db.collection.remove(对象): </strong>       //删除</li>
+<li>删除根据对象匹配到的所有文档(默认删除所有匹配到的文档),如果条件对象为空,就会删除所有数据</li>
+<li>第二个参数如果是true,就只会删除一个,默认为false(删除所有匹配到的文档)</li>
+<li><strong>15.db.collection.drop():</strong>  <pre><code>-- 直接删除集合,性能比remove()更好
+</code></pre></li>
+<li><strong>16.db.dropDatabase():</strong><pre><code>-- 直接删除数据库
+</code></pre></li>
+<li><strong>17.db.collection.deleteOne():</strong></li>
+<li><strong>18.db.collection.deleteMany():</strong><br>– 一般开发中不会删除数据,会为数据添加一个字段表示是否被删除,查询的时候在条件对象中排除已经被删除的数据</li>
+</ul>
+</blockquote>
+<p><strong>文集推荐:</strong></p>
+<blockquote>
+<p><a href="https://www.jianshu.com/nb/35411761" target="_blank" rel="noopener">Java基础方法集1</a><br><a href="https://www.jianshu.com/nb/35412583" target="_blank" rel="noopener">Python基础知识完整版</a><br><a href="https://www.jianshu.com/nb/35490047" target="_blank" rel="noopener">Spring Boot学习笔记</a><br><a href="https://www.jianshu.com/nb/35411158" target="_blank" rel="noopener">Linux指令进阶</a><br><a href="https://www.jianshu.com/nb/35701647" target="_blank" rel="noopener">Java高并发编程</a><br><a href="https://www.jianshu.com/nb/36348245" target="_blank" rel="noopener">SpringMVC基础知识进阶</a><br><a href="https://www.jianshu.com/nb/36768953" target="_blank" rel="noopener">Mysql基础知识完整版</a><br><a href="https://www.jianshu.com/nb/36626677" target="_blank" rel="noopener">健康管理系统学习花絮(学习记录)</a><br><a href="https://www.jianshu.com/nb/36852271" target="_blank" rel="noopener">Node.js基础知识(随手笔记)</a><br><a href="https://www.jianshu.com/nb/36850994" target="_blank" rel="noopener">MongoDB基础知识</a><br><a href="https://www.jianshu.com/nb/36474207" target="_blank" rel="noopener">Dubbo学习笔记</a><br><a href="https://www.jianshu.com/nb/35411638" target="_blank" rel="noopener">Vue学习笔记(随手笔记)</a></p>
+</blockquote>
+<blockquote>
+<p>声明：发表此文是出于传递更多信息之目的。若有来源标注错误或侵犯了您的合法权益，请作者持权属证明与本我们(QQ:981086665；邮箱:<a href="mailto:981086665@qq.com" target="_blank" rel="noopener">981086665@qq.com</a>)联系联系，我们将及时更正、删除，谢谢。</p>
+</blockquote>
+</article><ul class="pager blog-pager"><li class="previous"><a href="/2019/08/08/MongoDB基础知识全网最全2/" data-toggle="tooltip" data-placement="top" title="MongoDB基础知识全网最全2">← Artículo anterior</a></li><li class="next"><a href="/2019/08/07/健康管理系统花絮-4/" data-toggle="tooltip" data-placement="top" title="健康管理系统花絮(4)">Artículo siguiente →</a></li></ul><div id="cloud-tie-wrapper" class="cloud-tie-wrapper"></div><script src="//img1.cache.netease.com/f2e/tie/yun/sdk/loader.js"> </script><script>var cloudTieConfig = {
+  url: document.location.href, 
+  sourceId: "",
+  productKey: "64d7f0abf9224be3bfdcc6cfb9b83fcf",
+  target: "cloud-tie-wrapper"
+};</script></div></div></div><footer><div class="container beautiful-jekyll-footer"><div class="row"><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center footer-links"><li><a href="https://weibo.com/5530988695/profile?rightmod=1&amp;wvr=6&amp;mod=personinfo" title="Weibo"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-stack-1x fa-inverse fa-weibo"></i></span></a></li><li><a href="https://github.com/wss981086665" title="GitHub"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-stack-1x fa-inverse fa-github"></i></span></a></li><li><a href="/atom.xml" title="RSS"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-stack-1x fa-inverse fa-rss"></i></span></a></li><li><a href="981086665@qq.com" title="Email me"><span class="fa-stack fa-lg"><i class="fa fa-circle fa-stack-2x"></i><i class="fa fa-stack-1x fa-inverse fa-envelope"></i></span></a></li></ul><p class="copyright text-muted">© 南国猫觅海 • 2019 • <a href="mailto:undefined"></a>
+</p><p class="theme-by text-muted">Theme by
+<a href="https://github.com/twoyao/beautiful-hexo">beautiful-hexo</a></p></div></div></div></footer><script src="//cdn.bootcss.com/jquery/1.11.2/jquery.min.js"></script><script src="//cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script><script src="/js/main.js"></script><script src="//cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script><script>hljs.initHighlightingOnLoad();</script></body></html>
